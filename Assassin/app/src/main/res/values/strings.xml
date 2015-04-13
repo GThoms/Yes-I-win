@@ -15,4 +15,7 @@
     <string name="drawer_open">Drawer open</string>
     <string name="drawer_close">Drawer closed</string>
 
+    <string name="not_logged_in">You are not currently logged in.</string>
+    <string name="login">Login with Facebook</string>
+
 </resources>

@@ -1,7 +1,7 @@
 /**
  * http://stackoverflow.com/questions/11177009/how-to-use-dpi-scaling-factor-float-to-set-margins-int
  */
-package com.example.assassins.assassins;
+package jhua.com.assassin;
 
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;

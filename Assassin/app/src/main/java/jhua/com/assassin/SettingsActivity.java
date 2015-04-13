@@ -1,4 +1,4 @@
-package com.example.assassins;
+package jhua.com.assassin;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

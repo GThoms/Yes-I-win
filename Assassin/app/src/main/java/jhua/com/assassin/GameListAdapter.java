@@ -3,7 +3,7 @@
  * http://jsharkey.org/blog/2008/08/18/separating-lists-with-headers-in-android-09/
  */
 
-package com.example.assassins;
+package jhua.com.assassin;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

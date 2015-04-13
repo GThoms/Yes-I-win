@@ -1,4 +1,4 @@
-package com.example.assassins;
+package jhua.com.assassin;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -23,10 +23,10 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {I'm g'
+public class MainActivity extends Activity {
 
 	ListView gamesListView;
-	com.example.assassins.GameListAdapter gameListAdapter;
+	GameListAdapter gameListAdapter;
 	List<Map<String,?>> currentGames;
 	List<Map<String,?>> pendingGames;
 	List<Map<String,?>> completedGames;
