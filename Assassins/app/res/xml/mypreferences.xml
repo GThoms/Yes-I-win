@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="@string/pref_title_notifications" >
+		<CheckBoxPreference
+		    android:key="self_notifications"
+	        android:title="@string/pref_title_self_notifications"
+	        android:summary="@string/pref_description_self_notifications" />
+		<CheckBoxPreference
+		    android:key="game_notifications"
+	        android:title="@string/pref_title_game_notifications"
+	        android:summary="@string/pref_description_game_notifications" />
+	</PreferenceCategory>	
+</PreferenceScreen>

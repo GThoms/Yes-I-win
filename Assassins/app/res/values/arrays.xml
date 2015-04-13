@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name = "navItems_array">
+        <item>My Profile</item>
+        <item>My Target</item>
+        <item>Game Statistics</item>
+        <item>Leaderboards</item>
+        <item>View Games</item>
+    </string-array>
+</resources>

@@ -1,0 +1,9 @@
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/facebook_s"/>
+    <item
+        android:drawable="@drawable/facebook_r"
+        android:bottom="16dp" />
+
+</layer-list>

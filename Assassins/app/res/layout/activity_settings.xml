@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+    
+    <CheckBox
+     	android:id="@+id/self_pref"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:text="@string/pref_title_self_notifications" />
+    
+    <CheckBox
+		android:id="@+id/game_pref"
+		android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/self_pref"
+        android:text="@string/pref_title_game_notifications" />
+
+	<Button
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:gravity="center"
+    	android:layout_centerVertical="true"
+    	android:text="@string/save_text" />
+    
+</RelativeLayout>
+	
