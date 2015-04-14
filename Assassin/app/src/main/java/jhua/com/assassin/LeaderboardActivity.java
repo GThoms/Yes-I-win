@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.widget.TabHost;
 
 
-public class LeaderBoard extends ActionBarActivity {
+public class LeaderboardActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

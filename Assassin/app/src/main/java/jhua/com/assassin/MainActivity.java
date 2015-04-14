@@ -1,10 +1,5 @@
 package jhua.com.assassin;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -15,13 +10,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
+
+import com.parse.Parse;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends Activity {
 
@@ -45,6 +43,10 @@ public class MainActivity extends Activity {
 				
 		gamesListView = (ListView) findViewById(R.id.gamesList);
 		this.setUpGamesList();
+
+		// Parse stuff
+		Parse.enableLocalDatastore(this);
+		Parse.initialize(this, "hxFZwmGDuKwt2BXEoyGTcPuPuFc8IJkx3eQD2DV4", "o3P37KBeAVP4970XyU0AXgrserg7qT6EEmI4J47r");
 		
 		//Navigation Drawer stuff
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
