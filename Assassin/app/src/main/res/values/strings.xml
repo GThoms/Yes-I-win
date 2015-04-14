@@ -17,5 +17,8 @@
 
     <string name="not_logged_in">You are not currently logged in.</string>
     <string name="login">Login with Facebook</string>
+    <string name="title_activity_target">TargetActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>
