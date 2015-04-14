@@ -2,17 +2,22 @@ package jhua.com.assassin;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.parse.Parse;
 
@@ -104,7 +109,7 @@ public class MainActivity extends Activity {
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         // Set the adapter for the list view
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, navItems));
+				android.R.layout.simple_list_item_1, navItems));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 		return true;
@@ -164,6 +169,44 @@ public class MainActivity extends Activity {
 	    gameListAdapter.addSection("Complete", completedGamesAdapter);
 
 		gamesListView.setAdapter(gameListAdapter);
+	}
+
+	private void showDialog(char type) {
+
+		// get prompts.xml view
+		LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+
+		View promptView;
+		if (type == 'p') {
+			promptView = layoutInflater.inflate(R.layout.pending_dialog, null);
+		}
+		else if (type == 'a') {
+			promptView = layoutInflater.inflate(R.layout.leave_dialog, null);
+		}
+		else {
+			promptView = layoutInflater.inflate(R.layout.delete_dialog, null);
+		}
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+		alertDialogBuilder.setView(promptView);
+
+		// setup a dialog window
+		alertDialogBuilder.setCancelable(false)
+				.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+
+					}
+				})
+				.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+		// create an alert dialog
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
 	}
 
 }

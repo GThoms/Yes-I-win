@@ -23,4 +23,8 @@
     <string name="title_activity_leader_board">LeaderBoard</string>
     <string name="title_activity_stats">stats</string>
 
+    <string name="leave_game">Leave game?</string>
+    <string name="delete_game">Delete game?</string>
+    <string name="join_game">Join game?</string>
+
 </resources>
