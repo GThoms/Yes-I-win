@@ -1,4 +1,4 @@
-package jhua.com.assassin;
+package com.jhua.assassin;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;

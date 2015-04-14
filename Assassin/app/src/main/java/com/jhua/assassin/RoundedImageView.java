@@ -1,4 +1,4 @@
-package jhua.com.assassin;
+package com.jhua.assassin;
 
 import android.content.Context;
 import android.graphics.Bitmap;

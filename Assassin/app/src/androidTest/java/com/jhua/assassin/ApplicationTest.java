@@ -1,4 +1,4 @@
-package jhua.com.assassin;
+package com.jhua.assassin;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
