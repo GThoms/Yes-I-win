@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="jhua.com.assassin.MainActivity"
+            android:name="com.jhua.assassin.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,15 +17,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="jhua.com.assassin.TargetActivity"
+            android:name="com.jhua.assassin.TargetActivity"
             android:label="@string/title_activity_target" >
         </activity>
         <activity
-            android:name=".LeaderboardActivity"
+            android:name="com.jhua.assassin.LeaderboardActivity"
             android:label="@string/title_activity_leader_board" >
         </activity>
         <activity
-            android:name=".StatsActivity"
+            android:name="com.jhua.assassin.StatsActivity"
             android:label="@string/title_activity_stats" >
         </activity>
     </application>
