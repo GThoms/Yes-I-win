@@ -20,5 +20,7 @@
     <string name="title_activity_target">TargetActivity</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_leader_board">LeaderBoard</string>
+    <string name="title_activity_stats">stats</string>
 
 </resources>
