@@ -77,6 +77,9 @@ public class MainActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
+
+		// Intent test = new Intent(MainActivity.this, TargetActivity.class);
+		// startActivity(test);
 	}
 	
 	@Override

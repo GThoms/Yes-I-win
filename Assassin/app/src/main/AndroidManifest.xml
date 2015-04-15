@@ -28,6 +28,10 @@
             android:name="com.jhua.assassin.StatsActivity"
             android:label="@string/title_activity_stats" >
         </activity>
+        <activity
+            android:name="com.jhua.assassin.FacebookActivity"
+            android:label="@string/title_activity_facebook" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
