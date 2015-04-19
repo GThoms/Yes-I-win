@@ -78,8 +78,8 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-		// Intent test = new Intent(MainActivity.this, TargetActivity.class);
-		// startActivity(test);
+		Intent test = new Intent(MainActivity.this, CreateGameActivity.class);
+		startActivity(test);
 	}
 	
 	@Override
