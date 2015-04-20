@@ -20,6 +20,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 
 import java.util.HashMap;
@@ -46,14 +47,12 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		Parse.initialize(this, "hxFZwmGDuKwt2BXEoyGTcPuPuFc8IJkx3eQD2DV4", "o3P37KBeAVP4970XyU0AXgrserg7qT6EEmI4J47r");
+		ParseInstallation.getCurrentInstallation().saveInBackground();
 				
 		gamesListView = (ListView) findViewById(R.id.gamesList);
 		this.setUpGamesList();
-
-		// Parse stuff
-		// Parse.enableLocalDatastore(this);
-		// ParseObject.registerSubclass(Game.class);
-		// Parse.initialize(this, "hxFZwmGDuKwt2BXEoyGTcPuPuFc8IJkx3eQD2DV4", "o3P37KBeAVP4970XyU0AXgrserg7qT6EEmI4J47r");
 
 		//Navigation Drawer stuff
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -82,6 +81,10 @@ public class MainActivity extends Activity {
 
 		// Intent test = new Intent(MainActivity.this, CreateGameActivity.class);
 		// startActivity(test);
+
+		ParseObject testObject = new ParseObject("TestObject");
+		testObject.put("foo", "bar");
+		testObject.saveInBackground();
 	}
 	
 	@Override
@@ -102,7 +105,7 @@ public class MainActivity extends Activity {
         item.put(ITEM_TITLE, title);  
         item.put(ITEM_CAPTION, caption);  
         return item;  
-    }  
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
