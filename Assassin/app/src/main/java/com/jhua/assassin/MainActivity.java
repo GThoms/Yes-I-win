@@ -51,9 +51,9 @@ public class MainActivity extends Activity {
 		this.setUpGamesList();
 
 		// Parse stuff
-		Parse.enableLocalDatastore(this);
-		ParseObject.registerSubclass(Game.class);
-		Parse.initialize(this, "hxFZwmGDuKwt2BXEoyGTcPuPuFc8IJkx3eQD2DV4", "o3P37KBeAVP4970XyU0AXgrserg7qT6EEmI4J47r");
+		// Parse.enableLocalDatastore(this);
+		// ParseObject.registerSubclass(Game.class);
+		// Parse.initialize(this, "hxFZwmGDuKwt2BXEoyGTcPuPuFc8IJkx3eQD2DV4", "o3P37KBeAVP4970XyU0AXgrserg7qT6EEmI4J47r");
 
 		//Navigation Drawer stuff
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -80,8 +80,8 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-		Intent test = new Intent(MainActivity.this, CreateGameActivity.class);
-		startActivity(test);
+		// Intent test = new Intent(MainActivity.this, CreateGameActivity.class);
+		// startActivity(test);
 	}
 	
 	@Override

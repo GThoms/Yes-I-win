@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 
-
 public class LeaderboardActivity extends Activity {
 
     private DrawerLayout mDrawerLayout;
@@ -32,11 +31,9 @@ public class LeaderboardActivity extends Activity {
         spec1.setIndicator("Eliminated Players"); //Set tab title
         spec1.setContent(R.layout.eliminate_leaderboard); //Set tab content
 
-
         TabHost.TabSpec spec2=tabHost.newTabSpec("Remaining Players");
         spec2.setIndicator("Remaining Players"); //Set tab title
         spec2.setContent(R.layout.remaining_players_leaderboard);//Set tab content
-
 
         tabHost.addTab(spec1);
         tabHost.addTab(spec2);
