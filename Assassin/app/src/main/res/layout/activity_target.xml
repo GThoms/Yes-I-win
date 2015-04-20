@@ -20,16 +20,17 @@
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent">\
 
                 <ImageView
-                    android:layout_width="220dp"
-                    android:layout_height="220dp"
+                    android:layout_width="190dp"
+                    android:layout_height="190dp"
                     android:id="@+id/imageView2"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/circle_blue" />
+                    android:background="@drawable/circle_blue"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp" />
 
-                <ImageView
+                <com.jhua.assassin.RoundedImageView
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:id="@+id/imageView"
@@ -38,11 +39,78 @@
                     android:layout_alignParentRight="false"
                     android:layout_alignParentLeft="false"
                     android:layout_alignParentTop="false"
-                    android:background="@drawable/student"
-                    android:layout_centerInParent="true" />
+                    android:src="@drawable/student"
+                    android:adjustViewBounds="false"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="60dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="John Doe"
+                    android:id="@+id/textView8"
+                    android:layout_alignParentEnd="false"
+                    android:layout_alignParentRight="false"
+                    android:layout_below="@+id/imageView2"
+                    android:layout_alignLeft="@+id/imageView2"
+                    android:layout_alignRight="@+id/imageView2"
+                    android:textAlignment="center"
+                    android:textSize="30dp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Distance from Target"
+                    android:id="@+id/textView9"
+                    android:layout_below="@+id/textView8"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="50dp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Eliminate"
+                    android:id="@+id/button"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:background="@drawable/green_button_states"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="24sp"
+                    android:layout_weight="0"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentRight="false"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="50dp" />
+
 
             </RelativeLayout>
         </RelativeLayout>
+
+        <TextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/list_header_title"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            style="@style/headerStyle" />
+
+        <TextView
+            style="@style/headerStyle"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/textView7"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_gravity="bottom" />
     </FrameLayout>
 
     <!-- The navigation drawer -->
