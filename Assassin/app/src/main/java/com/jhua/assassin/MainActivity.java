@@ -20,6 +20,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -51,8 +52,9 @@ public class MainActivity extends Activity {
 
 		// Parse stuff
 		Parse.enableLocalDatastore(this);
+		ParseObject.registerSubclass(Game.class);
 		Parse.initialize(this, "hxFZwmGDuKwt2BXEoyGTcPuPuFc8IJkx3eQD2DV4", "o3P37KBeAVP4970XyU0AXgrserg7qT6EEmI4J47r");
-		
+
 		//Navigation Drawer stuff
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerToggle = new ActionBarDrawerToggle(

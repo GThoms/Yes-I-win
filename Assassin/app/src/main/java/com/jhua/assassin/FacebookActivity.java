@@ -131,7 +131,6 @@ public class FacebookActivity extends Activity {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
