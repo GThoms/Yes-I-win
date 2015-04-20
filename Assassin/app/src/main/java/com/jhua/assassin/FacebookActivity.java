@@ -23,8 +23,8 @@ import android.widget.TextView;
 public class FacebookActivity extends Activity {
 
     private Button login;
-    Typeface font_light;
-    Typeface font_reg;
+    private Typeface font_light;
+    private Typeface font_med;
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -37,13 +37,13 @@ public class FacebookActivity extends Activity {
         setContentView(R.layout.activity_facebook);
 
         font_light = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
-        font_reg = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
+        font_med = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Medium.ttf");
 
         TextView notlog = (TextView) findViewById(R.id.fb_text);
         notlog.setTypeface(font_light);
 
         login = (Button) findViewById(R.id.login_button);
-        login.setTypeface(font_reg);
+        login.setTypeface(font_med);
 
         login.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -52,11 +52,11 @@ public class FacebookActivity extends Activity {
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) login.getLayoutParams();
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     lp.height = px(68);
-                    lp.topMargin = px(12);
+                    lp.topMargin = px(32);
                     login.setLayoutParams(lp);
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    lp.topMargin = px(0);
+                    lp.topMargin = px(20);
                     lp.height = px(80);
                     login.setLayoutParams(lp);
                 }
@@ -144,7 +144,7 @@ public class FacebookActivity extends Activity {
 
     private int px(float dips)
     {
-        float DP = getResources().getDisplayMetrics().density;
-        return Math.round(dips * DP);
+        float dp = getResources().getDisplayMetrics().density;
+        return Math.round(dips * dp);
     }
 }

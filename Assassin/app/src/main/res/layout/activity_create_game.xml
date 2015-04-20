@@ -47,7 +47,7 @@
                 android:id="@+id/textView4" />
 
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/game_duration_spinner"
                 android:layout_marginBottom="10dp" />
@@ -60,7 +60,7 @@
                 android:id="@+id/textView5" />
 
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/block_duration_spinner"
                 android:layout_marginBottom="10dp" />
@@ -73,7 +73,7 @@
                 android:id="@+id/textView6" />
 
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/attack_radius_spinner"
                 android:layout_marginBottom="10dp" />
@@ -85,16 +85,28 @@
 
                 <Button
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    android:paddingBottom="18dp"
                     android:text="@string/add_friends"
+                    android:textSize="26sp"
                     android:id="@+id/add_friends"
+                    android:textColor="@color/white"
+                    android:textAllCaps="true"
+                    android:background="@drawable/orange_button_states"
                     android:layout_weight=".5" />
 
                 <Button
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
+                    android:layout_margin="10dp"
+                    android:paddingBottom="18dp"
                     android:text="@string/start"
+                    android:textSize="26sp"
+                    android:textColor="@color/white"
+                    android:textAllCaps="true"
                     android:id="@+id/start"
+                    android:background="@drawable/green_button_states"
                     android:layout_weight=".5" />
             </LinearLayout>
 

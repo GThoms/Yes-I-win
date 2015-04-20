@@ -18,16 +18,16 @@
 
     <string name="not_logged_in">You are not currently logged in.</string>
     <string name="login">Login with Facebook</string>
-    <string name="title_activity_target">TargetActivity</string>
+    <string name="title_activity_target">My Target</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_leader_board">LeaderBoard</string>
-    <string name="title_activity_stats">stats</string>
+    <string name="title_activity_leader_board">Leaderboard</string>
+    <string name="title_activity_stats">Stats</string>
 
     <string name="leave_game">Leave game?</string>
     <string name="delete_game">Delete game?</string>
     <string name="join_game">Join game?</string>
-    <string name="title_activity_create_game">CreateGameActivity</string>
+    <string name="title_activity_create_game">Create Game</string>
 
     <string name="game_title">Game Title:</string>
     <string name="game_duration">Game Duration:</string>

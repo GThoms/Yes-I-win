@@ -3,15 +3,20 @@ package com.jhua.assassin;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.jhua.assassin.R;
 
@@ -21,11 +26,22 @@ public class CreateGameActivity extends Activity {
     private ListView mDrawerList;
     private String[] navItems;
     private ActionBarDrawerToggle mDrawerToggle;
+    
+    private Typeface font_med;
+    private Typeface font_reg;
+
+    private Button add;
+    private Button start;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
+
+        // font
+        font_med = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Medium.ttf");
+        font_reg = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
+        setFonts();
 
         // Navigation drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -51,6 +67,50 @@ public class CreateGameActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
+
+        add = (Button) findViewById(R.id.add_friends);
+        add.setTypeface(font_med);
+
+        add.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) add.getLayoutParams();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    lp.height = px(68);
+                    lp.topMargin = px(16);
+                    add.setLayoutParams(lp);
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    lp.topMargin = px(10);
+                    lp.height = px(80);
+                    add.setLayoutParams(lp);
+                }
+                return false;
+            }
+        });
+
+        start = (Button) findViewById(R.id.start);
+        start.setTypeface(font_med);
+
+        start.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) start.getLayoutParams();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    lp.height = px(68);
+                    lp.topMargin = px(16);
+                    start.setLayoutParams(lp);
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    lp.topMargin = px(10);
+                    lp.height = px(80);
+                    start.setLayoutParams(lp);
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -96,5 +156,25 @@ public class CreateGameActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private int px(float dips)
+    {
+        float dp = getResources().getDisplayMetrics().density;
+        return Math.round(dips * dp);
+    }
+
+    private void setFonts() {
+
+        TextView game_t = (TextView) findViewById(R.id.textView3);
+        TextView game_d = (TextView) findViewById(R.id.textView4);
+        TextView blck_d = (TextView) findViewById(R.id.textView5);
+        TextView atck_r = (TextView) findViewById(R.id.textView6);
+
+        game_t.setTypeface(font_reg);
+        game_d.setTypeface(font_reg);
+        blck_d.setTypeface(font_reg);
+        atck_r.setTypeface(font_reg);
+
     }
 }
