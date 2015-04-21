@@ -1,6 +1,8 @@
 package com.jhua.assassin;
 
 import android.app.Activity;
+import android.app.ActivityGroup;
+import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -13,7 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 
-public class LeaderboardActivity extends Activity {
+public class LeaderboardActivity extends TabActivity {
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -24,19 +26,23 @@ public class LeaderboardActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_board);
-        TabHost tabHost=(TabHost)findViewById(R.id.tabHost);
-        tabHost.setup();
+        TabHost tabHost=(TabHost)findViewById(android.R.id.tabhost);
+        tabHost.setup(this.getLocalActivityManager());
+
 
         TabHost.TabSpec spec1 = tabHost.newTabSpec("Eliminated Players");
         spec1.setIndicator("Eliminated Players"); //Set tab title
-        spec1.setContent(R.layout.eliminate_leaderboard); //Set tab content
+        spec1.setContent(new Intent(this, EliminateLeaderboard.class)); //Set tab content
+
 
         TabHost.TabSpec spec2=tabHost.newTabSpec("Remaining Players");
         spec2.setIndicator("Remaining Players"); //Set tab title
-        spec2.setContent(R.layout.remaining_players_leaderboard);//Set tab content
+        spec2.setContent(new Intent(this, RemainingLeaderboard.class));//Set tab content
+
 
         tabHost.addTab(spec1);
         tabHost.addTab(spec2);
+
 
         // Navigation drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+    <TextView
+        android:id="@+id/playerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="50dp"
+        android:layout_alignParentLeft="true"
+        android:text="Player Name"
+        android:textSize="22sp"
+        android:layout_marginEnd="50dp"
+        android:layout_alignTop="@+id/playerPicture"
+        android:layout_toLeftOf="@+id/playerPicture"
+        android:layout_toStartOf="@+id/playerPicture" />
+
+    <ImageButton
+        android:id="@+id/playerPicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="6dip"
+        android:contentDescription="Right icon"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Statistic"
+        android:textSize="20sp"
+        android:layout_below="@+id/playerName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

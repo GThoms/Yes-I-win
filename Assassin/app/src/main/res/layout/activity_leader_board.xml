@@ -8,10 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <TabHost
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/tabHost"
+            android:id="@android:id/tabhost"
             xmlns:android="http://schemas.android.com/apk/res/android">
 
             <TabWidget
@@ -24,30 +25,15 @@
                 android:layout_height="fill_parent"
                 android:id="@android:id/tabcontent">
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/tab2"
-                    android:orientation="vertical"
-                    android:paddingTop="60px">
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tab1"
-                    android:orientation="vertical"
-                    android:paddingTop="60px"
-                    android:layout_gravity="center_horizontal|top">
-
-                </LinearLayout>
 
 
             </FrameLayout>
 
+
         </TabHost>
     </FrameLayout>
+
 
     <!-- The navigation drawer -->
     <ListView
