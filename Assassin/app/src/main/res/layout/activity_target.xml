@@ -93,24 +93,19 @@
             </RelativeLayout>
         </RelativeLayout>
 
-        <TextView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/list_header_title"
+        <ImageView
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            style="@style/headerStyle" />
+            android:layout_height="25dp"
+            android:id="@+id/imageView3"
+            android:background="@drawable/rectangle_blue" />
 
-        <TextView
-            style="@style/headerStyle"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView7"
+        <ImageView
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:layout_gravity="bottom" />
+            android:layout_height="25dp"
+            android:id="@+id/imageView4"
+            android:layout_gravity="bottom"
+            android:background="@drawable/rectangle_blue" />
+
     </FrameLayout>
 
     <!-- The navigation drawer -->
