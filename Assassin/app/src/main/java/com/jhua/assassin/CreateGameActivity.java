@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jhua.assassin.R;
+import com.parse.ParseUser;
 
 public class CreateGameActivity extends Activity {
 
@@ -142,8 +143,7 @@ public class CreateGameActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private int px(float dips)
-    {
+    private int px(float dips) {
         float dp = getResources().getDisplayMetrics().density;
         return Math.round(dips * dp);
     }
@@ -159,11 +159,9 @@ public class CreateGameActivity extends Activity {
         game_d.setTypeface(font_reg);
         blck_d.setTypeface(font_reg);
         atck_r.setTypeface(font_reg);
-
     }
 
     private void spinnerListeners() {
-
         gameDurationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -185,10 +183,8 @@ public class CreateGameActivity extends Activity {
                         break;
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -213,10 +209,8 @@ public class CreateGameActivity extends Activity {
                         break;
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -241,13 +235,10 @@ public class CreateGameActivity extends Activity {
                         break;
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
-
     }
 
     private void buttonListeners() {
@@ -322,6 +313,9 @@ public class CreateGameActivity extends Activity {
         newGame.addPlayer("player2");
 
         newGame.saveInBackground();
+
+        // now give game to player here
+        ParseUser.getCurrentUser().addUnique("games", newGame);
     }
 
     private void showDialog(final char type) {
