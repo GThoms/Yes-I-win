@@ -8,7 +8,10 @@ package com.jhua.assassin;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -23,7 +26,7 @@ public class GameListAdapter extends BaseAdapter {
 	public final Map<String,Adapter> sections = new LinkedHashMap<String,Adapter>();
 	public final ArrayAdapter<String> headers;  
     public final static int TYPE_SECTION_HEADER = 0;
-    private Context context;
+    private static Context context;
 	  
 	public GameListAdapter(Context context) {
 		this.context = context;
@@ -143,9 +146,8 @@ public class GameListAdapter extends BaseAdapter {
 
 		@Override
 		public void onClick(View v) {
-			Toast.makeText(context, "Leave Game?", Toast.LENGTH_SHORT).show();
+			showDialog('a');
 		}
-
 	}
 	
 	public static class pendingGamesListener implements OnClickListener {
@@ -156,10 +158,10 @@ public class GameListAdapter extends BaseAdapter {
 
 		@Override
 		public void onClick(View v) {
-			Toast.makeText(context, "Join Game?", Toast.LENGTH_SHORT).show();
+			showDialog('p');
 		}
-
 	}
+
 	public static class completedGamesListener implements OnClickListener {
 		Context context;
 		public completedGamesListener(Context context) {
@@ -168,9 +170,46 @@ public class GameListAdapter extends BaseAdapter {
 
 		@Override
 		public void onClick(View v) {
-			Toast.makeText(context, "Delete Game?", Toast.LENGTH_SHORT).show();
+			showDialog('i');
+		}
+	}
+
+	private static void showDialog(char type) {
+
+		// get prompts.xml view
+		LayoutInflater layoutInflater = LayoutInflater.from(context);
+
+		View promptView;
+		if (type == 'p') { // pending
+			promptView = layoutInflater.inflate(R.layout.pending_dialog, null);
+		}
+		else if (type == 'a') { // active
+			promptView = layoutInflater.inflate(R.layout.leave_dialog, null);
+		}
+		else { // inactive
+			promptView = layoutInflater.inflate(R.layout.delete_dialog, null);
 		}
 
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		alertDialogBuilder.setView(promptView);
+
+		// setup a dialog window
+		alertDialogBuilder.setCancelable(false)
+				.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+
+					}
+				})
+				.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+		// create an alert dialog
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
 	}
 
 }
