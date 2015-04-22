@@ -8,4 +8,32 @@
         <item>View Games</item>
         <item>Create Game</item>
     </string-array>
+
+    <string-array name="game_duration">
+        <item>1 week</item>
+        <item>2 weeks</item>
+        <item>1 month</item>
+        <item>Infinite</item>
+        <item>Custom</item>
+        <item></item>
+    </string-array>
+
+    <string-array name="block_duration">
+        <item>5 seconds</item>
+        <item>10 seconds</item>
+        <item>15 seconds</item>
+        <item>30 seconds</item>
+        <item>Custom</item>
+        <item></item>
+    </string-array>
+
+    <string-array name="attack_radius">
+        <item>1 yard</item>
+        <item>5 yards</item>
+        <item>10 yards</item>
+        <item>50 yards</item>
+        <item>Custom</item>
+        <item></item>
+    </string-array>
+
 </resources>
