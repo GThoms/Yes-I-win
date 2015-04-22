@@ -37,6 +37,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/game_title"
                     android:layout_marginLeft="10dp" />
+
             </LinearLayout>
 
             <TextView

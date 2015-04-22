@@ -15,8 +15,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 public class TargetActivity extends Activity {
@@ -25,6 +28,8 @@ public class TargetActivity extends Activity {
     private ListView mDrawerList;
     private String[] navItems;
     private ActionBarDrawerToggle mDrawerToggle;
+
+    Button eliminate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,9 @@ public class TargetActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
+
+        eliminate = (Button) findViewById(R.id.eliminate);
+        buttonListeners();
     }
 
 
@@ -101,5 +109,38 @@ public class TargetActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void buttonListeners() {
+        eliminate.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) eliminate.getLayoutParams();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    lp.height = px(68);
+                    lp.topMargin = px(32);
+                    eliminate.setLayoutParams(lp);
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    lp.topMargin = px(20);
+                    lp.height = px(80);
+                    eliminate.setLayoutParams(lp);
+                }
+                return false;
+            }
+        });
+
+        eliminate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // get new target
+            }
+        });
+    }
+
+    private int px(float dips) {
+        float dp = getResources().getDisplayMetrics().density;
+        return Math.round(dips * dp);
     }
 }

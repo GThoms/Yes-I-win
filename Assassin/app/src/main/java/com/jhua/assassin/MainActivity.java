@@ -81,12 +81,8 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-		Intent test = new Intent(MainActivity.this, FacebookActivity.class);
+		Intent test = new Intent(MainActivity.this, CreateGameActivity.class);
 		startActivity(test);
-
-		ParseObject testObject = new ParseObject("TestObject");
-		testObject.put("foo", "bar");
-		testObject.saveInBackground();
 	}
 	
 	@Override
