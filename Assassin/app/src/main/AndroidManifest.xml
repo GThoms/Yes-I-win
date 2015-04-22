@@ -2,11 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jhua.assassin" >
 
+
+    //SDK versions
     <uses-sdk
         android:maxSdkVersion="22"
         android:minSdkVersion="15"
         android:targetSdkVersion="19" />
 
+
+    //Necessary Permissions
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
