@@ -3,6 +3,7 @@ package com.jhua.assassin;
 import android.app.Application;
 import android.util.Log;
 
+import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
@@ -16,6 +17,9 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Facebook stuff
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         // Parse stuff
         Parse.enableLocalDatastore(this);

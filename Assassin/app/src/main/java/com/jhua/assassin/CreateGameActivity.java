@@ -1,6 +1,8 @@
 package com.jhua.assassin;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
@@ -8,17 +10,24 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jhua.assassin.R;
+import com.parse.ParseUser;
 
 public class CreateGameActivity extends Activity {
 
@@ -32,6 +41,15 @@ public class CreateGameActivity extends Activity {
 
     private Button add;
     private Button start;
+
+    private EditText gameTitle;
+    private Spinner gameDurationSpinner;
+    private Spinner blockDurationSpinner;
+    private Spinner attackRadiusSpinner;
+
+    private float gameDuration; // in days
+    private float blockDuration; // in seconds
+    private float attackRadius; // in yards
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,47 +88,18 @@ public class CreateGameActivity extends Activity {
 
         add = (Button) findViewById(R.id.add_friends);
         add.setTypeface(font_med);
-
-        add.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) add.getLayoutParams();
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    lp.height = px(68);
-                    lp.topMargin = px(16);
-                    add.setLayoutParams(lp);
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    lp.topMargin = px(10);
-                    lp.height = px(80);
-                    add.setLayoutParams(lp);
-                }
-                return false;
-            }
-        });
-
         start = (Button) findViewById(R.id.start);
         start.setTypeface(font_med);
+        buttonListeners();
 
-        start.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
+        attackRadius = 1;
+        blockDuration = 10;
+        gameDuration = 14;
 
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) start.getLayoutParams();
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    lp.height = px(68);
-                    lp.topMargin = px(16);
-                    start.setLayoutParams(lp);
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    lp.topMargin = px(10);
-                    lp.height = px(80);
-                    start.setLayoutParams(lp);
-                }
-                return false;
-            }
-        });
+        gameDurationSpinner = (Spinner) findViewById(R.id.game_duration_spinner);
+        blockDurationSpinner = (Spinner) findViewById(R.id.block_duration_spinner);
+        attackRadiusSpinner = (Spinner) findViewById(R.id.attack_radius_spinner);
+        spinnerListeners();
     }
 
     @Override
@@ -158,8 +147,7 @@ public class CreateGameActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private int px(float dips)
-    {
+    private int px(float dips) {
         float dp = getResources().getDisplayMetrics().density;
         return Math.round(dips * dp);
     }
@@ -175,6 +163,235 @@ public class CreateGameActivity extends Activity {
         game_d.setTypeface(font_reg);
         blck_d.setTypeface(font_reg);
         atck_r.setTypeface(font_reg);
+    }
 
+    private void spinnerListeners() {
+
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
+                R.array.game_duration, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gameDurationSpinner.setAdapter(adapter1);
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+                R.array.block_duration, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        blockDurationSpinner.setAdapter(adapter2);
+
+        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(this,
+                R.array.attack_radius, android.R.layout.simple_spinner_item);
+        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        attackRadiusSpinner.setAdapter(adapter3);
+
+        gameDurationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        gameDuration = 7;
+                        break;
+                    case 1:
+                        gameDuration = 14;
+                        break;
+                    case 2:
+                        gameDuration = 30;
+                        break;
+                    case 3:
+                        gameDuration = 0;
+                        break;
+                    case 4:
+                        showDialog('g');
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        blockDurationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        gameDuration = 5;
+                        break;
+                    case 1:
+                        gameDuration = 10;
+                        break;
+                    case 2:
+                        gameDuration = 15;
+                        break;
+                    case 3:
+                        gameDuration = 30;
+                        break;
+                    case 4:
+                        showDialog('b');
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        attackRadiusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        gameDuration = 1;
+                        break;
+                    case 1:
+                        gameDuration = 5;
+                        break;
+                    case 2:
+                        gameDuration = 10;
+                        break;
+                    case 3:
+                        gameDuration = 50;
+                        break;
+                    case 4:
+                        showDialog('a');
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void buttonListeners() {
+
+        add.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) add.getLayoutParams();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    lp.height = px(68);
+                    lp.topMargin = px(16);
+                    add.setLayoutParams(lp);
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    lp.topMargin = px(10);
+                    lp.height = px(80);
+                    add.setLayoutParams(lp);
+                }
+                return false;
+            }
+        });
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Pressed add friends", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        start.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) start.getLayoutParams();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    lp.height = px(68);
+                    lp.topMargin = px(16);
+                    start.setLayoutParams(lp);
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    lp.topMargin = px(10);
+                    lp.height = px(80);
+                    start.setLayoutParams(lp);
+                }
+                return false;
+            }
+        });
+
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (makeGame()) {
+                    Intent home = new Intent(CreateGameActivity.this, MainActivity.class);
+                    startActivity(home);
+                }
+            }
+        });
+    }
+
+    private boolean makeGame() {
+        gameTitle = (EditText) findViewById(R.id.game_title);
+        String name = gameTitle.getText().toString();
+        if (name == "") {
+            Toast.makeText(getApplicationContext(), "Please enter a game name!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        Game newGame = new Game();
+        newGame.setGameName(name);
+
+        newGame.setGameDuration(gameDuration);
+        newGame.setBlockDuration(blockDuration);
+        newGame.setAttackRadius(attackRadius);
+
+        newGame.addPlayer("player1");
+        newGame.addPlayer("player2");
+
+        newGame.saveInBackground();
+
+        // now give game to player here
+        // ParseUser.getCurrentUser().addUnique("games", newGame);
+        return true;
+    }
+
+    private void showDialog(final char type) {
+
+        // get prompts.xml view
+        LayoutInflater layoutInflater = LayoutInflater.from(CreateGameActivity.this);
+
+        View promptView;
+        if (type == 'g') { // game duration (days)
+            promptView = layoutInflater.inflate(R.layout.game_duration_dialog, null);
+        }
+        else if (type == 'b') { // block duration (seconds)
+            promptView = layoutInflater.inflate(R.layout.block_duration_dialog, null);
+        }
+        else { // attack radius (yards)
+            promptView = layoutInflater.inflate(R.layout.attack_radius_dialog, null);
+        }
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateGameActivity.this);
+        alertDialogBuilder.setView(promptView);
+
+        // setup a dialog window
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("Set", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (type == 'g') {
+                            EditText customGameDuration = (EditText) findViewById(R.id.game_duration_dialog_edit);
+                            // gameDuration = Float.parseFloat(customGameDuration.getText().toString());
+                        }
+                        else if (type == 'b') {
+                            EditText customBlockDuration = (EditText) findViewById(R.id.block_duration_dialog_edit);
+                            // blockDuration = Float.parseFloat(customBlockDuration.getText().toString());
+                        }
+                        else {
+                            EditText customAttackRadius = (EditText) findViewById(R.id.attack_radius_dialog_edit);
+                            // attackRadius = Float.parseFloat(customAttackRadius.getText().toString());
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create an alert dialog
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
     }
 }

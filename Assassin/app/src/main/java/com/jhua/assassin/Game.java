@@ -25,4 +25,16 @@ public class Game extends ParseObject {
         addUnique("eliminatedPlayers", player);
         removeAll("players", Arrays.asList(player));
     }
+
+    public void setGameDuration(float gameDuration) {
+        put("gameDuration", gameDuration);
+    }
+
+    public void setBlockDuration(float blockDuration) {
+        put("blockDuration", blockDuration);
+    }
+
+    public void setAttackRadius(float attackRadius) {
+        put("attackRadius", attackRadius);
+    }
 }

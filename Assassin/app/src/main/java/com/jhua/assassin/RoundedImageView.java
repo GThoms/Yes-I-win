@@ -13,9 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-/**
- * Created by Bubu on 4/14/2015.
- */
 public class RoundedImageView extends ImageView {
 
     public RoundedImageView(Context context) {
