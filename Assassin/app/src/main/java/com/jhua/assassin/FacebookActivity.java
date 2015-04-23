@@ -26,6 +26,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.ParseFacebookUtils;
 
+import bolts.Task;
+
 public class FacebookActivity extends Activity {
 
     private Button login;
@@ -68,14 +70,10 @@ public class FacebookActivity extends Activity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // fb login here
-            }
-        });
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // do fb log in stuff
+                login();
+                // start service to get location
+                Intent intent = new Intent(FacebookActivity.this, LocationService.class);
+                startService(intent);
             }
         });
 
@@ -103,5 +101,11 @@ public class FacebookActivity extends Activity {
     private int px(float dips) {
         float dp = getResources().getDisplayMetrics().density;
         return Math.round(dips * dp);
+    }
+
+    private void login() {
+        // do facebook login stuff here
+        // make sure to get user's fbId here
+        // can also add to user's fbFriends here
     }
 }

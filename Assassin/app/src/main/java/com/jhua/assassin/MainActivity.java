@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
@@ -81,8 +83,13 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-		Intent test = new Intent(MainActivity.this, CreateGameActivity.class);
+		Intent test = new Intent(MainActivity.this, FacebookActivity.class);
 		startActivity(test);
+
+		// check google play services
+		if (!isGooglePlayServicesAvailable()) {
+			finish();
+		}
 	}
 	
 	@Override
@@ -213,6 +220,16 @@ public class MainActivity extends Activity {
 		// create an alert dialog
 		AlertDialog alert = alertDialogBuilder.create();
 		alert.show();
+	}
+
+	private boolean isGooglePlayServicesAvailable() {
+		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		if (ConnectionResult.SUCCESS == status) {
+			return true;
+		} else {
+			GooglePlayServicesUtil.getErrorDialog(status, this, 0).show();
+			return false;
+		}
 	}
 
 }
