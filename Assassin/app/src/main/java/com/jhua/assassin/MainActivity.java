@@ -149,6 +149,12 @@ public class MainActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	@Override
+	public void onDestroy() {
+		Intent service = new Intent(MainActivity.this, LocationService.class);
+		stopService(service);
+	}
 	
 	/**
 	 * Sets up the section headers and populates each section from database
