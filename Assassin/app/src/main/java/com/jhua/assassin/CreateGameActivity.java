@@ -343,6 +343,11 @@ public class CreateGameActivity extends Activity {
 
         // now give game to player here
         // ParseUser.getCurrentUser().addUnique("games", newGame);
+        // give people targets here
+
+        // start the location service
+        Intent intent = new Intent(CreateGameActivity.this, LocationService.class);
+        startService(intent);
         return true;
     }
 

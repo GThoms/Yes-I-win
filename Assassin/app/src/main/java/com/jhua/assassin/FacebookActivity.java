@@ -98,14 +98,17 @@ public class FacebookActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+    }
+
     private int px(float dips) {
         float dp = getResources().getDisplayMetrics().density;
         return Math.round(dips * dp);
     }
 
     private void login() {
-        // do facebook login stuff here
-        // make sure to get user's fbId here
-        // can also add to user's fbFriends here
     }
 }

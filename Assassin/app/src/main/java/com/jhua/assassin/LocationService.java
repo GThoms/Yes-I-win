@@ -94,19 +94,15 @@ public class LocationService extends Service implements
     @Override
     public void onLocationChanged(Location location) {
         Log.d(TAG, "Firing onLocationChanged..............................................");
-        mCurrentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-        updateUI();
-    }
 
-    private void updateUI() {
-        Log.d(TAG, "UI update initiated .............");
-        if (null != mCurrentLocation) {
-            String lat = String.valueOf(mCurrentLocation.getLatitude());
-            String lng = String.valueOf(mCurrentLocation.getLongitude());
-        } else {
-            Log.d(TAG, "location is null ...............");
-        }
+        mCurrentLocation = location;
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+        // ParseUser.getCurrentUser().put("latitude", latitude);
+        // ParseUser.getCurrentUser().put("longitude", longitude);
+        // saveInBackground();
     }
 
     protected void stopLocationUpdates() {

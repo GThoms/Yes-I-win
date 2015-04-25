@@ -185,7 +185,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void showDialog(char type) {
-
+		// TODO : stopService() when user leaves game, startService() when user enters game
 		// get prompts.xml view
 		LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
 
