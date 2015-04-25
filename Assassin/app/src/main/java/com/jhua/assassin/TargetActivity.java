@@ -22,6 +22,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.parse.ParsePush;
+import com.parse.ParseUser;
+
 public class TargetActivity extends Activity {
 
     private DrawerLayout mDrawerLayout;
@@ -134,7 +137,10 @@ public class TargetActivity extends Activity {
         eliminate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // get new target
+                ParsePush push = new ParsePush();
+                // push.setChannel(ParseUser.getCurrentUser().get("target").toString());
+                push.setMessage("You've been attacked!!");
+                push.sendInBackground();
             }
         });
     }

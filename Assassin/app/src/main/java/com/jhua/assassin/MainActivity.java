@@ -31,8 +31,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.facebook.*;
+import com.parse.ParseUser;
 
 public class MainActivity extends Activity {
+
+	protected static final int LOGIN_TRUE = 1;
 
 	ListView gamesListView;
 	GameListAdapter gameListAdapter;
@@ -83,15 +86,18 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-		Intent test = new Intent(MainActivity.this, FacebookActivity.class);
-		startActivity(test);
+		// if not logged in
+		if (ParseUser.getCurrentUser() == null) {
+			Intent login = new Intent(MainActivity.this, FacebookActivity.class);
+			startActivityForResult(login, LOGIN_TRUE);
+		}
 
 		// check google play services
 		if (!isGooglePlayServicesAvailable()) {
 			finish();
 		}
 	}
-	
+
 	@Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);

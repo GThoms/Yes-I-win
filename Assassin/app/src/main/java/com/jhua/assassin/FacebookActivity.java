@@ -20,9 +20,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.ParseFacebookUtils;
 
@@ -71,9 +73,20 @@ public class FacebookActivity extends Activity {
             @Override
             public void onClick(View v) {
                 login();
+
+                // subscribe to their own channel to get push notifications from assassin
+                // ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId());
+
                 // start service to get location
                 Intent intent = new Intent(FacebookActivity.this, LocationService.class);
                 startService(intent);
+
+                // back to main activity
+                if (ParseUser.getCurrentUser() != null) {
+                    finishActivity(MainActivity.LOGIN_TRUE);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -110,5 +123,6 @@ public class FacebookActivity extends Activity {
     }
 
     private void login() {
+        // fb login here
     }
 }

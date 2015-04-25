@@ -103,6 +103,8 @@ public class LocationService extends Service implements
         // ParseUser.getCurrentUser().put("latitude", latitude);
         // ParseUser.getCurrentUser().put("longitude", longitude);
         // saveInBackground();
+        Log.d("Latitude", location.getLatitude() + "");
+        Log.d("Longitude", location.getLongitude() + "");
     }
 
     protected void stopLocationUpdates() {
