@@ -72,8 +72,8 @@
                 <Button
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:text="Eliminate"
-                    android:id="@+id/eliminate"
+                    android:text="Block"
+                    android:id="@+id/block"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:paddingBottom="15dp"
