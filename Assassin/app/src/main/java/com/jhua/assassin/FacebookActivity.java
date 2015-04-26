@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParsePush;
@@ -124,5 +125,18 @@ public class FacebookActivity extends Activity {
 
     private void login() {
         // fb login here
+        ParseFacebookUtils.logInWithReadPermissionsInBackground(this, null, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException err) {
+                if (user == null) {
+                    Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+                } else if (user.isNew()) {
+                    Log.d("MyApp", "User signed up and logged in through Facebook!");
+                } else {
+                    Log.d("MyApp", "User logged in through Facebook!");
+                }
+                ParseFacebookUtils.linkInBackground(user, AccessToken.getCurrentAccessToken());
+            }
+        });
     }
 }
