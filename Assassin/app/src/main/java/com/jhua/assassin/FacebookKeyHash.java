@@ -17,7 +17,7 @@ import com.jhua.assassin.R;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class FacebookHashKey extends Activity {
+public class FacebookKeyHash extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class FacebookHashKey extends Activity {
         setContentView(R.layout.activity_facebook_hash_key);
 
         try {
-            PackageInfo info = getPackageManager().getPackageInfo("jhua.com.assassin", PackageManager.GET_SIGNATURES);
+            PackageInfo info = getPackageManager().getPackageInfo("com.jhua.assassin", PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());

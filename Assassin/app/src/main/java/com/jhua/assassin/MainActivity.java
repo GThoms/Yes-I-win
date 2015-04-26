@@ -86,6 +86,10 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
+		// test
+		Intent test = new Intent(MainActivity.this, FacebookKeyHash.class);
+		startActivity(test);
+
 		// if not logged in
 		if (ParseUser.getCurrentUser() == null) {
 			Intent login = new Intent(MainActivity.this, FacebookActivity.class);
