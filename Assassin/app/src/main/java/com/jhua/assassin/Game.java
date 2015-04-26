@@ -5,6 +5,9 @@ import java.util.List;
 import com.parse.ParseObject;
 import com.parse.ParseClassName;
 
+
+//Game object, holds player, settings and other stuff related
+//to a certain game
 @ParseClassName("Game")
 public class Game extends ParseObject {
 

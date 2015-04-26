@@ -16,6 +16,8 @@ public class SettingsActivity extends PreferenceActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
+
+    //Go home if button is pressed
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {

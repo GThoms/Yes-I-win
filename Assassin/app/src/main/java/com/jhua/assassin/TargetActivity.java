@@ -25,8 +25,12 @@ import android.widget.ListView;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
 
+
+//Shows your target, allows you to eliminate if in range
 public class TargetActivity extends Activity {
 
+
+    //Navigation drawer items
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private String[] navItems;
@@ -64,11 +68,13 @@ public class TargetActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
+        //Find eliminate button
         eliminate = (Button) findViewById(R.id.eliminate);
         buttonListeners();
     }
 
 
+    //For navigation drawer
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -76,12 +82,16 @@ public class TargetActivity extends Activity {
         mDrawerToggle.syncState();
     }
 
+
+    //For navigation drawer
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    //Set up menu
+    //Populate Navigation drawer
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -98,6 +108,7 @@ public class TargetActivity extends Activity {
         return true;
     }
 
+    //Open settings if pressed
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -115,6 +126,8 @@ public class TargetActivity extends Activity {
     }
 
     public void buttonListeners() {
+
+        //Shows button depressed/unpressed when clicked
         eliminate.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -134,6 +147,7 @@ public class TargetActivity extends Activity {
             }
         });
 
+        //Eliminate player
         eliminate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +159,7 @@ public class TargetActivity extends Activity {
         });
     }
 
+    //Change dp to pixels
     private int px(float dips) {
         float dp = getResources().getDisplayMetrics().density;
         return Math.round(dips * dp);

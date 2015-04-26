@@ -37,11 +37,13 @@ public class MainActivity extends Activity {
 
 	protected static final int LOGIN_TRUE = 1;
 
+    //GamesList Adapters and objects
 	ListView gamesListView;
 	GameListAdapter gameListAdapter;
 	List<Map<String,?>> currentGames;
 	List<Map<String,?>> pendingGames;
 	List<Map<String,?>> completedGames;
+
 	public final static String ITEM_TITLE = "title";  
     public final static String ITEM_CAPTION = "caption";
     
@@ -55,14 +57,18 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+        //initialize parse for this application using our specific hash keys
 		Parse.initialize(this, "hxFZwmGDuKwt2BXEoyGTcPuPuFc8IJkx3eQD2DV4", "o3P37KBeAVP4970XyU0AXgrserg7qT6EEmI4J47r");
 		ParseInstallation.getCurrentInstallation().saveInBackground();
-				
+
+        //Setting up games list
 		gamesListView = (ListView) findViewById(R.id.gamesList);
 		this.setUpGamesList();
 
 		//Navigation Drawer stuff
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        //Easier way to do drawer opening/closing
 		mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
@@ -81,12 +87,13 @@ public class MainActivity extends Activity {
                 super.onDrawerOpened(drawerView);
             }
         };
+
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-		// if not logged in
+		// if not logged in, login through Facebook
 		if (ParseUser.getCurrentUser() == null) {
 			Intent login = new Intent(MainActivity.this, FacebookActivity.class);
 			startActivityForResult(login, LOGIN_TRUE);
@@ -98,6 +105,8 @@ public class MainActivity extends Activity {
 		}
 	}
 
+
+    //For navigation drawer
 	@Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -105,12 +114,19 @@ public class MainActivity extends Activity {
         mDrawerToggle.syncState();
     }
 
+
+    //For naviagation drawer
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
-	
+
+
+    //Items that link (string - string) value pairs in a map
+    //Used for game list items
+    //Title is linked to key ITEM_TITLE
+    //Caption is linked to key ITEM_CAPTION
 	public Map<String,?> createItem(String title, String caption) {  
         Map<String,String> item = new HashMap<String,String>();  
         item.put(ITEM_TITLE, title);  
@@ -118,6 +134,9 @@ public class MainActivity extends Activity {
         return item;  
     }
 
+
+    //Create menu
+    //Populate navigation drawer
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -134,6 +153,8 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+
+    //For navigation drawer
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -141,7 +162,9 @@ public class MainActivity extends Activity {
 	    }
 		
 		int id = item.getItemId();
-		
+
+
+        //Open settings
 		if (id == R.id.action_settings) {
 			Intent intent = new Intent(this, SettingsActivity.class);
 			startActivity(intent);
@@ -162,41 +185,57 @@ public class MainActivity extends Activity {
 	 */
 	@SuppressLint("ResourceAsColor")
 	private void setUpGamesList() {
-		currentGames = new LinkedList<Map<String,?>>();
+
+        //Linked list of current games
+        currentGames = new LinkedList<Map<String,?>>();
 		currentGames.add(createItem("Example 1", "blah"));
         currentGames.add(createItem("Example 2", "blah"));
         currentGames.add(createItem("Example 3", "blah"));
-        
+
+
+        //Linked list of pending games
         pendingGames = new LinkedList<Map<String,?>>();
         pendingGames.add(createItem("Example 1", "blah"));
         pendingGames.add(createItem("Example 2", "blah"));
         pendingGames.add(createItem("Example 3", "blah"));
-        
+
+
+        //Linked list of completed games
         completedGames = new LinkedList<Map<String,?>>();
-        completedGames.add(createItem("Example 1", "blah"));
-        completedGames.add(createItem("Example 2", "blah"));
-        completedGames.add(createItem("Example 3", "blah"));
-		
+        completedGames.add(createItem("My Game", "Mccoy East"));
+        completedGames.add(createItem("His Game", "blah"));
+        completedGames.add(createItem("Her Game", "blah"));
+
+        //Make a new adapter for the game list
 		GameListAdapter gameListAdapter = new GameListAdapter(this);
 		
-		// Current Games
+		// Current Games, set up new adapter from linked list
 		SimpleAdapter currentGamesAdapter = new SimpleAdapter(this, currentGames, R.layout.game_list_adapter,
 	            new String[] { ITEM_TITLE, ITEM_CAPTION }, new int[] { R.id.gameName, R.id.description });
-		gameListAdapter.addSection("In Progress", currentGamesAdapter);
+
+        //Add current game adapter to game list adapter
+        gameListAdapter.addSection("In Progress", currentGamesAdapter);
 		
-		// Pending Games
+		// Pending Games, set up adapter from linked list
 		SimpleAdapter pendingGamesAdapter = new SimpleAdapter(this, pendingGames, R.layout.game_list_adapter,
 	            new String[] { ITEM_TITLE, ITEM_CAPTION }, new int[] { R.id.gameName, R.id.description });
-	    gameListAdapter.addSection("Pending", pendingGamesAdapter);
+
+        //Add pending game adapter to game list adapter
+        gameListAdapter.addSection("Pending", pendingGamesAdapter);
 		
-	    // Completed Games
+	    // Completed Games, set up adapter from linked list
 	    SimpleAdapter completedGamesAdapter = new SimpleAdapter(this, completedGames, R.layout.game_list_adapter,
 	            new String[] { ITEM_TITLE, ITEM_CAPTION }, new int[] { R.id.gameName, R.id.description });
-	    gameListAdapter.addSection("Complete", completedGamesAdapter);
 
+        //Add completed game adapter to game list adapter
+        gameListAdapter.addSection("Complete", completedGamesAdapter);
+
+        //Add adapter to game list, actually populates game list here
 		gamesListView.setAdapter(gameListAdapter);
 	}
 
+
+    //Allows us to use Dialogs in our activity
 	private void showDialog(char type) {
 		// TODO : stopService() when user leaves game, startService() when user enters game
 		// get prompts.xml view
@@ -235,6 +274,8 @@ public class MainActivity extends Activity {
 		alert.show();
 	}
 
+
+    //Sees if we have google play services available
 	private boolean isGooglePlayServicesAvailable() {
 		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 		if (ConnectionResult.SUCCESS == status) {
