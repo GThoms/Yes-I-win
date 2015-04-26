@@ -32,8 +32,7 @@ public class BlockActivity extends Activity {
     private String[] navItems;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    Button block;
-    TextView timeRemaining;
+    Button eliminate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +64,7 @@ public class BlockActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-        block = (Button) findViewById(R.id.block);
+        eliminate = (Button) findViewById(R.id.eliminate);
         buttonListeners();
     }
 
@@ -116,7 +115,7 @@ public class BlockActivity extends Activity {
     }
 
     public void buttonListeners() {
-        block.setOnTouchListener(new View.OnTouchListener() {
+        eliminate.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
@@ -124,18 +123,18 @@ public class BlockActivity extends Activity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     lp.height = px(68);
                     lp.topMargin = px(32);
-                    block.setLayoutParams(lp);
+                    eliminate.setLayoutParams(lp);
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     lp.topMargin = px(20);
                     lp.height = px(80);
-                    block.setLayoutParams(lp);
+                    eliminate.setLayoutParams(lp);
                 }
                 return false;
             }
         });
 
-        block.setOnClickListener(new View.OnClickListener() {
+        eliminate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ParsePush push = new ParsePush();
@@ -150,24 +149,4 @@ public class BlockActivity extends Activity {
         float dp = getResources().getDisplayMetrics().density;
         return Math.round(dips * dp);
     }
-    
-    /* Starts a timer at 30 second and ticks each second */
-    private void startTimer() {
-        /* TODO: TextView that tells you how much time you have left (declare in layout/activity_block) */
-        timeRemaining = (TextView) findViewById(R.id.timeRemaining);
-        CountDownTimer counter = new CountDownTimer(30000, 10) {
-        
-            public void onTick(long millisUntilFinished) {
-                timeRemaining.setText("Time remaining: " + (millisUntilFinished / 1000) + ":" + (millisUntilFinished % 1000));
-            }
-
-            public void onFinish() {
-                timeRemaining.setText("You've been eliminated");
-            }
-
-        }.start();
-    }
-    
-} // End activity
-
-
+}
