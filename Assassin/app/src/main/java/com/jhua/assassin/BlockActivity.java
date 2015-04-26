@@ -34,7 +34,9 @@ public class BlockActivity extends Activity {
     private String[] navItems;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    Button eliminate;
+    TextView timeRemaining;
+
+    Button block;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,7 @@ public class BlockActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-        eliminate = (Button) findViewById(R.id.eliminate);
+        block = (Button) findViewById(R.id.block);
         buttonListeners();
     }
 
@@ -117,7 +119,7 @@ public class BlockActivity extends Activity {
     }
 
     public void buttonListeners() {
-        eliminate.setOnTouchListener(new View.OnTouchListener() {
+        block.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
@@ -125,18 +127,18 @@ public class BlockActivity extends Activity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     lp.height = px(68);
                     lp.topMargin = px(32);
-                    eliminate.setLayoutParams(lp);
+                    block.setLayoutParams(lp);
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     lp.topMargin = px(20);
                     lp.height = px(80);
-                    eliminate.setLayoutParams(lp);
+                    block.setLayoutParams(lp);
                 }
                 return false;
             }
         });
 
-        eliminate.setOnClickListener(new View.OnClickListener() {
+        block.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ParsePush push = new ParsePush();
@@ -151,9 +153,6 @@ public class BlockActivity extends Activity {
         float dp = getResources().getDisplayMetrics().density;
         return Math.round(dips * dp);
     }
-<<<<<<< HEAD
-}
-=======
 
     /* Starts a timer at 30 second and ticks each second */
     private void startTimer() {
@@ -173,4 +172,4 @@ public class BlockActivity extends Activity {
     }
 
 } // End activity
->>>>>>> origin/master
+
