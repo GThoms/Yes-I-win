@@ -6,6 +6,7 @@ import android.util.Log;
 import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
@@ -25,6 +26,7 @@ public class App extends Application {
         Parse.enableLocalDatastore(this);
         ParseObject.registerSubclass(Game.class);
         Parse.initialize(this, "hxFZwmGDuKwt2BXEoyGTcPuPuFc8IJkx3eQD2DV4", "o3P37KBeAVP4970XyU0AXgrserg7qT6EEmI4J47r");
+        ParseFacebookUtils.initialize(getApplicationContext());
         ParseInstallation.getCurrentInstallation().saveInBackground();
 
         ParsePush.subscribeInBackground("", new SaveCallback() {

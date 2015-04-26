@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
@@ -29,8 +31,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.facebook.*;
+import com.parse.ParseUser;
 
 public class MainActivity extends Activity {
+
+	protected static final int LOGIN_TRUE = 1;
 
 	ListView gamesListView;
 	GameListAdapter gameListAdapter;
@@ -81,10 +86,18 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-		Intent test = new Intent(MainActivity.this, CreateGameActivity.class);
-		startActivity(test);
+		// if not logged in
+		if (ParseUser.getCurrentUser() == null) {
+			Intent login = new Intent(MainActivity.this, FacebookActivity.class);
+			startActivityForResult(login, LOGIN_TRUE);
+		}
+
+		// check google play services
+		if (!isGooglePlayServicesAvailable()) {
+			finish();
+		}
 	}
-	
+
 	@Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -136,6 +149,12 @@ public class MainActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	@Override
+	public void onDestroy() {
+		Intent service = new Intent(MainActivity.this, LocationService.class);
+		stopService(service);
+	}
 	
 	/**
 	 * Sets up the section headers and populates each section from database
@@ -178,7 +197,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void showDialog(char type) {
-
+		// TODO : stopService() when user leaves game, startService() when user enters game
 		// get prompts.xml view
 		LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
 
@@ -213,6 +232,16 @@ public class MainActivity extends Activity {
 		// create an alert dialog
 		AlertDialog alert = alertDialogBuilder.create();
 		alert.show();
+	}
+
+	private boolean isGooglePlayServicesAvailable() {
+		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		if (ConnectionResult.SUCCESS == status) {
+			return true;
+		} else {
+			GooglePlayServicesUtil.getErrorDialog(status, this, 0).show();
+			return false;
+		}
 	}
 
 }

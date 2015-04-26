@@ -13,37 +13,37 @@
     //Necessary Permissions
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-
-    <!--
-      IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
-      to match your app's package name + ".permission.C2D_MESSAGE".
-    -->
     <permission android:protectionLevel="signature"
-        android:name="com.jhua.assassin.permission.C2D_MESSAGE" />
-    <uses-permission android:name="com.jhua.assassin.permission.C2D_MESSAGE" />
+        android:name="jhua.com.assassin.permission.C2D_MESSAGE" />
+    <uses-permission android:name="jhua.com.assassin.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <android:uses-permission
+    <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".App">
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -59,8 +59,7 @@
         </activity>
         <activity
             android:name=".LeaderboardActivity"
-            android:label="@string/title_activity_leader_board"
-            >
+            android:label="@string/title_activity_leader_board" >
         </activity>
         <activity
             android:name=".StatsActivity"
@@ -71,6 +70,11 @@
             android:label="@string/title_activity_facebook" >
         </activity>
         <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
             android:name=".CreateGameActivity"
             android:label="@string/title_activity_create_game" >
         </activity>
@@ -79,13 +83,18 @@
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name="EliminateLeaderboard"
-            android:label="@string/title_activity_eliminate_leaderboard">
+            android:name=".EliminateLeaderboard"
+            android:label="@string/title_activity_eliminate_leaderboard" >
         </activity>
         <activity
-            android:name="RemainingLeaderboard"
-            android:label="@string/title_activity_remaining_leaderboard">
+            android:name=".RemainingLeaderboard"
+            android:label="@string/title_activity_remaining_leaderboard" >
         </activity>
+        <activity
+            android:name=".FacebookHashKey"
+            android:label="@string/title_activity_facebook_hash_key" >
+        </activity>
+        <service android:name=".LocationService" />
 
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.ParseBroadcastReceiver">
@@ -111,7 +120,7 @@
                 <!--
                   IMPORTANT: Change "com.parse.starter" to match your app's package name.
                 -->
-                <category android:name="com.jhua.assassin" />
+                <category android:name="jhua.com.assassin" />
             </intent-filter>
         </receiver>
 

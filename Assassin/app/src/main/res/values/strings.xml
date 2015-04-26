@@ -42,5 +42,6 @@
     <string name="days">Days</string>
     <string name="seconds">Seconds</string>
     <string name="yards">Yards</string>
+    <string name="title_activity_facebook_hash_key">FacebookHashKey</string>
 
 </resources>

@@ -20,11 +20,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.ParseFacebookUtils;
+
+import bolts.Task;
 
 public class FacebookActivity extends Activity {
 
@@ -68,14 +72,21 @@ public class FacebookActivity extends Activity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // fb login here
-            }
-        });
+                login();
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // do fb log in stuff
+                // subscribe to their own channel to get push notifications from assassin
+                // ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId());
+
+                // start service to get location
+                Intent intent = new Intent(FacebookActivity.this, LocationService.class);
+                startService(intent);
+
+                // back to main activity
+                if (ParseUser.getCurrentUser() != null) {
+                    finishActivity(MainActivity.LOGIN_TRUE);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -100,8 +111,18 @@ public class FacebookActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+    }
+
     private int px(float dips) {
         float dp = getResources().getDisplayMetrics().density;
         return Math.round(dips * dp);
+    }
+
+    private void login() {
+        // fb login here
     }
 }

@@ -10,6 +10,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -91,11 +92,14 @@ public class CreateGameActivity extends Activity {
         start.setTypeface(font_med);
         buttonListeners();
 
+        attackRadius = 1;
+        blockDuration = 10;
+        gameDuration = 14;
+
         gameDurationSpinner = (Spinner) findViewById(R.id.game_duration_spinner);
         blockDurationSpinner = (Spinner) findViewById(R.id.block_duration_spinner);
         attackRadiusSpinner = (Spinner) findViewById(R.id.attack_radius_spinner);
         spinnerListeners();
-
     }
 
     @Override
@@ -162,6 +166,22 @@ public class CreateGameActivity extends Activity {
     }
 
     private void spinnerListeners() {
+
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
+                R.array.game_duration, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gameDurationSpinner.setAdapter(adapter1);
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+                R.array.block_duration, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        blockDurationSpinner.setAdapter(adapter2);
+
+        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(this,
+                R.array.attack_radius, android.R.layout.simple_spinner_item);
+        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        attackRadiusSpinner.setAdapter(adapter3);
+
         gameDurationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -183,6 +203,7 @@ public class CreateGameActivity extends Activity {
                         break;
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -209,6 +230,7 @@ public class CreateGameActivity extends Activity {
                         break;
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -235,6 +257,7 @@ public class CreateGameActivity extends Activity {
                         break;
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -291,17 +314,21 @@ public class CreateGameActivity extends Activity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeGame();
-                Intent home = new Intent(CreateGameActivity.this, MainActivity.class);
-                startActivity(home);
+                if (makeGame()) {
+                    Intent home = new Intent(CreateGameActivity.this, MainActivity.class);
+                    startActivity(home);
+                }
             }
         });
     }
 
-    private void makeGame() {
+    private boolean makeGame() {
         gameTitle = (EditText) findViewById(R.id.game_title);
         String name = gameTitle.getText().toString();
-
+        if (name == "") {
+            Toast.makeText(getApplicationContext(), "Please enter a game name!", Toast.LENGTH_LONG).show();
+            return false;
+        }
         Game newGame = new Game();
         newGame.setGameName(name);
 
@@ -315,7 +342,13 @@ public class CreateGameActivity extends Activity {
         newGame.saveInBackground();
 
         // now give game to player here
-        ParseUser.getCurrentUser().addUnique("games", newGame);
+        // ParseUser.getCurrentUser().addUnique("games", newGame);
+        // give people targets here
+
+        // start the location service
+        Intent intent = new Intent(CreateGameActivity.this, LocationService.class);
+        startService(intent);
+        return true;
     }
 
     private void showDialog(final char type) {
@@ -343,15 +376,15 @@ public class CreateGameActivity extends Activity {
                     public void onClick(DialogInterface dialog, int id) {
                         if (type == 'g') {
                             EditText customGameDuration = (EditText) findViewById(R.id.game_duration_dialog_edit);
-                            gameDuration = Float.parseFloat(customGameDuration.getText().toString());
+                            // gameDuration = Float.parseFloat(customGameDuration.getText().toString());
                         }
                         else if (type == 'b') {
                             EditText customBlockDuration = (EditText) findViewById(R.id.block_duration_dialog_edit);
-                            blockDuration = Float.parseFloat(customBlockDuration.getText().toString());
+                            // blockDuration = Float.parseFloat(customBlockDuration.getText().toString());
                         }
                         else {
                             EditText customAttackRadius = (EditText) findViewById(R.id.attack_radius_dialog_edit);
-                            attackRadius = Float.parseFloat(customAttackRadius.getText().toString());
+                            // attackRadius = Float.parseFloat(customAttackRadius.getText().toString());
                         }
                     }
                 })
