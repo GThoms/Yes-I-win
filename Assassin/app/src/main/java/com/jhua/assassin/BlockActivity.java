@@ -34,8 +34,9 @@ public class BlockActivity extends Activity {
     private String[] navItems;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    Button block;
     TextView timeRemaining;
+
+    Button block;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,3 +172,4 @@ public class BlockActivity extends Activity {
     }
 
 } // End activity
+
