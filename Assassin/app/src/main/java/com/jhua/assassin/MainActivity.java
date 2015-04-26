@@ -152,6 +152,7 @@ public class MainActivity extends Activity {
 
 	@Override
 	public void onDestroy() {
+        super.onDestroy();
 		Intent service = new Intent(MainActivity.this, LocationService.class);
 		stopService(service);
 	}
