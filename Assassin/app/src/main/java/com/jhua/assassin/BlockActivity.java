@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.os.CountDownTimer;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -21,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.ParsePush;
 import com.parse.ParseUser;
@@ -119,7 +121,7 @@ public class BlockActivity extends Activity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) eliminate.getLayoutParams();
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) block.getLayoutParams();
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     lp.height = px(68);
                     lp.topMargin = px(32);
@@ -149,4 +151,26 @@ public class BlockActivity extends Activity {
         float dp = getResources().getDisplayMetrics().density;
         return Math.round(dips * dp);
     }
+<<<<<<< HEAD
 }
+=======
+
+    /* Starts a timer at 30 second and ticks each second */
+    private void startTimer() {
+        /* MADE TIME REMAINING -SCOTTY  */
+        timeRemaining = (TextView) findViewById(R.id.timeRemaining);
+        CountDownTimer counter = new CountDownTimer(30000, 10) {
+
+            public void onTick(long millisUntilFinished) {
+                timeRemaining.setText("Time remaining: " + (millisUntilFinished / 1000) + ":" + (millisUntilFinished % 1000));
+            }
+
+            public void onFinish() {
+                timeRemaining.setText("You've been eliminated");
+            }
+
+        }.start();
+    }
+
+} // End activity
+>>>>>>> origin/master
