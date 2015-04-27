@@ -22,21 +22,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-
-<<<<<<< HEAD
 import java.util.List;
 
-=======
-
 //Shows your target, allows you to eliminate if in range
->>>>>>> origin/master
+
 public class TargetActivity extends Activity {
 
 
