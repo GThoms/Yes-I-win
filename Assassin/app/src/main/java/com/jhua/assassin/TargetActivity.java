@@ -30,15 +30,11 @@ import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-<<<<<<< HEAD
 import java.util.List;
 
-=======
-
 //Shows your target, allows you to eliminate if in range
->>>>>>> origin/master
-public class TargetActivity extends Activity {
 
+public class TargetActivity extends Activity {
 
     //Navigation drawer items
     private DrawerLayout mDrawerLayout;
@@ -82,6 +78,7 @@ public class TargetActivity extends Activity {
         eliminate = (Button) findViewById(R.id.eliminate);
         buttonListeners();
 
+        /*
         ParseQuery<ParseUser> query = ParseQuery.getQuery("Player");
         query.whereEqualTo("fbId", ParseUser.getCurrentUser().get("target"));
         query.findInBackground(new FindCallback<ParseUser>() {
@@ -93,6 +90,7 @@ public class TargetActivity extends Activity {
                 }
             }
         });
+        */
     }
 
 

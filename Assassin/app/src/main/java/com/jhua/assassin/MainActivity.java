@@ -94,17 +94,11 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-<<<<<<< HEAD
-		// if not logged in
-=======
-
-
 		// test
 		//Intent test = new Intent(MainActivity.this, FacebookKeyHash.class);
 		//startActivity(test);
 
         // if not logged in, login through Facebook
->>>>>>> origin/master
 		if (ParseUser.getCurrentUser() == null) {
 			Intent login = new Intent(MainActivity.this, FacebookActivity.class);
 			startActivity(login);
@@ -116,6 +110,9 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	protected void onResume(Bundle savedInstanceState) {
+
+	}
 
     //For navigation drawer
 	@Override

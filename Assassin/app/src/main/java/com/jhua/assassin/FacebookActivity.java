@@ -96,13 +96,9 @@ public class FacebookActivity extends Activity {
                 startService(intent);
 
                 // back to main activity if we are logged in now
-                if (ParseUser.getCurrentUser() != null) {
-                    finish();
-                }
+                finish();
             }
         });
-<<<<<<< HEAD
-=======
 
     }
 
@@ -127,7 +123,7 @@ public class FacebookActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
->>>>>>> origin/master
+
     }
 
     @Override
