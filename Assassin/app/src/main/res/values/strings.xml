@@ -43,5 +43,6 @@
     <string name="seconds">Seconds</string>
     <string name="yards">Yards</string>
     <string name="title_activity_facebook_hash_key">FacebookHashKey</string>
+    <string name="title_activity_logout">LogoutActivity</string>
 
 </resources>

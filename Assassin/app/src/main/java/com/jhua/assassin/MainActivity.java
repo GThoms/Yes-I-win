@@ -35,7 +35,7 @@ import com.parse.ParseUser;
 
 public class MainActivity extends Activity {
 
-	protected static final int LOGIN_TRUE = 1;
+	protected static final int LOGIN_OK = 1;
 
 	ListView gamesListView;
 	GameListAdapter gameListAdapter;
@@ -86,14 +86,10 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-		// test
-		Intent test = new Intent(MainActivity.this, FacebookKeyHash.class);
-		startActivity(test);
-
 		// if not logged in
 		if (ParseUser.getCurrentUser() == null) {
 			Intent login = new Intent(MainActivity.this, FacebookActivity.class);
-			startActivityForResult(login, LOGIN_TRUE);
+			startActivity(login);
 		}
 
 		// check google play services

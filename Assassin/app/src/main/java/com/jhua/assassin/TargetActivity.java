@@ -13,6 +13,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -22,8 +23,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParsePush;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 public class TargetActivity extends Activity {
 
@@ -66,6 +73,18 @@ public class TargetActivity extends Activity {
 
         eliminate = (Button) findViewById(R.id.eliminate);
         buttonListeners();
+
+        ParseQuery<ParseUser> query = ParseQuery.getQuery("Player");
+        query.whereEqualTo("fbId", ParseUser.getCurrentUser().get("target"));
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> scoreList, ParseException e) {
+                if (e == null) {
+                    Log.d("score", "Retrieved " + scoreList.size() + " scores");
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
     }
 
 

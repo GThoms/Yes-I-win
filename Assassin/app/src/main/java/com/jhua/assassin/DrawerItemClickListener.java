@@ -20,28 +20,28 @@ public class DrawerItemClickListener implements OnItemClickListener {
 	private void selectItem(int position, Context context) {
 		switch (position) {
 			case 0:
-				//
-				break;
-			case 1:
 				Intent target = new Intent(context, TargetActivity.class);
 				context.startActivity(target);
 				break;
-			case 2:
+			case 1:
 				Intent stats = new Intent(context, StatsActivity.class);
 				context.startActivity(stats);
 				break;
-			case 3:
+			case 2:
 				Intent leader = new Intent(context, LeaderboardActivity.class);
 				context.startActivity(leader);
 				break;
-			case 4:
+			case 3:
 				Intent main = new Intent(context, MainActivity.class);
 				context.startActivity(main);
 				break;
-			case 5:
+			case 4:
 				Intent create = new Intent(context, CreateGameActivity.class);
 				context.startActivity(create);
 				break;
+			case 5:
+				Intent logout = new Intent(context, LogoutActivity.class);
+				context.startActivity(logout);
 			default:
 				Log.d("e", "Oops");
 		}

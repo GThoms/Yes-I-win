@@ -31,9 +31,9 @@ import com.parse.ParseFacebookUtils;
 
 import bolts.Task;
 
-public class FacebookActivity extends Activity {
+public class LogoutActivity extends Activity {
 
-    private Button login;
+    private Button logout;
     private Typeface font_light;
     private Typeface font_med;
 
@@ -48,43 +48,41 @@ public class FacebookActivity extends Activity {
         TextView notlog = (TextView) findViewById(R.id.fb_text);
         notlog.setTypeface(font_light);
 
-        login = (Button) findViewById(R.id.login_button);
-        login.setTypeface(font_med);
+        logout = (Button) findViewById(R.id.logout_button);
+        logout.setTypeface(font_med);
 
-        login.setOnTouchListener(new View.OnTouchListener() {
+        logout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) login.getLayoutParams();
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) logout.getLayoutParams();
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     lp.height = px(68);
                     lp.topMargin = px(32);
-                    login.setLayoutParams(lp);
+                    logout.setLayoutParams(lp);
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     lp.topMargin = px(20);
                     lp.height = px(80);
-                    login.setLayoutParams(lp);
+                    logout.setLayoutParams(lp);
                 }
                 return false;
             }
         });
 
-        login.setOnClickListener(new View.OnClickListener() {
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                logout();
 
-                // subscribe to their own channel to get push notifications from assassin
-                // ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId());
+                // stop service to get location
+                Intent service = new Intent(LogoutActivity.this, LocationService.class);
+                stopService(service);
 
-                // start service to get location
-                Intent intent = new Intent(FacebookActivity.this, LocationService.class);
-                startService(intent);
-
-                // back to main activity
-                if (ParseUser.getCurrentUser() != null) {
-                    finish();
+                // back to login activity
+                if (ParseUser.getCurrentUser() == null) {
+                    Intent login = new Intent(LogoutActivity.this, FacebookActivity.class);
+                    startActivity(login);
                 }
             }
         });
@@ -101,20 +99,8 @@ public class FacebookActivity extends Activity {
         return Math.round(dips * dp);
     }
 
-    private void login() {
-        // fb login here
-        ParseFacebookUtils.logInWithReadPermissionsInBackground(this, null, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException err) {
-                if (user == null) {
-                    Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-                } else if (user.isNew()) {
-                    Log.d("MyApp", "User signed up and logged in through Facebook!");
-                } else {
-                    Log.d("MyApp", "User logged in through Facebook!");
-                }
-                ParseFacebookUtils.linkInBackground(user, AccessToken.getCurrentAccessToken());
-            }
-        });
+    private void logout() {
+        // fb logout here
+        ParseUser.logOut();
     }
 }
