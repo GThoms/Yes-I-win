@@ -9,6 +9,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import android.app.Activity;
 
+
+//What happens when a navigation object is clicked anywhere in the application
 public class DrawerItemClickListener implements OnItemClickListener {
 
 	@Override

@@ -21,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+//Adapter for game list
 public class GameListAdapter extends BaseAdapter {
 
 	public final Map<String,Adapter> sections = new LinkedHashMap<String,Adapter>();
@@ -32,7 +33,9 @@ public class GameListAdapter extends BaseAdapter {
 		this.context = context;
 		headers = new ArrayAdapter<String>(context, R.layout.list_header);
 	}
-	
+
+
+    //Add completed, pending etc. adapters to this adapter
 	public void addSection(String section, Adapter adapter) {
 		this.headers.add(section);
 		this.sections.put(section, adapter);		
@@ -174,6 +177,8 @@ public class GameListAdapter extends BaseAdapter {
 		}
 	}
 
+
+    //Sets up dialogs for if we need them
 	private static void showDialog(char type) {
 
 		// get prompts.xml view
