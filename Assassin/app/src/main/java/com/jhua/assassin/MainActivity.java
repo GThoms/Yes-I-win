@@ -19,7 +19,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.parse.Parse;
@@ -38,7 +37,7 @@ import com.parse.ParseUser;
 //Main activity of the app
 public class MainActivity extends Activity {
 
-	protected static final int LOGIN_TRUE = 1;
+	protected static final int LOGIN_OK = 1;
 
     //GamesList Adapters and objects
 	ListView gamesListView;
@@ -98,16 +97,20 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
+<<<<<<< HEAD
+		// if not logged in
+=======
 
 
 		// test
-		//Intent test = new Intent(MainActivity.this, FacebookKeyHash.class);
-		//startActivity(test);
+		Intent test = new Intent(MainActivity.this, FacebookKeyHash.class);
+		startActivity(test);
 
         // if not logged in, login through Facebook
+>>>>>>> origin/master
 		if (ParseUser.getCurrentUser() == null) {
 			Intent login = new Intent(MainActivity.this, FacebookActivity.class);
-			startActivityForResult(login, LOGIN_TRUE);
+			startActivity(login);
 		}
 
 		// check google play services
@@ -296,13 +299,5 @@ public class MainActivity extends Activity {
 			return false;
 		}
 	}
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Logs 'install' and 'app activate' App Events.
-        AppEventsLogger.activateApp(this);
-    }
 
 }

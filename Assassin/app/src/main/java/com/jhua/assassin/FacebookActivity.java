@@ -97,12 +97,12 @@ public class FacebookActivity extends Activity {
 
                 // back to main activity if we are logged in now
                 if (ParseUser.getCurrentUser() != null) {
-                    finishActivity(MainActivity.LOGIN_TRUE);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
         });
+<<<<<<< HEAD
+=======
 
     }
 
@@ -127,6 +127,7 @@ public class FacebookActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+>>>>>>> origin/master
     }
 
     @Override
