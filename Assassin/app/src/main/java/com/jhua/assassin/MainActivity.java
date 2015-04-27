@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.parse.Parse;
@@ -94,8 +95,8 @@ public class MainActivity extends Activity {
         getActionBar().setHomeButtonEnabled(true);
 
 		// test
-		Intent test = new Intent(MainActivity.this, FacebookKeyHash.class);
-		startActivity(test);
+		// Intent test = new Intent(MainActivity.this, FacebookKeyHash.class);
+		// startActivity(test);
 
         // if not logged in, login through Facebook
 		if (ParseUser.getCurrentUser() == null) {
@@ -110,7 +111,10 @@ public class MainActivity extends Activity {
 	}
 
 	protected void onResume(Bundle savedInstanceState) {
+		super.onResume();
 
+		// Logs install and app activate App Event
+		AppEventsLogger.activateApp(this);
 	}
 
     //For navigation drawer
