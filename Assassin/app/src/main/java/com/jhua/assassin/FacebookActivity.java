@@ -101,8 +101,6 @@ public class FacebookActivity extends Activity {
                 }
             }
         });
-<<<<<<< HEAD
-=======
 
     }
 
@@ -127,7 +125,6 @@ public class FacebookActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
->>>>>>> origin/master
     }
 
     @Override
