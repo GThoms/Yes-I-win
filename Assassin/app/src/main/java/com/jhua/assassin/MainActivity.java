@@ -34,6 +34,8 @@ import java.util.Map;
 import com.facebook.*;
 import com.parse.ParseUser;
 
+
+//Main activity of the app
 public class MainActivity extends Activity {
 
 	protected static final int LOGIN_TRUE = 1;
@@ -47,7 +49,9 @@ public class MainActivity extends Activity {
 
 	public final static String ITEM_TITLE = "title";  
     public final static String ITEM_CAPTION = "caption";
-    
+
+
+    //Navigation drawer stuff
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private String[] navItems;

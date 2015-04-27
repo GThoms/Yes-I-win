@@ -29,39 +29,48 @@ import android.widget.Toast;
 import com.jhua.assassin.R;
 import com.parse.ParseUser;
 
+
+//Create a new game
 public class CreateGameActivity extends Activity {
 
+    //Navigation drawer
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private String[] navItems;
     private ActionBarDrawerToggle mDrawerToggle;
-    
+
+    //PRETTY FONTS
     private Typeface font_med;
     private Typeface font_reg;
 
+
+    //XML Buttons
     private Button add;
     private Button start;
 
+    //Setting spinners
     private EditText gameTitle;
     private Spinner gameDurationSpinner;
     private Spinner blockDurationSpinner;
     private Spinner attackRadiusSpinner;
 
+    //Settings
     private float gameDuration; // in days
     private float blockDuration; // in seconds
     private float attackRadius; // in yards
 
+    //Create activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
 
-        // font
+        //PRETTY FONTS
         font_med = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Medium.ttf");
         font_reg = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
         setFonts();
 
-        // Navigation drawer
+        //Navigation Drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
