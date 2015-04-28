@@ -199,23 +199,23 @@ public class MainActivity extends Activity {
 
         //Linked list of current games
         currentGames = new LinkedList<Map<String,?>>();
-		currentGames.add(createItem("Example 1", "blah"));
-        currentGames.add(createItem("Example 2", "blah"));
-        currentGames.add(createItem("Example 3", "blah"));
+		currentGames.add(createItem("Example 1", "McCoy 6th Floor"));
+        currentGames.add(createItem("Example 2", "WiCS"));
+        currentGames.add(createItem("Example 3", "Awesome Game"));
 
 
         //Linked list of pending games
         pendingGames = new LinkedList<Map<String,?>>();
-        pendingGames.add(createItem("Example 1", "blah"));
-        pendingGames.add(createItem("Example 2", "blah"));
-        pendingGames.add(createItem("Example 3", "blah"));
+        pendingGames.add(createItem("Example 1", "UIMA Crew"));
+        pendingGames.add(createItem("Example 2", "Wolman 4 East!!!"));
+        pendingGames.add(createItem("Example 3", "APO"));
 
 
         //Linked list of completed games
         completedGames = new LinkedList<Map<String,?>>();
         completedGames.add(createItem("My Game", "Mccoy East"));
-        completedGames.add(createItem("His Game", "blah"));
-        completedGames.add(createItem("Her Game", "blah"));
+        completedGames.add(createItem("His Game", "cool game 4 cool peeps"));
+        completedGames.add(createItem("Her Game", "Joanne & friends"));
 
         //Make a new adapter for the game list
 		GameListAdapter gameListAdapter = new GameListAdapter(this);
