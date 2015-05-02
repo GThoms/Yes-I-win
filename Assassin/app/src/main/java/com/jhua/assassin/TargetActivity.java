@@ -90,6 +90,30 @@ public class TargetActivity extends Activity {
         });
     }
 
+    //Calculate distance between two latitude/longitude points
+    public double calculateDistance(double currentLatitude, double currentLongitude, double targetLatitude, double targetLongitude){
+
+        //Calculate distance from latitude/longitude
+        //Formula from http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
+        int R = 6371; // Radius of the earth in km
+        double dLat = deg2rad(targetLatitude-currentLatitude);  // deg2rad below
+        double dLon = deg2rad(targetLongitude-currentLongitude);
+        double a =
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                        Math.cos(deg2rad(currentLatitude)) * Math.cos(deg2rad(targetLatitude)) *
+                                Math.sin(dLon/2) * Math.sin(dLon/2)
+                ;
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double d = R * c; // Distance in km
+
+
+        return d;
+
+    }
+
+    public double deg2rad(double deg) {
+        return deg * (Math.PI/180);
+    }
 
     //For navigation drawer
     @Override

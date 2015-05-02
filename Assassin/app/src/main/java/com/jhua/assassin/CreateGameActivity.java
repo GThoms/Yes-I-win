@@ -95,22 +95,32 @@ public class CreateGameActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
+        //Store XML Buttons
         add = (Button) findViewById(R.id.add_friends);
         add.setTypeface(font_med);
         start = (Button) findViewById(R.id.start);
         start.setTypeface(font_med);
+
+        //Set listeners to XML buttons
         buttonListeners();
 
+
+        //Default setting vaules
         attackRadius = 1;
         blockDuration = 10;
         gameDuration = 14;
 
+        //store spinners
         gameDurationSpinner = (Spinner) findViewById(R.id.game_duration_spinner);
         blockDurationSpinner = (Spinner) findViewById(R.id.block_duration_spinner);
         attackRadiusSpinner = (Spinner) findViewById(R.id.attack_radius_spinner);
+
+        //Set listeners to spinners
         spinnerListeners();
     }
 
+
+    //Navigation toggle
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -118,12 +128,15 @@ public class CreateGameActivity extends Activity {
         mDrawerToggle.syncState();
     }
 
+
+    //Navigation Toggle
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    //Populate settings and navigation list
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -140,6 +153,7 @@ public class CreateGameActivity extends Activity {
         return true;
     }
 
+    //If settings selected, what happens
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -156,11 +170,15 @@ public class CreateGameActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    //Turns dps to pixels
     private int px(float dips) {
         float dp = getResources().getDisplayMetrics().density;
         return Math.round(dips * dp);
     }
 
+
+    //Sets fonts of textviews in XML
     private void setFonts() {
 
         TextView game_t = (TextView) findViewById(R.id.textView3);
@@ -174,24 +192,34 @@ public class CreateGameActivity extends Activity {
         atck_r.setTypeface(font_reg);
     }
 
+    //Listens to spinners and reacts when selected
     private void spinnerListeners() {
 
+
+        //Adapter for Game Duration Spinner
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
                 R.array.game_duration, android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gameDurationSpinner.setAdapter(adapter1);
 
+
+        //Adapter for Block Duration Spinner
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.block_duration, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         blockDurationSpinner.setAdapter(adapter2);
 
+        //Adapter for attack radius Spinner
         ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(this,
                 R.array.attack_radius, android.R.layout.simple_spinner_item);
         adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         attackRadiusSpinner.setAdapter(adapter3);
 
+
+        //Listener for Game duration spinner
         gameDurationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            //When we select an item
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
@@ -218,6 +246,8 @@ public class CreateGameActivity extends Activity {
             }
         });
 
+
+        //Listener for block duration spinner
         blockDurationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -245,6 +275,7 @@ public class CreateGameActivity extends Activity {
             }
         });
 
+        //Listener for attack radius spinner
         attackRadiusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -273,8 +304,12 @@ public class CreateGameActivity extends Activity {
         });
     }
 
+
+    //Listeners for XML buttons
     private void buttonListeners() {
 
+
+        //When press add, show button motions
         add.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -294,6 +329,7 @@ public class CreateGameActivity extends Activity {
             }
         });
 
+        //When add is pressed
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -301,6 +337,8 @@ public class CreateGameActivity extends Activity {
             }
         });
 
+
+        //When start is pressed, show button depressed/unpressed
         start.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -320,6 +358,8 @@ public class CreateGameActivity extends Activity {
             }
         });
 
+
+        //Make game, go back to home screen
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -331,23 +371,35 @@ public class CreateGameActivity extends Activity {
         });
     }
 
+
+    //Makes the game when start button is pressed
     private boolean makeGame() {
+
+        //Store game title
         gameTitle = (EditText) findViewById(R.id.game_title);
         String name = gameTitle.getText().toString();
+
+        //Wont work if no name is inputted
         if (name == "") {
             Toast.makeText(getApplicationContext(), "Please enter a game name!", Toast.LENGTH_LONG).show();
             return false;
         }
-        Game newGame = new Game();
-        newGame.setGameName(name);
 
+
+        //Parse Game object
+        Game newGame = new Game();
+
+        //Set relevant object fields for Game
+        newGame.setGameName(name);
         newGame.setGameDuration(gameDuration);
         newGame.setBlockDuration(blockDuration);
         newGame.setAttackRadius(attackRadius);
 
+        //Unimplemented player adding
         newGame.addPlayer("player1");
         newGame.addPlayer("player2");
 
+        //Saves the new parse object
         newGame.saveInBackground();
 
         // now give game to player here
@@ -360,6 +412,8 @@ public class CreateGameActivity extends Activity {
         return true;
     }
 
+
+    //Allows us to use dialogs
     private void showDialog(final char type) {
 
         // get prompts.xml view
