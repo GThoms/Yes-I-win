@@ -14,19 +14,26 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-
 public class LoginActivity extends ActionBarActivity {
+
+    Button login_button;
+    Button sign_up;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Button login = (Button) findViewById(R.id.button);
-        login.setOnClickListener(new View.OnClickListener() {
+        login_button = (Button) findViewById(R.id.login_button);
+        sign_up = (Button) findViewById(R.id.sign_up_button);
+        buttonListeners();
+    }
+
+    public void buttonListeners() {
+        login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                attemptlogin();
+                login();
             }
         });
 
@@ -40,14 +47,8 @@ public class LoginActivity extends ActionBarActivity {
         });
     }
 
-    private void attemptlogin() {
-        EditText uname = (EditText) findViewById(R.id.editText);
-        EditText pword = (EditText) findViewById(R.id.editText2);
-
-        String name = uname.getText().toString();
-        String pass = uname.getText().toString();
-
-        ParseUser.logInInBackground(name, pass, new LogInCallback() {
+    public void login() {
+        ParseUser.logInInBackground("Jerry", "showmethemoney", new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
                     // Hooray! The user is logged in.
