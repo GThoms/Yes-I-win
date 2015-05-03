@@ -23,6 +23,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -35,9 +37,18 @@ import java.util.List;
 
 public class TargetActivity extends Activity {
 
-
+    //Locations of current user and target
     Location currentLocation;
     Location targetLocation;
+
+    //Game settings
+    int attackRadius;
+
+    //Target of the current ParseUser
+    ParseUser target;
+
+    //Current Game
+    Game game;
 
     //Navigation drawer items
     private DrawerLayout mDrawerLayout;
@@ -45,7 +56,7 @@ public class TargetActivity extends Activity {
     private String[] navItems;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    ParseUser target;
+
 
     Button eliminate;
 
@@ -88,7 +99,22 @@ public class TargetActivity extends Activity {
         currentLocation = (Location) ParseUser.getCurrentUser().get("location");
         targetLocation = (Location) target.get("location");
 
-        //compareDistance();
+        //Store game of the current player
+        game = (Game) ParseUser.getCurrentUser().get("game");
+
+        //Store attack radius
+        attackRadius = game.getInt("attackRadius");
+
+        //Within distance
+        if (compareDistance() == true) {
+
+            Toast.makeText(getApplicationContext(), "Target Within Range!", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            Toast.makeText(getApplicationContext(), "Target Not within Range!", Toast.LENGTH_SHORT).show();
+
+        }
 
 
         /*
@@ -106,8 +132,12 @@ public class TargetActivity extends Activity {
         */
     }
 
-    //Calculate distance between two latitude/longitude points
-    public double calculateDistance(double currentLatitude, double currentLongitude, double targetLatitude, double targetLongitude){
+
+    public boolean compareDistance() {
+        double currentLongitude = currentLocation.getLongitude();
+        double currentLatitude = currentLocation.getLatitude();
+        double targetLongitude = targetLocation.getLongitude();
+        double targetLatitude = targetLocation.getLatitude();
 
         //Calculate distance from latitude/longitude
         //Formula from http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
@@ -122,7 +152,32 @@ public class TargetActivity extends Activity {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         double d = R * c; // Distance in km
 
-        return d;
+
+        if (d < attackRadius) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    //Refreshes locations stored in activity from locations of ParseUsers
+    public void refreshLocations() {
+        currentLocation = (Location) ParseUser.getCurrentUser().get("location");
+        targetLocation = (Location) target.get("location");
+
+        //Within distance
+        if (compareDistance() == true) {
+
+            Toast.makeText(getApplicationContext(), "Target Within Range!", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            Toast.makeText(getApplicationContext(), "Target Not within Range!", Toast.LENGTH_SHORT).show();
+
+        }
+
+
     }
 
     public double deg2rad(double deg) {
@@ -175,6 +230,11 @@ public class TargetActivity extends Activity {
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
+            return true;
+        }
+
+        if (id == R.id.action_refresh) {
+            refreshLocations();
             return true;
         }
         return super.onOptionsItemSelected(item);
