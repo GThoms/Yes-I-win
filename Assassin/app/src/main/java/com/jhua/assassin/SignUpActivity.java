@@ -13,11 +13,15 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import java.util.ArrayList;
+
 public class SignUpActivity extends ActionBarActivity {
 
     EditText username;
     EditText password;
     EditText c_password;
+    EditText email;
+    EditText name;
 
     Button sign_up;
 
@@ -29,6 +33,8 @@ public class SignUpActivity extends ActionBarActivity {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         c_password = (EditText) findViewById(R.id.c_password);
+        email = (EditText) findViewById(R.id.email);
+        name = (EditText) findViewById(R.id.name);
 
         sign_up = (Button) findViewById(R.id.sign_up);
         sign_up.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +75,12 @@ public class SignUpActivity extends ActionBarActivity {
         ParseUser user = new ParseUser();
         user.setUsername(username.getText().toString());
         user.setPassword(password.getText().toString());
+        user.setEmail(email.getText().toString());
+        user.put("name", name.getText().toString());
+
+        user.put("currentGames", new ArrayList<Game>());
+        user.put("pendingGames", new ArrayList<Game>());
+        user.put("completedGames", new ArrayList<Game>());
 
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {

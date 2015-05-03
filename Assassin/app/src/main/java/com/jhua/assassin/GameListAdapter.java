@@ -90,7 +90,14 @@ public class GameListAdapter extends BaseAdapter {
 					rightIcon.setImageResource(R.drawable.exit);
 	            	rightIcon.setOnClickListener(new currentGamesListener(context));
 				} else if (sectionnum == 1) {
-					
+					// Pending games
+					// If created by currentUser, set to start, else set to accept
+					ParseUser user = ParseUser.getCurrentUser();
+					//if (user == game.creator) {
+						rightIcon.setImageResource(R.drawable.start);
+						rightIcon.setOnClickListener(new pendingGamesCreatorListener(context);
+					//}
+					rightIcon.setImageResource(R.drawable.accept);
 					rightIcon.setOnClickListener(new pendingGamesListener(context));
 				} else {
 					rightIcon.setOnClickListener(new completedGamesListener(context));
@@ -166,6 +173,18 @@ public class GameListAdapter extends BaseAdapter {
 			showDialog('p');
 		}
 	}
+	
+	public static class pendingGamesCreatorListener implements OnClickListener {
+		Context context;
+		public pendingGamesCreatorListener(Context context) {
+			this.context = context;
+		}
+
+		@Override
+		public void onClick(View v) {
+			showDialog('s');
+		}
+	}
 
 	public static class completedGamesListener implements OnClickListener {
 		Context context;
@@ -192,8 +211,9 @@ public class GameListAdapter extends BaseAdapter {
 		}
 		else if (type == 'a') { // active
 			promptView = layoutInflater.inflate(R.layout.leave_dialog, null);
-		}
-		else { // inactive
+		} else if (type == 's') {
+			promptView = layoutInflater.inflate(R.layout.start_dialog, null);
+		} else { // inactive
 			promptView = layoutInflater.inflate(R.layout.delete_dialog, null);
 		}
 
