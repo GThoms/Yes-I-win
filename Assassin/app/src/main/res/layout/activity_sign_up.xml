@@ -84,11 +84,22 @@
     </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         android:text="Sign Up"
-        android:id="@+id/button"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:paddingBottom="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@drawable/green_button_states"
+        android:layout_gravity="center_vertical"
+        android:textSize="24sp"
+        android:layout_weight="0"
+        android:layout_marginTop="54dp"
         android:layout_below="@+id/linearLayout2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp" />
+        android:layout_marginLeft="50dp" />
+
 </RelativeLayout>
