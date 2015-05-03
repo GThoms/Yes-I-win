@@ -62,10 +62,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-        //initialize parse for this application using our specific hash keys
-		Parse.initialize(this, "hxFZwmGDuKwt2BXEoyGTcPuPuFc8IJkx3eQD2DV4", "o3P37KBeAVP4970XyU0AXgrserg7qT6EEmI4J47r");
-		ParseInstallation.getCurrentInstallation().saveInBackground();
-
         //Setting up games list
 		gamesListView = (ListView) findViewById(R.id.gamesList);
 		this.setUpGamesList();
