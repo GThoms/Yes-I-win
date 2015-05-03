@@ -390,8 +390,16 @@ public class CreateGameActivity extends Activity {
         newGame.setAttackRadius(attackRadius);
 
         //Unimplemented player adding
-        newGame.addPlayer("player1");
-        newGame.addPlayer("player2");
+        // Make ArrayList<ParseUser> with all the users added via some dialog or something
+        // Add this list to parse
+        ArrayList<ParseUser> players = addPlayers();
+        newGame.addPlayers(players);
+        //newGame.addPlayer("player1");
+        //newGame.addPlayer("player2");
+        // Set targets from player list
+        ArrayList<ParseUser> targets = ParseUser.getCurrentUser().get("players");
+        Collections.shuffle(targets);
+        newGame.setTargets(targets);
 
         //Saves the new parse object
         newGame.saveInBackground();
@@ -455,5 +463,14 @@ public class CreateGameActivity extends Activity {
         // create an alert dialog
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
+    }
+    
+    /**
+     * Add players from a set list of friends, return arraylist of users
+    **/
+    private ArrayList<ParseUser> addPlayers() {
+        ArrayList<ParseUser> friendsAdded = new ArrayList<ParseUser>();
+        // some code that accesses ParseUser's friends
+        return friendsAdded;
     }
 }
