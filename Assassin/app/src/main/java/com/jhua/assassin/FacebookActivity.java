@@ -88,6 +88,8 @@ public class FacebookActivity extends Activity {
                 //Login!
                 login();
 
+
+
                 // subscribe to their own channel to get push notifications from assassin
                 // ParsePush.subscribeInBackground(ParseUser.getCurrentUser().getObjectId());
 
