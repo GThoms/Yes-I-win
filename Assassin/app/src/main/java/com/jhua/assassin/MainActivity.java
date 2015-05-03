@@ -66,6 +66,11 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		if (ParseUser.getCurrentUser() == null) {
+			Intent login = new Intent(MainActivity.this, LoginActivity.class);
+			startActivity(login);
+		}
+
         //Setting up games list
 		gamesListView = (ListView) findViewById(R.id.gamesList);
 		this.setUpGamesList();
@@ -103,11 +108,6 @@ public class MainActivity extends Activity {
 		// startActivity(test);
 
         // if not logged in, login through Facebook
-
-		if (ParseUser.getCurrentUser() == null) {
-			Intent login = new Intent(MainActivity.this, FacebookActivity.class);
-			startActivity(login);
-		}
 
 		// check google play services
 		if (!isGooglePlayServicesAvailable()) {
