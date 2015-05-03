@@ -43,7 +43,6 @@ public class CreateGameActivity extends Activity {
     private Typeface font_med;
     private Typeface font_reg;
 
-
     //XML Buttons
     private Button add;
     private Button start;
@@ -117,7 +116,6 @@ public class CreateGameActivity extends Activity {
         //Set listeners to spinners
         spinnerListeners();
     }
-
 
     //Navigation toggle
     @Override

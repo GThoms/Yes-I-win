@@ -106,9 +106,7 @@ public class TargetActivity extends Activity {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         double d = R * c; // Distance in km
 
-
         return d;
-
     }
 
     public double deg2rad(double deg) {
