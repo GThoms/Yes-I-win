@@ -92,8 +92,8 @@ public class GameListAdapter extends BaseAdapter {
 				} else if (sectionnum == 1) {
 					// Pending games
 					// If created by currentUser, set to start, else set to accept
-					String userName = ParseUser.getCurrentUser().get("userName");
-					//if (userName.equals(game.getString("creator"))) {
+					ParseUser user = ParseUser.getCurrentUser();
+					//if (user == game.creator) {
 						rightIcon.setImageResource(R.drawable.start);
 						rightIcon.setOnClickListener(new pendingGamesCreatorListener(context);
 					//}
