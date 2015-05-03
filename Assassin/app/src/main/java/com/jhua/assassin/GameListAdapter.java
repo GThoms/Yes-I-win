@@ -21,6 +21,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.parse.ParseUser;
+
 //Adapter for game list
 public class GameListAdapter extends BaseAdapter {
 
@@ -95,9 +97,9 @@ public class GameListAdapter extends BaseAdapter {
 					ParseUser user = ParseUser.getCurrentUser();
 					//if (user == game.creator) {
 						rightIcon.setImageResource(R.drawable.start);
-						rightIcon.setOnClickListener(new pendingGamesCreatorListener(context);
+						rightIcon.setOnClickListener(new pendingGamesCreatorListener(context));
 					//}
-					rightIcon.setImageResource(R.drawable.accept);
+					// rightIcon.setImageResource(R.drawable.accept);
 					rightIcon.setOnClickListener(new pendingGamesListener(context));
 				} else {
 					rightIcon.setOnClickListener(new completedGamesListener(context));

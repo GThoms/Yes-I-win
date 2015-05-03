@@ -52,8 +52,7 @@ public class MainActivity extends Activity {
     public final static String ITEM_CAPTION = "caption";
 
     //Current User
-    ParseUser user = ParseUser.getCurrentUser();
-
+    ParseUser user;
 
     //Navigation drawer stuff
 	private DrawerLayout mDrawerLayout;
@@ -66,14 +65,16 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		if (ParseUser.getCurrentUser() == null) {
+		user = ParseUser.getCurrentUser();
+
+		if (user == null) {
 			Intent login = new Intent(MainActivity.this, LoginActivity.class);
 			startActivity(login);
+		} else {
+			//Setting up games list
+			gamesListView = (ListView) findViewById(R.id.gamesList);
+			this.setUpGamesList();
 		}
-
-        //Setting up games list
-		gamesListView = (ListView) findViewById(R.id.gamesList);
-		this.setUpGamesList();
 
 		//Navigation Drawer stuff
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -102,17 +103,6 @@ public class MainActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
-
-		// test
-		// Intent test = new Intent(MainActivity.this, FacebookKeyHash.class);
-		// startActivity(test);
-
-        // if not logged in, login through Facebook
-
-		if (ParseUser.getCurrentUser() == null) {
-			Intent login = new Intent(MainActivity.this, LoginActivity.class);
-			startActivity(login);
-		}
 		
 		// check google play services
 		if (!isGooglePlayServicesAvailable()) {
@@ -135,14 +125,12 @@ public class MainActivity extends Activity {
         mDrawerToggle.syncState();
     }
 
-
     //For naviagation drawer
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
-
 
     //Items that link (string - string) value pairs in a map
     //Used for game list items
@@ -154,7 +142,6 @@ public class MainActivity extends Activity {
         item.put(ITEM_CAPTION, caption);  
         return item;  
     }
-
 
     //Create menu
     //Populate navigation drawer
@@ -174,7 +161,6 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-
     //For navigation drawer
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -183,7 +169,6 @@ public class MainActivity extends Activity {
 	    }
 		
 		int id = item.getItemId();
-
 
         //Open settings
 		if (id == R.id.action_settings) {

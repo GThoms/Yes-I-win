@@ -12,7 +12,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/Login"
         android:id="@+id/textView7"
-        android:layout_above="@+id/editText"
+        android:layout_above="@+id/login_password"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp"
         android:textSize="40dp" />

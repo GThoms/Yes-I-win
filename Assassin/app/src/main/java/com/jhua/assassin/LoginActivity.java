@@ -1,17 +1,20 @@
 package com.jhua.assassin;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends Activity {
 
     Button login_button;
     Button sign_up;
@@ -21,7 +24,6 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-<<<<<<< HEAD
         login_button = (Button) findViewById(R.id.login_button);
         sign_up = (Button) findViewById(R.id.sign_up_button);
         buttonListeners();
@@ -35,7 +37,7 @@ public class LoginActivity extends ActionBarActivity {
             }
         });
 
-        Button signup = (Button) findViewById(R.id.button2);
+        Button signup = (Button) findViewById(R.id.sign_up_button);
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,8 +48,6 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     public void login() {
-=======
->>>>>>> parent of 436f7f9... Login should work now actually though
         ParseUser.logInInBackground("Jerry", "showmethemoney", new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {

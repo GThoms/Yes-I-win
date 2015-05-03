@@ -20,7 +20,7 @@ import com.parse.SignUpCallback;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class SignUpActivity extends ActionBarActivity {
+public class SignUpActivity extends Activity {
 
     private static final int PICK_PHOTO_FOR_AVATAR = 0;
 
@@ -49,6 +49,7 @@ public class SignUpActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if (passwordsMatch()) {
                     makeUser();
+                    finish();
                 }
             }
         });
