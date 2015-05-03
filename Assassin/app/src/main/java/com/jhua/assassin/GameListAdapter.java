@@ -87,8 +87,10 @@ public class GameListAdapter extends BaseAdapter {
             	View v = adapter.getView(position - 1, convertView, parent);
 				ImageButton rightIcon = (ImageButton) v.findViewById(R.id.right_icon);
 				if (sectionnum == 0) {
+					rightIcon.setImageResource(R.drawable.exit);
 	            	rightIcon.setOnClickListener(new currentGamesListener(context));
 				} else if (sectionnum == 1) {
+					
 					rightIcon.setOnClickListener(new pendingGamesListener(context));
 				} else {
 					rightIcon.setOnClickListener(new completedGamesListener(context));
