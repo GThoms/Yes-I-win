@@ -43,7 +43,6 @@ public class CreateGameActivity extends Activity {
     private Typeface font_med;
     private Typeface font_reg;
 
-
     //XML Buttons
     private Button add;
     private Button start;
@@ -104,7 +103,6 @@ public class CreateGameActivity extends Activity {
         //Set listeners to XML buttons
         buttonListeners();
 
-
         //Default setting vaules
         attackRadius = 1;
         blockDuration = 10;
@@ -118,7 +116,6 @@ public class CreateGameActivity extends Activity {
         //Set listeners to spinners
         spinnerListeners();
     }
-
 
     //Navigation toggle
     @Override
@@ -195,7 +192,6 @@ public class CreateGameActivity extends Activity {
     //Listens to spinners and reacts when selected
     private void spinnerListeners() {
 
-
         //Adapter for Game Duration Spinner
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
                 R.array.game_duration, android.R.layout.simple_spinner_item);
@@ -214,7 +210,6 @@ public class CreateGameActivity extends Activity {
                 R.array.attack_radius, android.R.layout.simple_spinner_item);
         adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         attackRadiusSpinner.setAdapter(adapter3);
-
 
         //Listener for Game duration spinner
         gameDurationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -307,7 +302,6 @@ public class CreateGameActivity extends Activity {
 
     //Listeners for XML buttons
     private void buttonListeners() {
-
 
         //When press add, show button motions
         add.setOnTouchListener(new View.OnTouchListener() {
@@ -403,7 +397,7 @@ public class CreateGameActivity extends Activity {
         newGame.saveInBackground();
 
         // now give game to player here
-        // ParseUser.getCurrentUser().addUnique("games", newGame);
+        ParseUser.getCurrentUser().addUnique("game", newGame);
         // give people targets here
 
         // start the location service

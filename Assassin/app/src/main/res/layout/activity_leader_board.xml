@@ -29,11 +29,9 @@
 
 
             </FrameLayout>
-
-
+            
         </TabHost>
     </FrameLayout>
-
 
     <!-- The navigation drawer -->
     <ListView
