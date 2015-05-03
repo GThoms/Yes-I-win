@@ -204,13 +204,9 @@ public class MainActivity extends Activity {
 
         //Linked list of current games
         currentGames = new LinkedList<Map<String,?>>();
-
         ArrayList<Game> myCurrent = (ArrayList<Game>) user.get("currentGames");
-
         for (Game g : myCurrent) {
-
             currentGames.add(createItem(g.getGameName(), "PlaceHolder"));
-
         }
 
 
@@ -222,7 +218,10 @@ public class MainActivity extends Activity {
 
         //Linked list of pending games
         pendingGames = new LinkedList<Map<String,?>>();
-
+        ArrayList<Game> myPending = (ArrayList<Game>) user.get("pendingGames");
+        for (Game g : myPending) {
+            pendingGames.add(createItem(g.getGameName(), "PlaceHolder"));
+        }
         /*
         pendingGames.add(createItem("Example 1", "UIMA Crew"));
         pendingGames.add(createItem("Example 2", "Wolman 4 East!!!"));
@@ -231,9 +230,15 @@ public class MainActivity extends Activity {
 
         //Linked list of completed games
         completedGames = new LinkedList<Map<String,?>>();
+        ArrayList<Game> myCompleted = (ArrayList<Game>) user.get("completedGames");
+        for (Game g : myCompleted) {
+                completedGames.add(createItem(g.getGameName(), "PlaceHolder"));
+        }
+        /*
         completedGames.add(createItem("My Game", "Mccoy East"));
         completedGames.add(createItem("His Game", "cool game 4 cool peeps"));
         completedGames.add(createItem("Her Game", "Joanne & friends"));
+        */
 
         //Make a new adapter for the game list
 		GameListAdapter gameListAdapter = new GameListAdapter(this);
@@ -277,7 +282,10 @@ public class MainActivity extends Activity {
 		else if (type == 'a') {
 			promptView = layoutInflater.inflate(R.layout.leave_dialog, null);
 		}
-		else {
+        else if (type == 's') {
+            promptView = layoutInflater.inflate(R.layout.start_dialog, null);
+		}
+        else {
 			promptView = layoutInflater.inflate(R.layout.delete_dialog, null);
 		}
 
