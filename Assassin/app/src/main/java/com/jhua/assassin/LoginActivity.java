@@ -22,7 +22,7 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        
+
         login_button = (Button) findViewById(R.id.login_button);
         sign_up = (Button) findViewById(R.id.sign_up_button);
         buttonListeners();

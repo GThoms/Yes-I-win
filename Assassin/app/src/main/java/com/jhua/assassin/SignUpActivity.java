@@ -1,5 +1,7 @@
 package com.jhua.assassin;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,9 +17,12 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class SignUpActivity extends ActionBarActivity {
+
+    private static final int PICK_PHOTO_FOR_AVATAR = 0;
 
     EditText username;
     EditText password;
@@ -84,6 +89,7 @@ public class SignUpActivity extends ActionBarActivity {
         user.put("pendingGames", new ArrayList<Game>());
         user.put("completedGames", new ArrayList<Game>());
 
+        // pickImage();
         /*
         ParseFile file = new ParseFile("profile_pic.jpg", image);
 
@@ -93,7 +99,6 @@ public class SignUpActivity extends ActionBarActivity {
             }
         });
         */
-
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
@@ -104,7 +109,26 @@ public class SignUpActivity extends ActionBarActivity {
             }
         });
     }
+    /*
+    public void pickImage() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_PHOTO_FOR_AVATAR);
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_PHOTO_FOR_AVATAR && resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                // Display an error
+                return;
+            }
+            InputStream inputStream = context.getContentResolver().openInputStream(data.getData());
+            // Now you can do whatever you want with your inpustream, save it as file, upload to a server, decode a bitmap...
+        }
+    }
+    */
     public boolean passwordsMatch() {
         if (password.getText().toString() != password.getText().toString())
             return false;
