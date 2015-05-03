@@ -4,7 +4,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -16,6 +19,8 @@ public class SignUpActivity extends ActionBarActivity {
     EditText password;
     EditText c_password;
 
+    Button sign_up;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,24 +30,16 @@ public class SignUpActivity extends ActionBarActivity {
         password = (EditText) findViewById(R.id.password);
         c_password = (EditText) findViewById(R.id.c_password);
 
-        ParseUser user = new ParseUser();
-        user.setUsername("my name");
-        user.setPassword("my pass");
-        user.setEmail("email@example.com");
-
-        // other fields can be set just like with ParseObject
-        user.put("phone", "650-253-0000");
-
-        user.signUpInBackground(new SignUpCallback() {
-            public void done(ParseException e) {
-                if (e == null) {
-                    // Hooray! Let them use the app now.
-                } else {
-                    // Sign up didn't succeed. Look at the ParseException
-                    // to figure out what went wrong
+        sign_up = (Button) findViewById(R.id.sign_up);
+        sign_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (passwordsMatch()) {
+                    makeUser();
                 }
             }
         });
+
     }
 
     @Override
@@ -65,5 +62,28 @@ public class SignUpActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void makeUser() {
+
+        ParseUser user = new ParseUser();
+        user.setUsername(username.getText().toString());
+        user.setPassword(password.getText().toString());
+
+        user.signUpInBackground(new SignUpCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Oops! That user already exists!", Toast.LENGTH_LONG);
+                }
+            }
+        });
+    }
+
+    public boolean passwordsMatch() {
+        if (password.getText().toString() != password.getText().toString())
+            return false;
+        return true;
     }
 }
