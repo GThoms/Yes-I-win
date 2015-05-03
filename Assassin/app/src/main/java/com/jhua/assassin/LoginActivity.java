@@ -4,20 +4,40 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-
 public class LoginActivity extends ActionBarActivity {
+
+    Button login_button;
+    Button sign_up;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        
+        login_button = (Button) findViewById(R.id.login_button);
+        sign_up = (Button) findViewById(R.id.sign_up_button);
+        buttonListeners();
+    }
 
+    public void buttonListeners() {
+        login_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login();
+            }
+        });
+    }
+
+    public void login() {
         ParseUser.logInInBackground("Jerry", "showmethemoney", new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {

@@ -10,7 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.util.ArrayList;
@@ -81,6 +83,16 @@ public class SignUpActivity extends ActionBarActivity {
         user.put("currentGames", new ArrayList<Game>());
         user.put("pendingGames", new ArrayList<Game>());
         user.put("completedGames", new ArrayList<Game>());
+
+        /*
+        ParseFile file = new ParseFile("profile_pic.jpg", image);
+
+        file.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                user.put("pic", file);
+            }
+        });
+        */
 
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {

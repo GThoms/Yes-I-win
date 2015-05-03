@@ -101,7 +101,7 @@ public class MainActivity extends Activity {
         // if not logged in, login through Facebook
 
 		if (ParseUser.getCurrentUser() == null) {
-			Intent login = new Intent(MainActivity.this, FacebookActivity.class);
+			Intent login = new Intent(MainActivity.this, LoginActivity.class);
 			startActivity(login);
 		}
 
