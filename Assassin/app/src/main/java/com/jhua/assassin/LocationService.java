@@ -16,6 +16,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.parse.ParseUser;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -130,9 +131,11 @@ public class LocationService extends Service implements
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
 
-        //ParseUser.getCurrentUser().put("latitude", latitude);
-        //ParseUser.getCurrentUser().put("longitude", longitude);
-        //saveInBackground();
+        //Save location in parseUser
+        ParseUser.getCurrentUser().put("location", mCurrentLocation);
+        ParseUser.getCurrentUser().saveInBackground();
+
+        //Print out distances
         Log.d("Latitude", location.getLatitude() + "");
         Log.d("Longitude", location.getLongitude() + "");
     }

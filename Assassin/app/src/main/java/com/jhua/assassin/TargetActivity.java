@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.location.Location;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -35,11 +36,16 @@ import java.util.List;
 public class TargetActivity extends Activity {
 
 
+    Location currentLocation;
+    Location targetLocation;
+
     //Navigation drawer items
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private String[] navItems;
     private ActionBarDrawerToggle mDrawerToggle;
+
+    ParseUser target;
 
     Button eliminate;
 
@@ -77,6 +83,15 @@ public class TargetActivity extends Activity {
         eliminate = (Button) findViewById(R.id.eliminate);
         buttonListeners();
 
+        //Set Current Target
+        target = (ParseUser) ParseUser.getCurrentUser().get("target");
+        currentLocation = (Location) ParseUser.getCurrentUser().get("location");
+        targetLocation = (Location) target.get("location");
+
+        //compareDistance();
+
+
+        /*
         ParseQuery<ParseUser> query = ParseQuery.getQuery("Player");
         query.whereEqualTo("fbId", ParseUser.getCurrentUser().get("target"));
         query.findInBackground(new FindCallback<ParseUser>() {
@@ -88,6 +103,7 @@ public class TargetActivity extends Activity {
                 }
             }
         });
+        */
     }
 
     //Calculate distance between two latitude/longitude points

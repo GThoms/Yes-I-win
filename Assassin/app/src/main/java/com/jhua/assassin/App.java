@@ -22,13 +22,23 @@ public class App extends Application {
         // Facebook stuff
         FacebookSdk.sdkInitialize(getApplicationContext());
 
-        // Parse stuff
+        // Parse stuff ?
         Parse.enableLocalDatastore(this);
+
+        //Register Game as a subclass
         ParseObject.registerSubclass(Game.class);
+
+        //Link parse to this app using keys
         Parse.initialize(this, "hxFZwmGDuKwt2BXEoyGTcPuPuFc8IJkx3eQD2DV4", "o3P37KBeAVP4970XyU0AXgrserg7qT6EEmI4J47r");
+
+        //Initialize Facebook on this app
         ParseFacebookUtils.initialize(getApplicationContext());
+
+        //?
         ParseInstallation.getCurrentInstallation().saveInBackground();
 
+
+        //Parse Pushes
         ParsePush.subscribeInBackground("", new SaveCallback() {
             @Override
             public void done(ParseException e) {
