@@ -19,14 +19,18 @@ public class Game extends ParseObject {
         return getString("gameName");
     }
 
-    public void addPlayer(String player) {
-        addUnique("players", player);
-        addUnique("activePlayers", player);
+    public void addPlayers(ArrayList<ParseUser> players) {
+        put("players", players);
+        put("activePlayers", players);
     }
 
     public void removePlayer(String player) {
         addUnique("eliminatedPlayers", player);
         removeAll("players", Arrays.asList(player));
+    }
+    
+    public void setTargets(ArrayList<ParseUser> targets) {
+        put("targets", targets);
     }
 
     public void setGameDuration(float gameDuration) {
