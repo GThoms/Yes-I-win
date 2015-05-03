@@ -1,9 +1,11 @@
 package com.jhua.assassin;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import com.parse.ParseObject;
 import com.parse.ParseClassName;
+import com.parse.ParseUser;
 
 
 //Game object, holds player, settings and other stuff related
@@ -31,6 +33,10 @@ public class Game extends ParseObject {
     
     public void setTargets(ArrayList<ParseUser> targets) {
         put("targets", targets);
+    }
+
+    public void setCreator(String name) {
+        put("creator", name);
     }
 
     public void setGameDuration(float gameDuration) {
