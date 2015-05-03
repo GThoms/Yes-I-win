@@ -210,6 +210,7 @@ public class MainActivity extends Activity {
         }
 
 
+        //Examples
         /*
 		currentGames.add(createItem("Example 1", "McCoy 6th Floor"));
         currentGames.add(createItem("Example 2", "WiCS"));
@@ -222,6 +223,8 @@ public class MainActivity extends Activity {
         for (Game g : myPending) {
             pendingGames.add(createItem(g.getGameName(), "PlaceHolder"));
         }
+
+        //Examples
         /*
         pendingGames.add(createItem("Example 1", "UIMA Crew"));
         pendingGames.add(createItem("Example 2", "Wolman 4 East!!!"));
@@ -234,6 +237,8 @@ public class MainActivity extends Activity {
         for (Game g : myCompleted) {
                 completedGames.add(createItem(g.getGameName(), "PlaceHolder"));
         }
+
+        //Examples
         /*
         completedGames.add(createItem("My Game", "Mccoy East"));
         completedGames.add(createItem("His Game", "cool game 4 cool peeps"));

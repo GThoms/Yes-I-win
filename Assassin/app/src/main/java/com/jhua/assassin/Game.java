@@ -35,8 +35,8 @@ public class Game extends ParseObject {
         put("targets", targets);
     }
 
-    public void setStatus(String status) {
-        put("status", status);
+    public void setCreator(String name) {
+        put("creator", name);
     }
 
     public void setGameDuration(float gameDuration) {

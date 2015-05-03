@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jhua.assassin.R;
+import com.parse.Parse;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -407,11 +408,14 @@ public class CreateGameActivity extends Activity {
         //Saves the new parse object
         newGame.saveInBackground();
 
-        // now give game to player here
-        ParseUser.getCurrentUser().addUnique("game", newGame);
-        // give people targets here
+        //Set current user as creator
+        newGame.setCreator(ParseUser.getCurrentUser().getUsername());
 
-        newGame.setStatus("pending");
+        //Adds new game to player's list of pending games
+        ArrayList<Game> pending = (ArrayList<Game>) ParseUser.getCurrentUser().get("pendingGames");
+        pending.add(newGame);
+        ParseUser.getCurrentUser().add("pendingGames", pending);
+        ParseUser.getCurrentUser().saveInBackground();
 
         // start the location service
         Intent intent = new Intent(CreateGameActivity.this, LocationService.class);
