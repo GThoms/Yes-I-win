@@ -26,6 +26,7 @@ import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,6 +50,9 @@ public class MainActivity extends Activity {
 
 	public final static String ITEM_TITLE = "title";  
     public final static String ITEM_CAPTION = "caption";
+
+    //Current User
+    ParseUser user = ParseUser.getCurrentUser();
 
 
     //Navigation drawer stuff
@@ -200,17 +204,30 @@ public class MainActivity extends Activity {
 
         //Linked list of current games
         currentGames = new LinkedList<Map<String,?>>();
+
+        ArrayList<Game> myCurrent = (ArrayList<Game>) user.get("currentGames");
+
+        for (Game g : myCurrent) {
+
+            currentGames.add(createItem(g.getGameName(), "PlaceHolder"));
+
+        }
+
+
+        /*
 		currentGames.add(createItem("Example 1", "McCoy 6th Floor"));
         currentGames.add(createItem("Example 2", "WiCS"));
         currentGames.add(createItem("Example 3", "Awesome Game"));
-
+        */
 
         //Linked list of pending games
         pendingGames = new LinkedList<Map<String,?>>();
+
+        /*
         pendingGames.add(createItem("Example 1", "UIMA Crew"));
         pendingGames.add(createItem("Example 2", "Wolman 4 East!!!"));
         pendingGames.add(createItem("Example 3", "APO"));
-
+        */
 
         //Linked list of completed games
         completedGames = new LinkedList<Map<String,?>>();

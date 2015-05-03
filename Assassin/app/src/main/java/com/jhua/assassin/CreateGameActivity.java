@@ -29,6 +29,9 @@ import android.widget.Toast;
 import com.jhua.assassin.R;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 
 //Create a new game
 public class CreateGameActivity extends Activity {
@@ -397,7 +400,7 @@ public class CreateGameActivity extends Activity {
         //newGame.addPlayer("player1");
         //newGame.addPlayer("player2");
         // Set targets from player list
-        ArrayList<ParseUser> targets = ParseUser.getCurrentUser().get("players");
+        ArrayList<ParseUser> targets = (ArrayList<ParseUser>) ParseUser.getCurrentUser().get("players");
         Collections.shuffle(targets);
         newGame.setTargets(targets);
 
@@ -407,6 +410,8 @@ public class CreateGameActivity extends Activity {
         // now give game to player here
         ParseUser.getCurrentUser().addUnique("game", newGame);
         // give people targets here
+
+        newGame.setStatus("pending");
 
         // start the location service
         Intent intent = new Intent(CreateGameActivity.this, LocationService.class);
