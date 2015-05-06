@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
@@ -22,6 +24,8 @@ import java.util.ArrayList;
 
 public class SignUpActivity extends Activity {
 
+
+    private static final String TAG = "SignUpActivity";
     private static final int PICK_PHOTO_FOR_AVATAR = 0;
 
     EditText username;
@@ -37,6 +41,12 @@ public class SignUpActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        ParseObject hello = new ParseObject("Hello");
+
+        hello.put("greeting", "hello");
+
+        hello.saveInBackground();
+
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         c_password = (EditText) findViewById(R.id.c_password);
@@ -48,8 +58,9 @@ public class SignUpActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (passwordsMatch()) {
+
+                    Log.d(TAG, "Passwords Match");
                     makeUser();
-                    finish();
                 }
             }
         });
@@ -83,12 +94,12 @@ public class SignUpActivity extends Activity {
         ParseUser user = new ParseUser();
         user.setUsername(username.getText().toString());
         user.setPassword(password.getText().toString());
-        user.setEmail(email.getText().toString());
-        user.put("name", name.getText().toString());
 
-        user.put("currentGames", new ArrayList<Game>());
-        user.put("pendingGames", new ArrayList<Game>());
-        user.put("completedGames", new ArrayList<Game>());
+        //Email is not working for some reason, wont let me sign up with this
+        //user.setEmail(email.getText().toString());
+
+
+        user.put("name", name.getText().toString());
 
         // pickImage();
         /*
@@ -101,6 +112,7 @@ public class SignUpActivity extends Activity {
         });
         */
         user.signUpInBackground(new SignUpCallback() {
+            @Override
             public void done(ParseException e) {
                 if (e == null) {
                     finish();
@@ -131,8 +143,9 @@ public class SignUpActivity extends Activity {
     }
     */
     public boolean passwordsMatch() {
-        if (password.getText().toString() != password.getText().toString())
+        if (!password.getText().toString().equals(c_password.getText().toString())) {
             return false;
+        }
         return true;
     }
 }

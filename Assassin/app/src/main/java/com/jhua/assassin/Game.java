@@ -39,6 +39,10 @@ public class Game extends ParseObject {
         put("creator", name);
     }
 
+    public void setStatus(String status) {put("status", status); }
+
+    public void addPlayer(String[] player) {addAllUnique("players", Arrays.asList(player)); }
+
     public void setGameDuration(float gameDuration) {
         put("gameDuration", gameDuration);
     }

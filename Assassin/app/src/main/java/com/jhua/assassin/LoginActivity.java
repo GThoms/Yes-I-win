@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
@@ -18,11 +19,17 @@ public class LoginActivity extends Activity {
 
     Button login_button;
     Button sign_up;
+    EditText username;
+    EditText password;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        username = (EditText) findViewById(R.id.login_user);
+        password = (EditText) findViewById(R.id.login_password);
 
         login_button = (Button) findViewById(R.id.login_button);
         sign_up = (Button) findViewById(R.id.sign_up_button);
@@ -48,14 +55,16 @@ public class LoginActivity extends Activity {
     }
 
     public void login() {
-        ParseUser.logInInBackground("Jerry", "showmethemoney", new LogInCallback() {
+        String user = username.getText().toString();
+        String pass = password.getText().toString();
+
+        ParseUser.logInInBackground(user, pass, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
-                    // Hooray! The user is logged in.
-                    Toast toast = Toast.makeText(getApplicationContext(), "Loggin in...", Toast.LENGTH_SHORT);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
                 } else {
-                    // Signup failed. Look at the ParseException to see what happened.
-                    Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), "Username and/or password is incorrect!", Toast.LENGTH_SHORT);
                 }
             }
         });
