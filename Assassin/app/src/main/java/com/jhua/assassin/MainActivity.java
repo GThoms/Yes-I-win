@@ -148,6 +148,11 @@ public class MainActivity extends Activity {
         return item;  
     }
 
+    public void onStart(){
+        super.onStart();
+    }
+
+
     //Create menu
     //Populate navigation drawer
 	@Override

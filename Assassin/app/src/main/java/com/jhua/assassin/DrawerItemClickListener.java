@@ -33,15 +33,19 @@ public class DrawerItemClickListener implements OnItemClickListener {
 				Intent leader = new Intent(context, LeaderboardActivity.class);
 				context.startActivity(leader);
 				break;
-			case 3:
+            case 3:
+                Intent friends = new Intent(context, FriendList.class);
+                context.startActivity(friends);
+                break;
+			case 4:
 				Intent main = new Intent(context, MainActivity.class);
 				context.startActivity(main);
 				break;
-			case 4:
+			case 5:
 				Intent create = new Intent(context, CreateGameActivity.class);
 				context.startActivity(create);
 				break;
-			case 5:
+			case 6:
 				Intent logout = new Intent(context, LogoutActivity.class);
 				context.startActivity(logout);
 			default:
