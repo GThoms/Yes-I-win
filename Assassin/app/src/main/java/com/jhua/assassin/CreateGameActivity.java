@@ -392,30 +392,26 @@ public class CreateGameActivity extends Activity {
         newGame.setGameDuration(gameDuration);
         newGame.setBlockDuration(blockDuration);
         newGame.setAttackRadius(attackRadius);
+        newGame.setStatus("pending");
 
         //Unimplemented player adding
         // Make ArrayList<ParseUser> with all the users added via some dialog or something
         // Add this list to parse
         ArrayList<ParseUser> players = addPlayers();
         newGame.addPlayers(players);
-        //newGame.addPlayer("player1");
-        //newGame.addPlayer("player2");
+
         // Set targets from player list
         ArrayList<ParseUser> targets = (ArrayList<ParseUser>) ParseUser.getCurrentUser().get("players");
-        Collections.shuffle(targets);
-        newGame.setTargets(targets);
+
+        //Shuffling is causing crashes, i think it doesnt work if its null
+        //Collections.shuffle(targets);
+        //newGame.setTargets(targets);
 
         //Saves the new parse object
         newGame.saveInBackground();
 
         //Set current user as creator
         newGame.setCreator(ParseUser.getCurrentUser().getUsername());
-
-        //Adds new game to player's list of pending games
-        ArrayList<Game> pending = (ArrayList<Game>) ParseUser.getCurrentUser().get("pendingGames");
-        pending.add(newGame);
-        ParseUser.getCurrentUser().add("pendingGames", pending);
-        ParseUser.getCurrentUser().saveInBackground();
 
         // start the location service
         Intent intent = new Intent(CreateGameActivity.this, LocationService.class);
@@ -480,6 +476,10 @@ public class CreateGameActivity extends Activity {
     private ArrayList<ParseUser> addPlayers() {
         ArrayList<ParseUser> friendsAdded = new ArrayList<ParseUser>();
         // some code that accesses ParseUser's friends
+
+        friendsAdded.add(ParseUser.getCurrentUser());
+
+
         return friendsAdded;
     }
 }

@@ -63,6 +63,27 @@ public class TargetActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = new Intent(this, NoTarget.class);
+        startActivity(intent);
+/*
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+        query.whereEqualTo("status", "current");
+        query.whereEqualTo("players", ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> gameList, ParseException e) {
+                if (e == null) {
+                    if (gameList == null) {
+                        Intent none = new Intent(TargetActivity.this, NoTarget.class);
+                        startActivity(none);
+                    }
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
+*/
+
         setContentView(R.layout.activity_target);
 
         // Navigation drawer

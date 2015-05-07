@@ -136,6 +136,10 @@
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up" >
         </activity>
+        <activity
+            android:name=".NoTarget"
+            android:label="@string/title_activity_no_target" >
+        </activity>
     </application>
 
 </manifest>

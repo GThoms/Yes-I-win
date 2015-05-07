@@ -22,7 +22,7 @@ public class DrawerItemClickListener implements OnItemClickListener {
 	private void selectItem(int position, Context context) {
 		switch (position) {
 			case 0:
-				Intent target = new Intent(context, TargetActivity.class);
+				Intent target = new Intent(context, NoTarget.class);
 				context.startActivity(target);
 				break;
 			case 1:

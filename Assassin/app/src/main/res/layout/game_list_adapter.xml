@@ -15,29 +15,33 @@
         android:src="@drawable/ic_launcher" />
 
     <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/gameName"
-        android:layout_toRightOf="@id/left_icon"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:text="Description"
-        android:textSize="12sp" />
-
-    <TextView
         android:id="@+id/gameName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/description"
+        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/left_icon"
-        android:gravity="center_vertical"
-        android:text="Game Name"
         android:ellipsize="end"
-        android:textSize="16sp" />
-    
+        android:singleLine="true"
+        android:text="GameName"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/gameName"
+        android:layout_marginLeft="50dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="GameName"
+        android:textSize="12sp" />
+
+
     <ImageButton
         android:id="@+id/right_icon"
         android:layout_width="wrap_content"

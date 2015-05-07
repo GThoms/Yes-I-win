@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +23,9 @@ import android.widget.Toast;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.parse.FindCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 
@@ -33,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.facebook.*;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 
@@ -112,6 +116,7 @@ public class MainActivity extends Activity {
 
 	protected void onResume(Bundle savedInstanceState) {
 		super.onResume();
+        setUpGamesList();
 
 		// Logs install and app activate App Event
 		AppEventsLogger.activateApp(this);
@@ -195,25 +200,58 @@ public class MainActivity extends Activity {
         //Linked list of current games
         currentGames = new LinkedList<Map<String,?>>();
 
-		currentGames.add(createItem("Example 1", "McCoy 6th Floor"));
-        currentGames.add(createItem("Example 2", "WiCS"));
-        currentGames.add(createItem("Example 3", "Awesome Game"));
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+        query.whereEqualTo("status", "current");
+        query.whereEqualTo("players", ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> gameList, ParseException e) {
+                if (e == null) {
+                    for ( ParseObject G : gameList ){
+                        currentGames.add(createItem(((Game) G).getGameName(), "Doesn't Matter"));
+                    }
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
 
 
         //Linked list of pending games
         pendingGames = new LinkedList<Map<String,?>>();
 
-        pendingGames.add(createItem("Example 1", "UIMA Crew"));
-        pendingGames.add(createItem("Example 2", "Wolman 4 East!!!"));
-        pendingGames.add(createItem("Example 3", "APO"));
+        query = ParseQuery.getQuery("Game");
+        query.whereEqualTo("status", "pending");
+        query.whereEqualTo("players", ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> gameList, ParseException e) {
+                if (e == null) {
+                    for ( ParseObject G : gameList ){
+                        pendingGames.add(createItem(((Game) G).getGameName(), "Doesn't Matter"));
+                    }
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
 
 
         //Linked list of completed games
         completedGames = new LinkedList<Map<String,?>>();
 
-        completedGames.add(createItem("My Game", "Mccoy East"));
-        completedGames.add(createItem("His Game", "cool game 4 cool peeps"));
-        completedGames.add(createItem("Her Game", "Joanne & friends"));
+        query = ParseQuery.getQuery("Game");
+        query.whereEqualTo("status", "completed");
+        query.whereEqualTo("players", ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> gameList, ParseException e) {
+                if (e == null) {
+                    for ( ParseObject G : gameList ){
+                        completedGames.add(createItem(((Game) G).getGameName(), "Doesn't Matter"));
+                    }
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
 
 
         //Make a new adapter for the game list
