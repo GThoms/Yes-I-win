@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import android.app.Activity;
-
 
 //What happens when a navigation object is clicked anywhere in the application
 public class DrawerItemClickListener implements OnItemClickListener {
@@ -34,7 +32,7 @@ public class DrawerItemClickListener implements OnItemClickListener {
 				context.startActivity(leader);
 				break;
             case 3:
-                Intent friends = new Intent(context, FriendList.class);
+                Intent friends = new Intent(context, FriendListActivity.class);
                 context.startActivity(friends);
                 break;
 			case 4:

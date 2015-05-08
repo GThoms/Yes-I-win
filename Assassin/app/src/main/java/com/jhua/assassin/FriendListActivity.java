@@ -2,15 +2,12 @@ package com.jhua.assassin;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FriendList extends Activity {
+public class FriendListActivity extends Activity {
 
     //Navigation Drawer Stuff
     private DrawerLayout mDrawerLayout;
@@ -39,11 +36,7 @@ public class FriendList extends Activity {
     private String[] navItems;
     private ActionBarDrawerToggle mDrawerToggle;
 
-<<<<<<< HEAD
     //XML view for list of friends
-=======
-    Button addFriends;
->>>>>>> parent of 61d4a03... made Add friends activity into the activity that adds friends to the game. It is not yet complete.
     ListView friendList;
 
     //ParseUser's list of friends
@@ -54,7 +47,7 @@ public class FriendList extends Activity {
 
     //XML views
     EditText friendName;
-    Button addFriend;
+    Button addFriends;
 
     //Player you are trying to add
     String player;
@@ -89,9 +82,8 @@ public class FriendList extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-<<<<<<< HEAD
         //Save XML views
-        addFriend = (Button) findViewById(R.id.friendButton);
+        addFriends = (Button) findViewById(R.id.friendButton);
         final ListView friendList = (ListView) findViewById(R.id.friendList);
 
         //Get friend list from current user
@@ -104,27 +96,19 @@ public class FriendList extends Activity {
         //If user has friends, set adapter to friend list view
         if (friends != null) {
             friendList.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
         }
 
         //Listener for add friend button
         //Makes a dialog box that lets you add friends
-        addFriend.setOnClickListener(new View.OnClickListener() {
-=======
-
-        addFriends = (Button) findViewById(R.id.friendButton);
-        final ListView friendList = (ListView) findViewById(R.id.friendList);
-
         addFriends.setOnClickListener(new View.OnClickListener() {
->>>>>>> parent of 61d4a03... made Add friends activity into the activity that adds friends to the game. It is not yet complete.
             @Override
             public void onClick(View v) {
 
-                LayoutInflater layinf = LayoutInflater.from(FriendList.this);
+                LayoutInflater layinf = LayoutInflater.from(FriendListActivity.this);
 
                 View promptsView = layinf.inflate(R.layout.add_friend, null);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(FriendList.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(FriendListActivity.this);
 
                 builder.setView(promptsView);
 
@@ -136,15 +120,16 @@ public class FriendList extends Activity {
                 builder.setCancelable(false).setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-<<<<<<< HEAD
-=======
-                        addFriendtoParse();
-                        ArrayList<String> friends = (ArrayList<String>)ParseUser.getCurrentUser().get("friends");
-                        System.out.println(friends);
->>>>>>> parent of 61d4a03... made Add friends activity into the activity that adds friends to the game. It is not yet complete.
 
-                        player = friendName.getText().toString();
                         addFriendtoParse();
+                        ArrayList<String> newfriends = (ArrayList<String>)ParseUser.getCurrentUser().get("friends");
+                        String f = "" + newfriends.size();
+                        Toast.makeText(getApplicationContext(), f, Toast.LENGTH_SHORT);
+
+                        //adapter.clear();
+                        //adapter.addAll(newfriends);
+                        adapter.notifyDataSetChanged();
+                        friendList.invalidateViews();
 
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -165,7 +150,7 @@ public class FriendList extends Activity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Toast.makeText(getApplicationContext(),
-                        "Click ListItem Number " + position, Toast.LENGTH_LONG)
+                        "Item " + position, Toast.LENGTH_LONG)
                         .show();
             }
 
@@ -175,7 +160,7 @@ public class FriendList extends Activity {
     private void addFriendtoParse() {
 
         //Get player to add from XML view
-        //player = friendName.getText().toString();
+        player = friendName.getText().toString();
 
         //Query list of friends, see if above player exists in database
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -200,10 +185,7 @@ public class FriendList extends Activity {
                             ParseUser.getCurrentUser().addUnique("friends", player);
                             ParseUser.getCurrentUser().saveInBackground();
 
-<<<<<<< HEAD
-
-                            Intent intent = new Intent(FriendList.this, AddFriends.class);
-                            startActivity(intent);
+                            adapter.add(player);
                         }
                     }
                 }
@@ -212,8 +194,6 @@ public class FriendList extends Activity {
     }
 
     //Navigation Drawer
-=======
->>>>>>> parent of 61d4a03... made Add friends activity into the activity that adds friends to the game. It is not yet complete.
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);

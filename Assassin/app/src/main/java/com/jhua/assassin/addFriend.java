@@ -58,7 +58,7 @@ public class addFriend extends Activity {
                                     ParseUser.getCurrentUser().addUnique("friends", player);
                                     ParseUser.getCurrentUser().saveInBackground();
 
-                                    Intent intent = new Intent(addFriend.this, FriendList.class);
+                                    Intent intent = new Intent(addFriend.this, FriendListActivity.class);
                                     startActivity(intent);
                                 }
                             }

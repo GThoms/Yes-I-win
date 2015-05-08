@@ -14,24 +14,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.parse.FindCallback;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.ParseException;
 
 import java.util.ArrayList;
-import java.util.List;
 
-/////////////////////
-/////////////////////
-/////NOT USED////////
-/////////////////////
-//////////////////////
-
-public class AddFriends extends Activity {
+public class AddFriendsActivity extends Activity {
     boolean found;
     EditText friendName;
     Button addFriends;
@@ -41,7 +29,7 @@ public class AddFriends extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_friend);
 
-       Intent intent = new Intent(AddFriends.this, FriendList.class);
+       Intent intent = new Intent(AddFriendsActivity.this, FriendListActivity.class);
         startActivity(intent);
     }
 
