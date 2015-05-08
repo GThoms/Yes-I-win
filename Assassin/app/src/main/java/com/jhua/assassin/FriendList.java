@@ -32,16 +32,27 @@ import java.util.List;
 
 
 public class FriendList extends Activity {
+
+    //Navigation Drawer Stuff
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private String[] navItems;
     private ActionBarDrawerToggle mDrawerToggle;
 
+    //XML view for list of friends
     ListView friendList;
 
-    boolean found;
+    //ParseUser's list of friends
+    ArrayList<String> friends;
+
+    //Adapter for friend list
+    ArrayAdapter adapter;
+
+    //XML views
     EditText friendName;
     Button addFriend;
+
+    //Player you are trying to add
     String player;
 
     @Override
@@ -74,26 +85,35 @@ public class FriendList extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-
+        //Save XML views
         addFriend = (Button) findViewById(R.id.friendButton);
         final ListView friendList = (ListView) findViewById(R.id.friendList);
 
-        ArrayList<String> friends = (ArrayList<String>)ParseUser.getCurrentUser().get("friends");
+        //Get friend list from current user
+        friends = (ArrayList<String>)ParseUser.getCurrentUser().get("friends");
 
-        final ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item,
+        //Make a new adapter for friend list
+        adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item,
                 android.R.id.text1, friends);
 
+        //If user has friends, set adapter to friend list view
         if (friends != null) {
             friendList.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
 
+        //Listener for add friend button
+        //Makes a dialog box that lets you add friends
         addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 LayoutInflater layinf = LayoutInflater.from(FriendList.this);
+
                 View promptsView = layinf.inflate(R.layout.add_friend, null);
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(FriendList.this);
+
                 builder.setView(promptsView);
 
                 builder.setTitle(R.string.title_dialog_add_friend);
@@ -104,16 +124,10 @@ public class FriendList extends Activity {
                 builder.setCancelable(false).setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+                        player = friendName.getText().toString();
                         addFriendtoParse();
-                        ArrayList<String> friends = (ArrayList<String>)ParseUser.getCurrentUser().get("friends");
 
-                        final ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(),
-                                android.R.layout.simple_list_item_1, friends);
-
-                        if (friends != null) {
-                            friendList.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
-                        }
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -127,6 +141,7 @@ public class FriendList extends Activity {
             }
         });
 
+        //When friend item is clicked
         friendList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -140,8 +155,11 @@ public class FriendList extends Activity {
     }
 
     private void addFriendtoParse() {
-        player = friendName.getText().toString();
 
+        //Get player to add from XML view
+        //player = friendName.getText().toString();
+
+        //Query list of friends, see if above player exists in database
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username", player);
         query.findInBackground(new FindCallback<ParseUser>() {
@@ -163,6 +181,10 @@ public class FriendList extends Activity {
                         } else {
                             ParseUser.getCurrentUser().addUnique("friends", player);
                             ParseUser.getCurrentUser().saveInBackground();
+
+
+                            Intent intent = new Intent(FriendList.this, AddFriends.class);
+                            startActivity(intent);
                         }
                     }
                 }
@@ -170,30 +192,7 @@ public class FriendList extends Activity {
         });
     }
 
-    public boolean playerExists(){
-
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("username", player);
-        query.findInBackground(new FindCallback<ParseUser>() {
-            public void done(List<ParseUser> objects, ParseException e) {
-                if (e == null) {
-                    if (objects.isEmpty()) {
-                        Log.d("MEH", "WRONGO");
-                        found = false;
-                    } else {
-
-                        Log.d("MEH", "LOLOL");
-                        found = true;
-                    }
-                } else {
-
-                }
-            }
-        });
-
-        return found;
-    }
-
+    //Navigation Drawer
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -201,12 +200,14 @@ public class FriendList extends Activity {
         mDrawerToggle.syncState();
     }
 
+    //Navigation Drawer
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    //Navigation Drawer
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -222,6 +223,8 @@ public class FriendList extends Activity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         return true;
     }
+
+    //Navigation Drawer
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {

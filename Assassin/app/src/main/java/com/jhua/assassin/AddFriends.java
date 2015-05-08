@@ -25,6 +25,11 @@ import com.parse.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+/////////////////////
+/////////////////////
+/////NOT USED////////
+/////////////////////
+//////////////////////
 
 public class AddFriends extends Activity {
     boolean found;
@@ -36,27 +41,8 @@ public class AddFriends extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_friend);
 
-        addFriends = (Button) findViewById(R.id.addfriends);
-        final ListView friendList = (ListView) findViewById(R.id.list_friends);
-
-        ArrayList<String> friends = (ArrayList<String>)ParseUser.getCurrentUser().get("friends");
-
-        final ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item_checkbox,
-                android.R.id.text1, friends);
-
-        if (friends != null) {
-            friendList.setAdapter(adapter);
-        }
-
-        addFriends.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int count = friendList.getAdapter().getCount();
-                for(int x = 0; x < count; x++) {
-                    adapter.getItem(x);
-                }
-            }
-        });
+       Intent intent = new Intent(AddFriends.this, FriendList.class);
+        startActivity(intent);
     }
 
     @Override
