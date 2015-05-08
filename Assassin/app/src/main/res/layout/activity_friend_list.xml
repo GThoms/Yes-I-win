@@ -45,7 +45,9 @@
                 android:id="@+id/friendButton"
                 android:layout_marginBottom="93dp"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/green_button_states"
+                android:textColor="#ffffffff" />
 
         </RelativeLayout>
     </FrameLayout>

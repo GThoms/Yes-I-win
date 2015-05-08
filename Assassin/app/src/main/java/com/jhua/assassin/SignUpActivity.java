@@ -61,6 +61,8 @@ public class SignUpActivity extends Activity {
 
                     Log.d(TAG, "Passwords Match");
                     makeUser();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Something is incorrect, please check your information!", Toast.LENGTH_LONG);
                 }
             }
         });

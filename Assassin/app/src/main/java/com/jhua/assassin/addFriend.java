@@ -54,6 +54,7 @@ public class addFriend extends Activity {
                                             "You can't add yourself as a friend! Go find new ones!", Toast.LENGTH_LONG)
                                             .show();
                                 } else {
+
                                     ParseUser.getCurrentUser().addUnique("friends", player);
                                     ParseUser.getCurrentUser().saveInBackground();
 
