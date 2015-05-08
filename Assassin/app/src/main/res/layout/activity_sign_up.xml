@@ -4,6 +4,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:id="@+id/fragmentContainer"
     tools:context="com.jhua.assassin.SignUpActivity">
 
     <TextView
@@ -137,17 +138,16 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="44dp">
 
-        <TextView
+        <ImageButton
+            android:id="@+id/photo_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Profile Picture"
-            android:id="@+id/textView16" />
+            android:src="@drawable/ic_action_photo" />
 
-        <ImageView
+        <com.parse.ParseImageView
+            android:id="@+id/meal_preview_image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView5"
-            android:layout_marginLeft="10dp" />
+            android:layout_height="200dp" />
 
     </LinearLayout>
 

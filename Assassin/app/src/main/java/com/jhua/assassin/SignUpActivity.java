@@ -1,6 +1,9 @@
 package com.jhua.assassin;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,8 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -24,7 +29,6 @@ import java.util.ArrayList;
 
 public class SignUpActivity extends Activity {
 
-
     private static final String TAG = "SignUpActivity";
     private static final int PICK_PHOTO_FOR_AVATAR = 0;
 
@@ -35,6 +39,8 @@ public class SignUpActivity extends Activity {
     EditText name;
 
     Button sign_up;
+    ImageButton take_photo;
+    ParseFile photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,20 @@ public class SignUpActivity extends Activity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Something is incorrect, please check your information!", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        take_photo = (ImageButton) findViewById(R.id.photo_button);
+        take_photo.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                /*
+                InputMethodManager imm = (InputMethodManager) getActivity()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(c_password.getWindowToken(), 0);
+                */
+                startCamera();
             }
         });
 
@@ -149,5 +169,18 @@ public class SignUpActivity extends Activity {
             return false;
         }
         return true;
+    }
+
+    public void setPhoto(ParseFile pic) {
+        photo = pic;
+    }
+
+    public void startCamera() {
+        Fragment cameraFragment = new CameraFragment();
+        FragmentTransaction transaction = this.getFragmentManager()
+                .beginTransaction();
+        transaction.replace(R.id.fragmentContainer, cameraFragment);
+        transaction.addToBackStack("NewMealFragment");
+        transaction.commit();
     }
 }
