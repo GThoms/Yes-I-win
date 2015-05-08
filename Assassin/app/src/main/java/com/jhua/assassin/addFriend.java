@@ -25,10 +25,10 @@ public class addFriend extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_friend);
+        setContentView(R.layout.add_friend);
 
-        friendName = (EditText) findViewById(R.id.addFriendUsername);
-        addFriend = (Button) findViewById(R.id.addFriendButton);
+        //friendName = (EditText) findViewById(R.id.addFriendUsername);
+        //addFriend = (Button) findViewById(R.id.addFriendButton);
 
         addFriend.setOnClickListener(new View.OnClickListener() {
             @Override

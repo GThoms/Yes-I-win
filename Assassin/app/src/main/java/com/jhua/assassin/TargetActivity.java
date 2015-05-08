@@ -66,7 +66,7 @@ public class TargetActivity extends Activity {
 
         Intent intent = new Intent(this, NoTarget.class);
         startActivity(intent);
-/*
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
         query.whereEqualTo("status", "current");
         query.whereEqualTo("players", ParseUser.getCurrentUser());
@@ -82,7 +82,7 @@ public class TargetActivity extends Activity {
                 }
             }
         });
-*/
+
 
         setContentView(R.layout.activity_target);
 
@@ -137,20 +137,6 @@ public class TargetActivity extends Activity {
 
         }
 
-
-        /*
-        ParseQuery<ParseUser> query = ParseQuery.getQuery("Player");
-        query.whereEqualTo("fbId", ParseUser.getCurrentUser().get("target"));
-        query.findInBackground(new FindCallback<ParseUser>() {
-            public void done(List<ParseUser> scoreList, ParseException e) {
-                if (e == null) {
-                    Log.d("score", "Retrieved " + scoreList.size() + " scores");
-                } else {
-                    Log.d("score", "Error: " + e.getMessage());
-                }
-            }
-        });
-        */
     }
 
 

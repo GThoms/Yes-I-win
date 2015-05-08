@@ -53,6 +53,7 @@
     <string name="password">Password</string>
     <string name="title_activity_no_target">NoTarget</string>
     <string name="title_activity_friend_list">FriendList</string>
+    <string name="title_dialog_add_friend">Add New Friend</string>
     <string name="title_activity_add_friend">addFriend</string>
 
 </resources>

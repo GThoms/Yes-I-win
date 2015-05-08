@@ -63,6 +63,7 @@ public class LoginActivity extends Activity {
                 if (user != null) {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    Toast toast = Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_SHORT);
                 } else {
                     Toast toast = Toast.makeText(getApplicationContext(), "Username and/or password is incorrect!", Toast.LENGTH_SHORT);
                 }

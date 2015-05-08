@@ -1,7 +1,9 @@
 package com.jhua.assassin;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -9,17 +11,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class FriendList extends Activity {
@@ -30,6 +39,11 @@ public class FriendList extends Activity {
 
     Button addFriends;
     ListView friendList;
+
+    boolean found;
+    EditText friendName;
+    Button addFriend;
+    String player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,26 +77,47 @@ public class FriendList extends Activity {
 
 
         addFriends = (Button) findViewById(R.id.friendButton);
-        ListView friendList = (ListView) findViewById(R.id.friendList);
+        final ListView friendList = (ListView) findViewById(R.id.friendList);
 
         addFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LayoutInflater layinf = LayoutInflater.from(FriendList.this);
+                View promptsView = layinf.inflate(R.layout.add_friend, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(FriendList.this);
+                builder.setView(promptsView);
 
-                Intent intent = new Intent(FriendList.this, addFriend.class);
-                startActivity(intent);
+                builder.setTitle(R.string.title_dialog_add_friend);
+                //builder.setIcon(R.drawable.whiteplus);
 
+                friendName = (EditText) promptsView.findViewById(R.id.editFriend);
+
+                builder.setCancelable(false).setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        addFriendtoParse();
+                        ArrayList<String> friends = (ArrayList<String>)ParseUser.getCurrentUser().get("friends");
+                        System.out.println(friends);
+
+                        final ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(),
+                                android.R.layout.simple_list_item_1, friends);
+
+                        if (friends != null) {
+                            friendList.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
-
-        ArrayList<String> friends = (ArrayList<String>)ParseUser.getCurrentUser().get("friends");
-
-        final ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1, friends);
-
-        if (!(friends == null)) {
-            friendList.setAdapter(adapter);
-        }
 
         friendList.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -94,8 +129,37 @@ public class FriendList extends Activity {
             }
 
         });
+    }
 
+    private void addFriendtoParse() {
+        player = friendName.getText().toString();
 
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username", player);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> list, ParseException e) {
+                if (e == null) {
+
+                    if (list.isEmpty()) {
+
+                        Toast.makeText(getApplicationContext(),
+                                "That User does not exist!", Toast.LENGTH_LONG)
+                                .show();
+                    } else {
+
+                        if (player.equals(ParseUser.getCurrentUser().getUsername())) {
+                            Toast.makeText(getApplicationContext(),
+                                    "You can't add yourself as a friend! Go find new ones!", Toast.LENGTH_LONG)
+                                    .show();
+                        } else {
+                            ParseUser.getCurrentUser().addUnique("friends", player);
+                            ParseUser.getCurrentUser().saveInBackground();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     @Override
