@@ -37,7 +37,6 @@ public class FriendList extends Activity {
     private String[] navItems;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    Button addFriends;
     ListView friendList;
 
     boolean found;
@@ -76,10 +75,20 @@ public class FriendList extends Activity {
         getActionBar().setHomeButtonEnabled(true);
 
 
-        addFriends = (Button) findViewById(R.id.friendButton);
+        addFriend = (Button) findViewById(R.id.friendButton);
         final ListView friendList = (ListView) findViewById(R.id.friendList);
 
-        addFriends.setOnClickListener(new View.OnClickListener() {
+        ArrayList<String> friends = (ArrayList<String>)ParseUser.getCurrentUser().get("friends");
+
+        final ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item,
+                android.R.id.text1, friends);
+
+        if (friends != null) {
+            friendList.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+
+        addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LayoutInflater layinf = LayoutInflater.from(FriendList.this);
@@ -97,7 +106,6 @@ public class FriendList extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         addFriendtoParse();
                         ArrayList<String> friends = (ArrayList<String>)ParseUser.getCurrentUser().get("friends");
-                        System.out.println(friends);
 
                         final ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(),
                                 android.R.layout.simple_list_item_1, friends);
@@ -160,6 +168,30 @@ public class FriendList extends Activity {
                 }
             }
         });
+    }
+
+    public boolean playerExists(){
+
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username", player);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> objects, ParseException e) {
+                if (e == null) {
+                    if (objects.isEmpty()) {
+                        Log.d("MEH", "WRONGO");
+                        found = false;
+                    } else {
+
+                        Log.d("MEH", "LOLOL");
+                        found = true;
+                    }
+                } else {
+
+                }
+            }
+        });
+
+        return found;
     }
 
     @Override
