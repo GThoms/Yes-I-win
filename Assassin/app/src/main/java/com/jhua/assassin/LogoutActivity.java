@@ -112,7 +112,7 @@ public class LogoutActivity extends Activity {
 
                 // back to login activity
                 if (ParseUser.getCurrentUser() == null) {
-                    Intent login = new Intent(LogoutActivity.this, SignUpActivity.class);
+                    Intent login = new Intent(LogoutActivity.this, LoginActivity.class);
                     startActivity(login);
                 }
             }
