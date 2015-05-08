@@ -58,7 +58,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:theme="@style/AppBaseTheme"
-                android:background="#f6e3d5ff" />
+                android:background="@drawable/rounded_rectangle" />
 
             <ListView
                 android:layout_width="wrap_content"
@@ -68,7 +68,7 @@
                 android:layout_below="@+id/text2"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:background="#f6e3d5ff" />
+                android:background="@drawable/rounded_rectangle" />
 
         </RelativeLayout>
     </FrameLayout>
