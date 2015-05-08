@@ -1,42 +1,23 @@
 package com.jhua.assassin;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 
-public class AddFriendsActivity extends Activity {
-    boolean found;
-    EditText friendName;
-    Button addFriends;
-    String player;
+public class AddFriendsActivity extends ActionBarActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_friend);
-
-       Intent intent = new Intent(AddFriendsActivity.this, FriendListActivity.class);
-        startActivity(intent);
+        setContentView(R.layout.activity_add_friends);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_friend, menu);
+        getMenuInflater().inflate(R.menu.menu_add_friends, menu);
         return true;
     }
 
@@ -53,63 +34,5 @@ public class AddFriendsActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private class MyCustomAdapter extends ArrayAdapter<String> {
-
-        private ArrayList<String> userList;
-
-        public MyCustomAdapter(Context context, int textViewResourceId,
-                               ArrayList<String> userList) {
-            super(context, textViewResourceId, userList);
-            this.userList = new ArrayList<String>();
-            this.userList.addAll(userList);
-        }
-
-        private class ViewHolder {
-            TextView uName;
-            CheckBox check;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            ViewHolder holder = null;
-            Log.v("ConvertView", String.valueOf(position));
-
-            if (convertView == null) {
-                LayoutInflater vi = (LayoutInflater)getSystemService(
-                        Context.LAYOUT_INFLATER_SERVICE);
-                convertView = vi.inflate(R.layout.list_item_checkbox, null);
-
-                holder = new ViewHolder();
-                holder.uName = (TextView) convertView.findViewById(R.id.text1);
-                holder.check = (CheckBox) convertView.findViewById(R.id.friend_checkbox);
-                convertView.setTag(holder);
-
-                holder.check.setOnClickListener( new View.OnClickListener() {
-                    public void onClick(View v) {
-                        CheckBox cb = (CheckBox) v ;
-                        Toast.makeText(getApplicationContext(),
-                                "Clicked on Checkbox: " + cb.getText() +
-                                        " is " + cb.isChecked(),
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-            else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            String user = userList.get(position);
-            holder.uName.setText(user);
-            //holder.check.setText(country.getName());
-            //holder.check.setChecked(user.isSelected());
-            //holder.check.setTag(country);
-
-            return convertView;
-
-        }
-
     }
 }

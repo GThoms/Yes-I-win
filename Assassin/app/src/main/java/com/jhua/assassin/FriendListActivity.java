@@ -91,11 +91,12 @@ public class FriendListActivity extends Activity {
 
         //Make a new adapter for friend list
         adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item,
-                android.R.id.text1, friends);
+                android.R.id.text1);
 
+        friendList.setAdapter(adapter);
         //If user has friends, set adapter to friend list view
         if (friends != null) {
-            friendList.setAdapter(adapter);
+            adapter.addAll(friends);
         }
 
         //Listener for add friend button
@@ -122,12 +123,6 @@ public class FriendListActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         addFriendtoParse();
-                        ArrayList<String> newfriends = (ArrayList<String>)ParseUser.getCurrentUser().get("friends");
-                        String f = "" + newfriends.size();
-                        Toast.makeText(getApplicationContext(), f, Toast.LENGTH_SHORT);
-
-                        //adapter.clear();
-                        //adapter.addAll(newfriends);
                         adapter.notifyDataSetChanged();
                         friendList.invalidateViews();
 
