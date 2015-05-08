@@ -62,7 +62,7 @@ public class SignUpActivity extends Activity {
                     Log.d(TAG, "Passwords Match");
                     makeUser();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Something is incorrect, please check your information!", Toast.LENGTH_LONG);
+                    Toast.makeText(getApplicationContext(), "Something is incorrect, please check your information!", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -119,7 +119,7 @@ public class SignUpActivity extends Activity {
                 if (e == null) {
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Oops! That user already exists!", Toast.LENGTH_LONG);
+                    Toast.makeText(getApplicationContext(), "Oops! That user already exists!", Toast.LENGTH_LONG).show();
                 }
             }
         });

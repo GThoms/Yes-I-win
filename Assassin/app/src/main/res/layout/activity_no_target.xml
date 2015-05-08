@@ -26,7 +26,7 @@
                     android:layout_width="190dp"
                     android:layout_height="190dp"
                     android:id="@+id/imageView2"
-                    android:background="@drawable/circle_blue"
+                    android:background="@drawable/circle_red"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="40dp" />
 
@@ -66,14 +66,14 @@
             android:layout_width="fill_parent"
             android:layout_height="25dp"
             android:id="@+id/imageView3"
-            android:background="@drawable/rectangle_blue" />
+            android:background="@drawable/rectangle_red" />
 
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="25dp"
             android:id="@+id/imageView4"
             android:layout_gravity="bottom"
-            android:background="@drawable/rectangle_blue" />
+            android:background="@drawable/rectangle_red" />
 
     </FrameLayout>
 
