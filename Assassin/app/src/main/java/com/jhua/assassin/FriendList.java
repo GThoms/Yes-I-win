@@ -39,7 +39,11 @@ public class FriendList extends Activity {
     private String[] navItems;
     private ActionBarDrawerToggle mDrawerToggle;
 
+<<<<<<< HEAD
     //XML view for list of friends
+=======
+    Button addFriends;
+>>>>>>> parent of 61d4a03... made Add friends activity into the activity that adds friends to the game. It is not yet complete.
     ListView friendList;
 
     //ParseUser's list of friends
@@ -85,6 +89,7 @@ public class FriendList extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
+<<<<<<< HEAD
         //Save XML views
         addFriend = (Button) findViewById(R.id.friendButton);
         final ListView friendList = (ListView) findViewById(R.id.friendList);
@@ -105,6 +110,13 @@ public class FriendList extends Activity {
         //Listener for add friend button
         //Makes a dialog box that lets you add friends
         addFriend.setOnClickListener(new View.OnClickListener() {
+=======
+
+        addFriends = (Button) findViewById(R.id.friendButton);
+        final ListView friendList = (ListView) findViewById(R.id.friendList);
+
+        addFriends.setOnClickListener(new View.OnClickListener() {
+>>>>>>> parent of 61d4a03... made Add friends activity into the activity that adds friends to the game. It is not yet complete.
             @Override
             public void onClick(View v) {
 
@@ -124,6 +136,12 @@ public class FriendList extends Activity {
                 builder.setCancelable(false).setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+<<<<<<< HEAD
+=======
+                        addFriendtoParse();
+                        ArrayList<String> friends = (ArrayList<String>)ParseUser.getCurrentUser().get("friends");
+                        System.out.println(friends);
+>>>>>>> parent of 61d4a03... made Add friends activity into the activity that adds friends to the game. It is not yet complete.
 
                         player = friendName.getText().toString();
                         addFriendtoParse();
@@ -182,6 +200,7 @@ public class FriendList extends Activity {
                             ParseUser.getCurrentUser().addUnique("friends", player);
                             ParseUser.getCurrentUser().saveInBackground();
 
+<<<<<<< HEAD
 
                             Intent intent = new Intent(FriendList.this, AddFriends.class);
                             startActivity(intent);
@@ -193,6 +212,8 @@ public class FriendList extends Activity {
     }
 
     //Navigation Drawer
+=======
+>>>>>>> parent of 61d4a03... made Add friends activity into the activity that adds friends to the game. It is not yet complete.
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
