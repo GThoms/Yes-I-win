@@ -5,6 +5,9 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,8 +18,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -24,6 +30,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -31,6 +38,11 @@ public class SignUpActivity extends Activity {
 
     private static final String TAG = "SignUpActivity";
     private static final int PICK_PHOTO_FOR_AVATAR = 0;
+
+    static final int MENU_CAMERA = Menu.FIRST;
+    static final int MENU_GALLERY = Menu.FIRST + 1;
+    static final int CAPTURE_BEFORE = 13;
+    static final int SELECT_BEFORE = 12;
 
     EditText username;
     EditText password;
@@ -40,24 +52,22 @@ public class SignUpActivity extends Activity {
 
     Button sign_up;
     ImageButton take_photo;
-    ParseFile photo;
+    ImageView photo;
+    private PopupMenu popup;
+
+    Uri beforeURI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        ParseObject hello = new ParseObject("Hello");
-
-        hello.put("greeting", "hello");
-
-        hello.saveInBackground();
-
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         c_password = (EditText) findViewById(R.id.c_password);
         email = (EditText) findViewById(R.id.email);
         name = (EditText) findViewById(R.id.name);
+        photo = (ImageView) findViewById(R.id.photo);
 
         sign_up = (Button) findViewById(R.id.sign_up);
         sign_up.setOnClickListener(new View.OnClickListener() {
@@ -73,17 +83,33 @@ public class SignUpActivity extends Activity {
             }
         });
 
-        take_photo = (ImageButton) findViewById(R.id.photo_button);
-        take_photo.setOnClickListener(new View.OnClickListener() {
+        popup = new PopupMenu(this, findViewById(R.id.photo_button));
+        popup.getMenu().add(Menu.NONE, MENU_CAMERA, Menu.NONE, "Take a Picture");
+        popup.getMenu().add(Menu.NONE, MENU_GALLERY, Menu.NONE, "Choose From Gallery");
 
+        photo = (ImageView) findViewById(R.id.photo);
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case MENU_CAMERA:
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(takePictureIntent, CAPTURE_BEFORE);
+                        }
+                        break;
+                    case MENU_GALLERY:
+                        startActivityForResult(new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), SELECT_BEFORE);
+                        break;
+                }
+                return false;
+            }
+        });
+        findViewById(R.id.photo_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                InputMethodManager imm = (InputMethodManager) getActivity()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(c_password.getWindowToken(), 0);
-                */
-                startCamera();
+                popup.show();
             }
         });
 
@@ -120,8 +146,21 @@ public class SignUpActivity extends Activity {
         //Email is not working for some reason, wont let me sign up with this
         //user.setEmail(email.getText().toString());
 
+<<<<<<< HEAD
+=======
+        user.put("eliminations", 0);
 
+        //Nuumbers of wins
+        user.put("wins", 0);
+
+
+>>>>>>> origin/master
         user.put("name", name.getText().toString());
+        user.put("photo", photo);
+
+<<<<<<< HEAD
+=======
+
 
         // pickImage();
         /*
@@ -133,6 +172,7 @@ public class SignUpActivity extends Activity {
             }
         });
         */
+>>>>>>> origin/master
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
@@ -144,7 +184,7 @@ public class SignUpActivity extends Activity {
             }
         });
     }
-    /*
+
     public void pickImage() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -154,33 +194,25 @@ public class SignUpActivity extends Activity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_PHOTO_FOR_AVATAR && resultCode == Activity.RESULT_OK) {
-            if (data == null) {
-                // Display an error
-                return;
+        if (requestCode == SELECT_BEFORE) {
+            if (resultCode == Activity.RESULT_OK) {
+                beforeURI = data.getData();
+                photo.setImageURI(beforeURI);
             }
-            InputStream inputStream = context.getContentResolver().openInputStream(data.getData());
-            // Now you can do whatever you want with your inpustream, save it as file, upload to a server, decode a bitmap...
+        } else if (requestCode == CAPTURE_BEFORE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                photo.setImageBitmap(imageBitmap);
+                beforeURI = data.getData();
+            }
         }
     }
-    */
+
     public boolean passwordsMatch() {
         if (!password.getText().toString().equals(c_password.getText().toString())) {
             return false;
         }
         return true;
-    }
-
-    public void setPhoto(ParseFile pic) {
-        photo = pic;
-    }
-
-    public void startCamera() {
-        Fragment cameraFragment = new CameraFragment();
-        FragmentTransaction transaction = this.getFragmentManager()
-                .beginTransaction();
-        transaction.replace(R.id.fragmentContainer, cameraFragment);
-        transaction.addToBackStack("NewMealFragment");
-        transaction.commit();
     }
 }
