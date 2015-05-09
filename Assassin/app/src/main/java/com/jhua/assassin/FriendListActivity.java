@@ -151,20 +151,48 @@ public class FriendListActivity extends Activity {
                         .setTitle("Remove Friend")
                         .setMessage("Do you wish to remove this user from your friends list?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //remove friend
-                                Log.d("yes button","yes was clicked");
-                                String name = (String) adapter.getItem(position);
-                                Log.d("name", name);
-                                ParseUser.getCurrentUser().removeAll("friends", Arrays.asList(name));
-                                ParseUser.getCurrentUser().saveInBackground();
-                                adapter.remove(name);
-                                adapter.notifyDataSetChanged();
-                                friendList.invalidateViews();
-                            }
-                        })
-                        .setNegativeButton("No", null).show();
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //remove friend
+                                        Log.d("yes button", "yes was clicked");
+                                        String name = (String) adapter.getItem(position);
+                                        Log.d("name", name);
+                                        ParseUser.getCurrentUser().removeAll("friends", Arrays.asList(name));
+
+                                        //Hope this works!
+                                        ParseQuery<ParseUser> query = ParseUser.getQuery();
+                                        query.whereEqualTo("username", name);
+                                        query.findInBackground(new FindCallback<ParseUser>() {
+                                            @Override
+                                            public void done(List<ParseUser> list, ParseException e) {
+                                                if (e == null) {
+                                                    ParseUser.getCurrentUser().removeAll("friendObjects", list);
+                                                    ParseUser.getCurrentUser().
+
+                                                            saveInBackground();
+                                                } else {
+                                                }
+                                            }
+                                        });
+
+                                        ParseUser.getCurrentUser().
+
+                                                saveInBackground();
+
+                                        adapter.remove(name);
+                                        adapter.notifyDataSetChanged();
+                                        friendList.invalidateViews();
+                                    }
+                                }
+
+                        )
+                        .
+
+                                setNegativeButton("No", null)
+
+                        .
+
+                                show();
             }
 
         });
@@ -195,6 +223,7 @@ public class FriendListActivity extends Activity {
                                     "You can't add yourself as a friend! Go find new ones!", Toast.LENGTH_LONG)
                                     .show();
                         } else {
+                            ParseUser.getCurrentUser().addUnique("friendObjects", list.get(0));
                             ParseUser.getCurrentUser().addUnique("friends", player);
                             ParseUser.getCurrentUser().saveInBackground();
 

@@ -120,8 +120,15 @@ public class SignUpActivity extends Activity {
         //Email is not working for some reason, wont let me sign up with this
         //user.setEmail(email.getText().toString());
 
+        user.put("eliminations", 0);
+
+        //Nuumbers of wins
+        user.put("wins", 0);
+
 
         user.put("name", name.getText().toString());
+
+
 
         // pickImage();
         /*
