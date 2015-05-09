@@ -1,10 +1,7 @@
 package com.jhua.assassin;
 
 import android.app.Activity;
-<<<<<<< HEAD
 import android.content.Context;
-=======
->>>>>>> 2183c98cb636d71834ab847806a634b512de1bc2
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,12 +19,8 @@ import android.widget.Toast;
 
 import com.parse.ParseUser;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 
-
-=======
->>>>>>> 2183c98cb636d71834ab847806a634b512de1bc2
 public class AddFriendsActivity extends Activity {
 
     @Override
