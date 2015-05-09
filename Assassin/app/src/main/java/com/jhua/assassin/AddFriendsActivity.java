@@ -2,6 +2,7 @@ package com.jhua.assassin;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,7 +41,7 @@ public class AddFriendsActivity extends Activity {
         }
 
         //Make a new adapter for friend list
-        final CustomAdapter adapter = new CustomAdapter(getApplicationContext(), R.layout.list_item_checkbox, android.R.id.text1,friends);
+        final CustomAdapter adapter = new CustomAdapter(getApplicationContext(), R.layout.list_item_checkbox,friends);
 
         friendList.setAdapter(adapter);
         //If user has friends, set adapter to friend list view
@@ -86,15 +87,18 @@ public class AddFriendsActivity extends Activity {
 
         private ArrayList<Friend> friends;
 
-        public CustomAdapter(Context context, int resource, int textViewResourceId, ArrayList<Friend> fList) {
-            super(context, resource, textViewResourceId, fList);
+        public CustomAdapter(Context context, int textViewResourceId, ArrayList<Friend> fList) {
+            super(context, textViewResourceId, fList);
             this.friends = new ArrayList<Friend>();
             this.friends.addAll(fList);
         }
 
+        public CustomAdapter(Context context, int textViewResourceId) {
+            super(context, textViewResourceId);
+        }
+
         private class ViewHolder {
-            TextView name;
-            CheckBox check;
+            CheckBox name;
         }
 
         @Override
@@ -108,8 +112,7 @@ public class AddFriendsActivity extends Activity {
                 row = vi.inflate(R.layout.list_item_checkbox, null);
 
                 holder = new ViewHolder();
-                holder.name = (TextView) convertView.findViewById(R.id.text1);
-                holder.check = (CheckBox) convertView.findViewById(R.id.friend_checkbox);
+                holder.name = (CheckBox) convertView.findViewById(R.id.friend_checkbox);
                 row.setTag(holder);
 
                 holder.name.setOnClickListener(new View.OnClickListener() {
@@ -120,14 +123,6 @@ public class AddFriendsActivity extends Activity {
                     }
                 });
 
-                holder.check.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        CheckBox cb = (CheckBox) v ;
-                        Friend f = (Friend) cb.getTag();
-                        f.setSelected(cb.isChecked());
-                    }
-                });
             }
             else {
                 holder = (ViewHolder) convertView.getTag();
@@ -135,13 +130,16 @@ public class AddFriendsActivity extends Activity {
 
             Friend f = friends.get(position);
             holder.name.setText(f.getName());
-            holder.check.setText(f.getName());
-            holder.check.setChecked(f.isSelected());
-            holder.check.setTag(f);
+            holder.name.setChecked(f.isSelected());
+            holder.name.setTag(f);
 
 
             return row;
 
+        }
+
+        public void addALL(ArrayList<Friend> frnds) {
+            this.friends.addAll(frnds);
         }
 
         public ArrayList<Friend> getFriends() {

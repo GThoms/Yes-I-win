@@ -93,8 +93,7 @@ public class FriendListActivity extends Activity {
         friends = (ArrayList<String>)ParseUser.getCurrentUser().get("friends");
 
         //Make a new adapter for friend list
-        adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item,
-                android.R.id.text1);
+        adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item, android.R.id.text1);
 
         friendList.setAdapter(adapter);
         //If user has friends, set adapter to friend list view
