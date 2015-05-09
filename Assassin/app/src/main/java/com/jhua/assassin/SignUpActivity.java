@@ -145,43 +145,13 @@ public class SignUpActivity extends Activity {
 
         //Email is not working for some reason, wont let me sign up with this
         //user.setEmail(email.getText().toString());
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> origin/master
         user.put("eliminations", 0);
-
-        //Nuumbers of wins
+        //Numbers of wins
         user.put("wins", 0);
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
-
-
->>>>>>> origin/master
         user.put("name", name.getText().toString());
         user.put("photo", photo);
 
-<<<<<<< HEAD
-=======
-
-
-
-
-        // pickImage();
-        /*
-        ParseFile file = new ParseFile("profile_pic.jpg", image);
-
-        file.saveInBackground(new SaveCallback() {
-            public void done(ParseException e) {
-                user.put("pic", file);
-            }
-        });
-        */
->>>>>>> origin/master
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
