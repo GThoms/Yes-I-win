@@ -403,11 +403,13 @@ public class CreateGameActivity extends Activity {
         newGame.addPlayers(players);
 
         // Set targets from player list
-        ArrayList<ParseUser> targets = (ArrayList<ParseUser>) ParseUser.getCurrentUser().get("players");
+        //ArrayList<ParseUser> targets = (ArrayList<ParseUser>) ParseUser.getCurrentUser().get("players");
+        ArrayList<ParseUser> targets = players;
 
-        //Shuffling is causing crashes, i think it doesnt work if its null
-        //Collections.shuffle(targets);
-        //newGame.setTargets(targets);
+        //Should be not null anymore since I'm pulling from local list instead of Parse
+        Collections.shuffle(targets);
+        // Sets users list of all targets in game and sets their current target
+        newGame.setTargets(targets);
 
         //Saves the new parse object
         newGame.saveInBackground();
