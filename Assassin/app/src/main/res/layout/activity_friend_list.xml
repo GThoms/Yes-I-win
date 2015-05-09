@@ -20,20 +20,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="400dp"
                 android:id="@+id/friendList"
-                android:paddingTop="10dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:theme="@style/AppBaseTheme" />
+                android:theme="@style/AppBaseTheme"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/rounded_rectangle" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add Friends!"
                 android:id="@+id/friendButton"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentBottom="false"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/green_button_states"
-                android:textColor="#ffffffff" />
+                android:textColor="#ffffffff"
+                android:layout_below="@+id/friendList"
+                android:layout_marginTop="20dp" />
 
         </RelativeLayout>
     </FrameLayout>
