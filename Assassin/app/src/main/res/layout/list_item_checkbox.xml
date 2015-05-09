@@ -23,7 +23,7 @@
             android:textColor="@color/black"
             android:paddingRight="10dip"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_toRightOf="@+id/checkBox"
+            android:layout_toRightOf="@+id/friend_checkbox"
             android:singleLine="false" />
     </RelativeLayout>
 
