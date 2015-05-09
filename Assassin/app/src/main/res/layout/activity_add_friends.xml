@@ -20,20 +20,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="400dp"
                 android:id="@+id/addfriendList"
-                android:paddingTop="10dp"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:theme="@style/AppBaseTheme" />
+                android:layout_alignParentStart="false"
+                android:theme="@style/AppBaseTheme"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/rounded_rectangle"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentRight="true" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add Friends to game"
                 android:id="@+id/addfriendsButton"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentBottom="false"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/green_button_states"
-                android:textColor="#ffffffff" />
+                android:textColor="#ffffffff"
+                android:layout_below="@+id/addfriendList"
+                android:layout_marginTop="20dp" />
 
         </RelativeLayout>
     </FrameLayout>
