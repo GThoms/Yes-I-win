@@ -147,11 +147,18 @@ public class SignUpActivity extends Activity {
         //user.setEmail(email.getText().toString());
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> origin/master
         user.put("eliminations", 0);
 
         //Nuumbers of wins
         user.put("wins", 0);
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 
 
 >>>>>>> origin/master
@@ -160,6 +167,8 @@ public class SignUpActivity extends Activity {
 
 <<<<<<< HEAD
 =======
+
+
 
 
         // pickImage();
