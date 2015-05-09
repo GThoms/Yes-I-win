@@ -100,6 +100,8 @@ public class FriendListActivity extends Activity {
         //If user has friends, set adapter to friend list view
         if (friends != null) {
             adapter.addAll(friends);
+        } else {
+            adapter.add("You have no friends...");
         }
 
         //Listener for add friend button
@@ -175,24 +177,13 @@ public class FriendListActivity extends Activity {
                                             }
                                         });
 
-                                        ParseUser.getCurrentUser().
-
-                                                saveInBackground();
+                                        ParseUser.getCurrentUser().saveInBackground();
 
                                         adapter.remove(name);
                                         adapter.notifyDataSetChanged();
                                         friendList.invalidateViews();
                                     }
-                                }
-
-                        )
-                        .
-
-                                setNegativeButton("No", null)
-
-                        .
-
-                                show();
+                                }).setNegativeButton("No", null).show();
             }
 
         });
@@ -228,6 +219,9 @@ public class FriendListActivity extends Activity {
                             ParseUser.getCurrentUser().saveInBackground();
 
                             if(adapter.getPosition(player) < 0) {
+                                if(adapter.getItem(0).equals("You have no friends...")) {
+                                    adapter.remove("You have no friends...");
+                                }
                                 adapter.add(player);
                             } else {
                                 Toast.makeText(getApplicationContext(),

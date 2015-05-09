@@ -332,6 +332,8 @@ public class CreateGameActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Pressed add friends", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CreateGameActivity.this, AddFriendsActivity.class);
+                startActivity(intent);
             }
         });
 

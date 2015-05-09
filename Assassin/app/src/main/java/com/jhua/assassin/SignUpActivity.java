@@ -150,7 +150,9 @@ public class SignUpActivity extends Activity {
         user.put("wins", 0);
 
         user.put("name", name.getText().toString());
-        user.put("photo", photo);
+
+        //need to figure out how to store photos
+        //user.put("photo", photo);
 
         user.signUpInBackground(new SignUpCallback() {
             @Override
