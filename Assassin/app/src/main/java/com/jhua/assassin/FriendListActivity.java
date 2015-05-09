@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -25,6 +27,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -143,10 +146,25 @@ public class FriendListActivity extends Activity {
         friendList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Toast.makeText(getApplicationContext(),
-                        "Item " + position, Toast.LENGTH_LONG)
-                        .show();
+                                    final int position, long id) {
+                new AlertDialog.Builder(FriendListActivity.this).setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Remove Friend")
+                        .setMessage("Do you wish to remove this user from your friends list?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //remove friend
+                                Log.d("yes button","yes was clicked");
+                                String name = (String) adapter.getItem(position);
+                                Log.d("name", name);
+                                ParseUser.getCurrentUser().removeAll("friends", Arrays.asList(name));
+                                ParseUser.getCurrentUser().saveInBackground();
+                                adapter.remove(name);
+                                adapter.notifyDataSetChanged();
+                                friendList.invalidateViews();
+                            }
+                        })
+                        .setNegativeButton("No", null).show();
             }
 
         });
@@ -180,7 +198,13 @@ public class FriendListActivity extends Activity {
                             ParseUser.getCurrentUser().addUnique("friends", player);
                             ParseUser.getCurrentUser().saveInBackground();
 
-                            adapter.add(player);
+                            if(adapter.getPosition(player) < 0) {
+                                adapter.add(player);
+                            } else {
+                                Toast.makeText(getApplicationContext(),
+                                        "You are already friends with " + player,
+                                        Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 }

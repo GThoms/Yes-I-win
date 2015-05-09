@@ -35,4 +35,68 @@ public class AddFriendsActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    /*
+    private class MyCustomAdapter extends ArrayAdapter<Country> {
+
+        private ArrayList<Country> countryList;
+
+        public MyCustomAdapter(Context context, int textViewResourceId,
+                               ArrayList<Country> countryList) {
+            super(context, textViewResourceId, countryList);
+            this.countryList = new ArrayList<Country>();
+            this.countryList.addAll(countryList);
+        }
+
+        private class ViewHolder {
+            TextView code;
+            CheckBox name;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ViewHolder holder = null;
+            Log.v("ConvertView", String.valueOf(position));
+
+            if (convertView == null) {
+                LayoutInflater vi = (LayoutInflater)getSystemService(
+                        Context.LAYOUT_INFLATER_SERVICE);
+                convertView = vi.inflate(R.layout.country_info, null);
+
+                holder = new ViewHolder();
+                holder.code = (TextView) convertView.findViewById(R.id.code);
+                holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+                convertView.setTag(holder);
+
+                holder.name.setOnClickListener( new View.OnClickListener() {
+                    public void onClick(View v) {
+                        CheckBox cb = (CheckBox) v ;
+                        Country country = (Country) cb.getTag();
+                        Toast.makeText(getApplicationContext(),
+                                "Clicked on Checkbox: " + cb.getText() +
+                                        " is " + cb.isChecked(),
+                                Toast.LENGTH_LONG).show();
+                        country.setSelected(cb.isChecked());
+                    }
+                });
+            }
+            else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            Country country = countryList.get(position);
+            holder.code.setText(" (" +  country.getCode() + ")");
+            holder.name.setText(country.getName());
+            holder.name.setChecked(country.isSelected());
+            holder.name.setTag(country);
+
+            return convertView;
+
+        }
+
+    }
+    */
+
+
 }
