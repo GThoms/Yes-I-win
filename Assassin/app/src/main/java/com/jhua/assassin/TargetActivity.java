@@ -274,8 +274,20 @@ public class TargetActivity extends Activity {
             @Override
             public void onClick(View v) {
                 ParsePush push = new ParsePush();
+                ParseUser myTarget = ParseUser.getCurrentUser().get("target");
                 // push.setChannel(ParseUser.getCurrentUser().get("target").toString());
                 push.setMessage("You've been attacked!!");
+                /* Code to reassign target
+                String name = ParseUser.getCurrentUser().getUsername().toString();
+                
+                
+                for (int i = 0; i < targetArray.length; i++) {
+                    if (p.getUsername().toString().equals(name)) {
+                        myTarget = targetArray[(i+1) % targetArray.length];
+                    }
+                }
+                ParseUser.getCurrentUser().put("target", myTarget);  // puts ParseUser object in target field for this ParseUser
+                */
                 push.sendInBackground();
             }
         });
