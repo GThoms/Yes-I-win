@@ -267,7 +267,15 @@ public class GameListAdapter extends BaseAdapter {
 		alertDialogBuilder.setCancelable(false)
 				.setPositiveButton(positive, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-
+                        if (positive.equals("Join")) {
+                            //join
+                        } else if (positive.equals("Leave")) {
+                            //leave
+                        } else if (positive.equals("Start")) {
+                            //start
+                        } else if (positive.equals("Delete")) {
+                            //delete
+                        }
 					}
 				})
 				.setNegativeButton("Cancel",

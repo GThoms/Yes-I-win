@@ -45,13 +45,13 @@ public class Game extends ParseObject {
     public void setTargets(ArrayList<ParseUser> targets) {
         put("targets", targets);
         // Get target from targets list
-        String name = ParseUser.getCurrentUser().getUsername().toString();
+        String name = ParseUser.getCurrentUser().getUsername();
         ParseUser myTarget = null;
         ParseUser[] targetArray = new ParseUser[targets.size()];
         targetArray = targets.toArray(targetArray);
         for (int i = 0; i < targetArray.length; i++) {
             ParseUser p = targetArray[i];
-            if (p.getUsername().toString().equals(name)) {
+            if (p.getUsername().equals(name)) {
                 myTarget = targetArray[(i+1) % targetArray.length];
             }
         }
