@@ -33,6 +33,7 @@ public class AddFriendsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
+        getActionBar().setDisplayHomeAsUpEnabled(false);
 
         lv = (ListView) findViewById(R.id.addfriendList);
 
@@ -52,24 +53,16 @@ public class AddFriendsActivity extends Activity {
 
         //Make a new adapter for friend list
         final CustomAdapter adapter = new CustomAdapter(this, friends);
-
+        lv.setAdapter(adapter);
         //If user has friends, set adapter to friend list view
-        if (friends != null) {
-            lv.setAdapter(adapter);
-        }
 
         Button addFriends = (Button) findViewById(R.id.addfriendsButton);
         addFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Friend> friends = adapter.getFriends();
-                String names = "";
-                for(Friend f: friends){
-                    if(f.isSelected()) {
-                        names += f.getName() + " ";
-                    }
-                }
-                Toast.makeText(getApplicationContext(), names, Toast.LENGTH_LONG).show();
+                ArrayList<Friend> selected = adapter.getSelected();
+
+                
                 //send push notifications to the users
                 //add the game to all friends pending games section
             }
@@ -166,6 +159,16 @@ public class AddFriendsActivity extends Activity {
 
         public ArrayList<Friend> getFriends() {
             return friends;
+        }
+
+        public ArrayList<Friend> getSelected() {
+            ArrayList<Friend> selected = new ArrayList<Friend>();
+            for(Friend f: friends) {
+                if(f.isSelected()) {
+                    selected.add(f);
+                }
+            }
+            return selected;
         }
     }
 }
