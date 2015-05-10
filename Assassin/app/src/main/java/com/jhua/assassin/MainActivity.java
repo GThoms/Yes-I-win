@@ -287,25 +287,34 @@ public class MainActivity extends Activity {
 		gamesListView.setAdapter(gameListAdapter);
 	}
 
-
     //Allows us to use Dialogs in our activity
 	private void showDialog(char type) {
 		// TODO : stopService() when user leaves game, startService() when user enters game
 		// get prompts.xml view
 		LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+		String negative = "Cancel";
+		String positive = "Join";
 
 		View promptView;
 		if (type == 'p') {
 			promptView = layoutInflater.inflate(R.layout.pending_dialog, null);
+			negative = "Reject";
+			positive = "Join";
 		}
 		else if (type == 'a') {
 			promptView = layoutInflater.inflate(R.layout.leave_dialog, null);
+			negative = "Cancel";
+			positive = "Leave";
 		}
         else if (type == 's') {
             promptView = layoutInflater.inflate(R.layout.start_dialog, null);
+			negative = "Cancel";
+			positive = "Start";
 		}
         else {
 			promptView = layoutInflater.inflate(R.layout.delete_dialog, null);
+			negative = "Cancel";
+			positive = "Delete";
 		}
 
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -313,12 +322,12 @@ public class MainActivity extends Activity {
 
 		// setup a dialog window
 		alertDialogBuilder.setCancelable(false)
-				.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+				.setPositiveButton(positive, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 
 					}
 				})
-				.setNegativeButton("Cancel",
+				.setNegativeButton(negative,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								dialog.cancel();

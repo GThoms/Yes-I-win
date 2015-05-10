@@ -421,6 +421,7 @@ public class CreateGameActivity extends Activity {
             Toast.makeText(getApplicationContext(), "You need at least one other player to start a game!", Toast.LENGTH_LONG).show();
             return false;
         }
+        /*
         //newGame.addPlayers(players);
         newGame.addPlayer(ParseUser.getCurrentUser());
         for(String n: userNames) {
@@ -430,26 +431,29 @@ public class CreateGameActivity extends Activity {
                 @Override
                 public void done(List<ParseUser> list, ParseException e) {
                     if (e == null) {
-
                         newGame.addPlayer(list.get(0));
                     }
                 }
             });
         }
-
+        */
+        // put player usernames in game
+        for (String n: userNames) {
+            newGame.addPlayer(n);
+        }
         // Set targets from player list
-        //ArrayList<ParseUser> targets = (ArrayList<ParseUser>) ParseUser.getCurrentUser().get("players");
-        //ArrayList<ParseUser> targets = players;
+        ArrayList<ParseUser> targets = players;
+
         if(players != null) {
             Log.d("players size", "" + players.size());
         } else {
             Log.d("Players size", "NULL");
         }
 
-        //Should be not null anymore since I'm pulling from local list instead of Parse
-        //Collections.shuffle(targets);
+        // Should be not null anymore since I'm pulling from local list instead of Parse
+        Collections.shuffle(targets);
         // Sets users list of all targets in game and sets their current target
-        //newGame.setTargets(targets);
+        newGame.setTargets(targets);
 
         //Saves the new parse object
         newGame.saveInBackground();
@@ -457,12 +461,15 @@ public class CreateGameActivity extends Activity {
         //Set current user as creator
         newGame.setCreator(ParseUser.getCurrentUser().getUsername());
 
+        // give the player the game
+        ParseUser.getCurrentUser().put("game", newGame);
+        ParseUser.getCurrentUser().saveInBackground();
+
         // start the location service
         Intent intent = new Intent(CreateGameActivity.this, LocationService.class);
         startService(intent);
         return true;
     }
-
 
     //Allows us to use dialogs
     private void showDialog(final char type) {

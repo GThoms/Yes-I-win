@@ -28,10 +28,11 @@ public class Game extends ParseObject {
         addAllUnique("activePlayers", players);
     }
 
-    public void addPlayer(ParseUser player) {
-        Log.d("Game/AddPlayer", player.getUsername());
-        Log.d("Game/AddPlayer", player.getObjectId());
-        //why the fuck is it not adding the player? This doesn't make any sense!
+    public void addPlayer(String player) {
+        // Log.d("Game/AddPlayer", player.getUsername());
+        // Log.d("Game/AddPlayer", player.getObjectId());
+        // why the fuck is it not adding the player? This doesn't make any sense!
+        // ^ LOL
         addUnique("players", player);
         addUnique("activePlayers", player);
     }
