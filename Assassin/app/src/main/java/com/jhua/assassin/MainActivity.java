@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.appevents.AppEventsLogger;
@@ -202,6 +203,9 @@ public class MainActivity extends Activity {
 	@SuppressLint("ResourceAsColor")
 	private void setUpGamesList() {
 
+        TextView loadText = (TextView) findViewById(R.id.loadingText);
+        loadText.setText("Loading...");
+
         //Linked list of current games
         currentGames = new LinkedList<Map<String,?>>();
 
@@ -285,6 +289,9 @@ public class MainActivity extends Activity {
 
         //Add adapter to game list, actually populates game list here
 		gamesListView.setAdapter(gameListAdapter);
+
+        //Remove loading text
+        loadText.setText("");
 	}
 
     //Allows us to use Dialogs in our activity

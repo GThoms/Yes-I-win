@@ -36,7 +36,7 @@ public class LeaderboardActivity extends TabActivity {
 
 
         TabHost.TabSpec spec2=tabHost.newTabSpec("Remaining Players");
-        spec2.setIndicator("Remaining Players"); //Set tab title
+        spec2.setIndicator("Number of Wins"); //Set tab title
         spec2.setContent(new Intent(this, RemainingLeaderboard.class));//Set tab content
 
 

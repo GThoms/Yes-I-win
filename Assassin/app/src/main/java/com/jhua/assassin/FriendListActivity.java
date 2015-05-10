@@ -95,13 +95,15 @@ public class FriendListActivity extends Activity {
         //Make a new adapter for friend list
         adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item, android.R.id.text1);
 
-        friendList.setAdapter(adapter);
+
         //If user has friends, set adapter to friend list view
         if (friends != null) {
             adapter.addAll(friends);
         } else {
             adapter.add("You have no friends...");
         }
+
+        friendList.setAdapter(adapter);
 
         //Listener for add friend button
         //Makes a dialog box that lets you add friends
@@ -179,6 +181,11 @@ public class FriendListActivity extends Activity {
                                         ParseUser.getCurrentUser().saveInBackground();
 
                                         adapter.remove(name);
+
+                                        if (adapter.isEmpty()) {
+                                            adapter.add("You have no friends...");
+                                        }
+
                                         adapter.notifyDataSetChanged();
                                         friendList.invalidateViews();
                                     }
