@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,11 +28,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jhua.assassin.R;
+import com.parse.FindCallback;
 import com.parse.Parse;
+import com.parse.ParseClassName;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 //Create a new game
@@ -62,11 +69,16 @@ public class CreateGameActivity extends Activity {
     private float blockDuration; // in seconds
     private float attackRadius; // in yards
 
+    //String array for friends
+    ArrayList<String> userNames;
+
     //Create activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
+
+        userNames = getIntent().getStringArrayListExtra("PLAYER_LIST");
 
         //PRETTY FONTS
         font_med = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Medium.ttf");
@@ -331,9 +343,13 @@ public class CreateGameActivity extends Activity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Pressed add friends", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(CreateGameActivity.this, AddFriendsActivity.class);
-                startActivity(intent);
+                ArrayList<String> sFriends = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
+                if(sFriends == null) {
+                    Toast.makeText(getApplicationContext(),"You do not have any friends to add!",Toast.LENGTH_LONG).show();
+                } else {
+                    startActivity(intent);
+                }
             }
         });
 
@@ -387,7 +403,7 @@ public class CreateGameActivity extends Activity {
 
 
         //Parse Game object
-        Game newGame = new Game();
+        final Game newGame = new Game();
 
         //Set relevant object fields for Game
         newGame.setGameName(name);
@@ -399,17 +415,41 @@ public class CreateGameActivity extends Activity {
         //Unimplemented player adding
         // Make ArrayList<ParseUser> with all the users added via some dialog or something
         // Add this list to parse
-        ArrayList<ParseUser> players = addPlayers();
-        newGame.addPlayers(players);
+
+        ArrayList<ParseUser> players = addPlayers(userNames);
+        if(userNames == null || userNames.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "You need at least one other player to start a game!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        //newGame.addPlayers(players);
+        newGame.addPlayer(ParseUser.getCurrentUser());
+        for(String n: userNames) {
+            ParseQuery<ParseUser> query = ParseUser.getQuery();
+            query.whereEqualTo("username", n);
+            query.findInBackground(new FindCallback<ParseUser>() {
+                @Override
+                public void done(List<ParseUser> list, ParseException e) {
+                    if (e == null) {
+
+                        newGame.addPlayer(list.get(0));
+                    }
+                }
+            });
+        }
 
         // Set targets from player list
         //ArrayList<ParseUser> targets = (ArrayList<ParseUser>) ParseUser.getCurrentUser().get("players");
-        ArrayList<ParseUser> targets = players;
+        //ArrayList<ParseUser> targets = players;
+        if(players != null) {
+            Log.d("players size", "" + players.size());
+        } else {
+            Log.d("Players size", "NULL");
+        }
 
         //Should be not null anymore since I'm pulling from local list instead of Parse
-        Collections.shuffle(targets);
+        //Collections.shuffle(targets);
         // Sets users list of all targets in game and sets their current target
-        newGame.setTargets(targets);
+        //newGame.setTargets(targets);
 
         //Saves the new parse object
         newGame.saveInBackground();
@@ -477,13 +517,28 @@ public class CreateGameActivity extends Activity {
     /**
      * Add players from a set list of friends, return arraylist of users
     **/
-    private ArrayList<ParseUser> addPlayers() {
-        ArrayList<ParseUser> friendsAdded = new ArrayList<ParseUser>();
-        // some code that accesses ParseUser's friends
-
-        friendsAdded.add(ParseUser.getCurrentUser());
-
-
-        return friendsAdded;
+    private ArrayList<ParseUser> addPlayers(ArrayList<String> uNames) {
+        if(uNames == null || uNames.isEmpty()) {
+            return null;
+        }
+        final ArrayList<ParseUser> players = new ArrayList<ParseUser>();
+        players.add(ParseUser.getCurrentUser());
+        for(String name: uNames) {
+            Log.d("loop begin", "" + players.size());
+            ParseQuery<ParseUser> query = ParseUser.getQuery();
+            query.whereEqualTo("username", name);
+            query.findInBackground(new FindCallback<ParseUser>() {
+                @Override
+                public void done(List<ParseUser> list, ParseException e) {
+                    if (e == null) {
+                        boolean added = players.add(list.get(0));
+                        Log.d("Added bool", "" + added);
+                        Log.d("After add", "" + players.size());
+                    }
+                }
+            });
+            Log.d("loop end", "" + players.size());
+        }
+        return players;
     }
 }

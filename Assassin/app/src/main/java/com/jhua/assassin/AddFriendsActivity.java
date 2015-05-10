@@ -20,9 +20,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddFriendsActivity extends Activity {
 
@@ -35,19 +39,15 @@ public class AddFriendsActivity extends Activity {
         setContentView(R.layout.activity_add_friends);
         getActionBar().setDisplayHomeAsUpEnabled(false);
 
-        lv = (ListView) findViewById(R.id.addfriendList);
-
         //Get friend list from current user
         ArrayList<String> sFriends = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
+
+
         friends = new ArrayList<Friend>();
+        lv = (ListView) findViewById(R.id.addfriendList);
 
-        if(sFriends.isEmpty()) {
-            Intent intent = new Intent(AddFriendsActivity.this, CreateGameActivity.class);
-            Toast.makeText(getApplicationContext(),"You do not have any friends to add!",Toast.LENGTH_LONG).show();
-        }
-
-        for(String s: sFriends) {
-            Friend f = new Friend(s,false);
+        for (String s : sFriends) {
+            Friend f = new Friend(s, false);
             friends.add(f);
         }
 
@@ -60,11 +60,11 @@ public class AddFriendsActivity extends Activity {
         addFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Friend> selected = adapter.getSelected();
-
-                
+                ArrayList<String> selected = adapter.getSelected();
+                Intent intent = new Intent(AddFriendsActivity.this, CreateGameActivity.class);
+                intent.putStringArrayListExtra("PLAYER_LIST", selected);
+                startActivity(intent);
                 //send push notifications to the users
-                //add the game to all friends pending games section
             }
         });
     }
@@ -161,11 +161,11 @@ public class AddFriendsActivity extends Activity {
             return friends;
         }
 
-        public ArrayList<Friend> getSelected() {
-            ArrayList<Friend> selected = new ArrayList<Friend>();
+        public ArrayList<String> getSelected() {
+            ArrayList<String> selected = new ArrayList<String>();
             for(Friend f: friends) {
                 if(f.isSelected()) {
-                    selected.add(f);
+                    selected.add(f.getName());
                 }
             }
             return selected;

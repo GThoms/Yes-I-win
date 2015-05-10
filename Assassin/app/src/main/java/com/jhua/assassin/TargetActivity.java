@@ -274,7 +274,7 @@ public class TargetActivity extends Activity {
             @Override
             public void onClick(View v) {
                 ParsePush push = new ParsePush();
-                ParseUser myTarget = ParseUser.getCurrentUser().get("target");
+                //ParseUser myTarget = ParseUser.getCurrentUser().get("target");
                 // push.setChannel(ParseUser.getCurrentUser().get("target").toString());
                 push.setMessage("You've been attacked!!");
                 // Code to reassign target

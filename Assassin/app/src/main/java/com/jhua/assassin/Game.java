@@ -1,5 +1,7 @@
 package com.jhua.assassin;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +28,14 @@ public class Game extends ParseObject {
         addAllUnique("activePlayers", players);
     }
 
+    public void addPlayer(ParseUser player) {
+        Log.d("Game/AddPlayer", player.getUsername());
+        Log.d("Game/AddPlayer", player.getObjectId());
+        //why the fuck is it not adding the player? This doesn't make any sense!
+        addUnique("players", player);
+        addUnique("activePlayers", player);
+    }
+
     public void removePlayer(String player) {
         addUnique("eliminatedPlayers", player);
         removeAll("players", Arrays.asList(player));
@@ -36,8 +46,10 @@ public class Game extends ParseObject {
         // Get target from targets list
         String name = ParseUser.getCurrentUser().getUsername().toString();
         ParseUser myTarget = null;
-        ParseUser[] targetArray = targets.toArray(ParseUser[] targetArray);
+        ParseUser[] targetArray = new ParseUser[targets.size()];
+        targetArray = targets.toArray(targetArray);
         for (int i = 0; i < targetArray.length; i++) {
+            ParseUser p = targetArray[i];
             if (p.getUsername().toString().equals(name)) {
                 myTarget = targetArray[(i+1) % targetArray.length];
             }
