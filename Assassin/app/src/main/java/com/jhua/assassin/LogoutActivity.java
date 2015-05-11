@@ -25,9 +25,12 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.ParseFacebookUtils;
+
+import java.util.List;
 
 import bolts.Task;
 
@@ -181,7 +184,14 @@ public class LogoutActivity extends Activity {
     }
 
     private void logout() {
-        // fb logout here
+        // unsubscribe from channels and subscribe to current user
+        List<String> subscribedChannels = ParseInstallation.getCurrentInstallation().getList("channels");
+        if (subscribedChannels != null) {
+            for (String channel : subscribedChannels) {
+                ParsePush.unsubscribeInBackground(channel);
+                Log.d("Channels", "all channels unsubscribed");
+            }
+        }
         ParseUser.logOut();
     }
 }
