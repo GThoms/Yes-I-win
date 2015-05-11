@@ -220,6 +220,7 @@ public class SignUpActivity extends Activity {
                 } else {
                     Log.d("saving pic", "success");
                     user.put("pic", photoFile);
+                    user.saveInBackground();
                 }
             }
         });
