@@ -86,7 +86,7 @@ public class GameListAdapter extends BaseAdapter {
             	if (sectionnum == 0) {
             		v.setBackgroundColor(context.getResources().getColor(R.color.green));
             	} else if (sectionnum == 1) {
-            		v.setBackgroundColor(context.getResources().getColor(R.color.orange));
+            		v.setBackgroundColor(context.getResources().getColor(R.color.red));
             	} else {
             		v.setBackgroundColor(context.getResources().getColor(R.color.red));
             	}
@@ -101,7 +101,7 @@ public class GameListAdapter extends BaseAdapter {
 					rightIcon.setImageResource(R.drawable.exit);
                     leftIcon.setImageResource(R.drawable.ic_action_important);
 	            	rightIcon.setOnClickListener(new currentGamesListener(context));
-				} else if (sectionnum == 1) {
+				} /*else if (sectionnum == 1) {
 					// Pending games
 					// If created by currentUser, set to start, else set to accept
 					ParseUser user = ParseUser.getCurrentUser();
@@ -136,7 +136,7 @@ public class GameListAdapter extends BaseAdapter {
 					//}*/
 					// rightIcon.setImageResource(R.drawable.accept);
 					//rightIcon.setOnClickListener(new pendingGamesListener(context));
-				} else {
+				/*}*/ else {
 					rightIcon.setOnClickListener(new completedGamesListener(context));
                     rightIcon.setImageResource(R.drawable.ic_action_discard);
                     leftIcon.setImageResource(R.drawable.ic_action_accept);

@@ -412,7 +412,7 @@ public class CreateGameActivity extends Activity {
         newGame.setGameDuration(gameDuration);
         newGame.setBlockDuration(blockDuration);
         newGame.setAttackRadius(attackRadius);
-        newGame.setStatus("pending");
+        newGame.setStatus("current");
 
         //Unimplemented player adding
         // Make ArrayList<ParseUser> with all the users added via some dialog or something

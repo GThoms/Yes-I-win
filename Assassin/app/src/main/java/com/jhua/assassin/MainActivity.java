@@ -226,9 +226,9 @@ public class MainActivity extends Activity {
 
 
         //Linked list of pending games
-        pendingGames = new LinkedList<Map<String,?>>();
+        //pendingGames = new LinkedList<Map<String,?>>();
 
-        query = ParseQuery.getQuery("Game");
+        /*query = ParseQuery.getQuery("Game");
         query.whereEqualTo("status", "pending");
         query.whereEqualTo("players", ParseUser.getCurrentUser().getUsername());
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -241,7 +241,7 @@ public class MainActivity extends Activity {
                     Log.d("score", "Error: " + e.getMessage());
                 }
             }
-        });
+        });*/
 
 
         //Linked list of completed games
@@ -274,11 +274,11 @@ public class MainActivity extends Activity {
         gameListAdapter.addSection("In Progress", currentGamesAdapter);
 		
 		// Pending Games, set up adapter from linked list
-		SimpleAdapter pendingGamesAdapter = new SimpleAdapter(this, pendingGames, R.layout.game_list_adapter,
-	            new String[] { ITEM_TITLE, ITEM_CAPTION }, new int[] { R.id.gameName, R.id.description });
+		//SimpleAdapter pendingGamesAdapter = new SimpleAdapter(this, pendingGames, R.layout.game_list_adapter,
+	            //new String[] { ITEM_TITLE, ITEM_CAPTION }, new int[] { R.id.gameName, R.id.description });
 
         //Add pending game adapter to game list adapter
-        gameListAdapter.addSection("Pending", pendingGamesAdapter);
+        //gameListAdapter.addSection("Pending", pendingGamesAdapter);
 		
 	    // Completed Games, set up adapter from linked list
 	    SimpleAdapter completedGamesAdapter = new SimpleAdapter(this, completedGames, R.layout.game_list_adapter,
