@@ -441,6 +441,9 @@ public class CreateGameActivity extends Activity {
         for (String n: userNames) {
             newGame.addPlayer(n);
         }
+
+        newGame.addPlayer(ParseUser.getCurrentUser().getUsername());
+
         // Set targets from player list
         ArrayList<ParseUser> targets = players;
 
