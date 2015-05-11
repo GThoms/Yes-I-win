@@ -118,7 +118,7 @@ public class MainActivity extends Activity {
 	protected void onResume(Bundle savedInstanceState) {
 		super.onResume();
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 30; i++) {
 
             this.setUpGamesList();
         }
@@ -216,7 +216,7 @@ public class MainActivity extends Activity {
             public void done(List<ParseObject> gameList, ParseException e) {
                 if (e == null) {
                     for ( ParseObject G : gameList ){
-                        currentGames.add(createItem(((Game) G).getGameName(), "Doesn't Matter"));
+                        currentGames.add(createItem(((Game) G).getGameName(), "Players: " + G.get("players").toString()));
                     }
                 } else {
                     Log.d("score", "Error: " + e.getMessage());
@@ -235,7 +235,7 @@ public class MainActivity extends Activity {
             public void done(List<ParseObject> gameList, ParseException e) {
                 if (e == null) {
                     for ( ParseObject G : gameList ){
-                        pendingGames.add(createItem(((Game) G).getGameName(), "Doesn't Matter"));
+                        pendingGames.add(createItem(((Game) G).getGameName(), "Players: " + G.get("players").toString()));
                     }
                 } else {
                     Log.d("score", "Error: " + e.getMessage());
@@ -254,7 +254,7 @@ public class MainActivity extends Activity {
             public void done(List<ParseObject> gameList, ParseException e) {
                 if (e == null) {
                     for ( ParseObject G : gameList ){
-                        completedGames.add(createItem(((Game) G).getGameName(), "Doesn't Matter"));
+                        completedGames.add(createItem(((Game) G).getGameName(), "Players: " + G.get("players").toString()));
                     }
                 } else {
                     Log.d("score", "Error: " + e.getMessage());
