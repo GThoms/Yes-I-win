@@ -182,7 +182,7 @@ public class SignUpActivity extends Activity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                //photo.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
+                photo.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -192,7 +192,8 @@ public class SignUpActivity extends Activity {
             if (resultCode == Activity.RESULT_OK) {
                 Bundle extras = data.getExtras();
                 Bitmap bitmap = (Bitmap) extras.get("data");
-                //photo.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
+
+                photo.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
                 beforeURI = data.getData();
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
