@@ -81,7 +81,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/password"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:inputType="textVisiblePassword" />
     </LinearLayout>
 
     <LinearLayout
@@ -103,7 +104,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/c_password"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:inputType="textVisiblePassword" />
     </LinearLayout>
 
     <LinearLayout
@@ -113,7 +115,8 @@
         android:id="@+id/linearLayout6"
         android:layout_below="@+id/linearLayout4"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp">
 
         <ImageButton
             android:id="@+id/photo_button"
