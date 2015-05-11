@@ -118,7 +118,10 @@ public class MainActivity extends Activity {
 	protected void onResume(Bundle savedInstanceState) {
 		super.onResume();
 
-        setUpGamesList();
+        for (int i = 0; i < 20; i++) {
+
+            this.setUpGamesList();
+        }
 
 		// Logs install and app activate App Event
 		AppEventsLogger.activateApp(this);
@@ -200,8 +203,8 @@ public class MainActivity extends Activity {
 	@SuppressLint("ResourceAsColor")
 	private void setUpGamesList() {
 
-        TextView loadText = (TextView) findViewById(R.id.loadingText);
-        loadText.setText("Loading...");
+        //TextView loadText = (TextView) findViewById(R.id.loadingText);
+        //loadText.setText("Loading...");
 
         //Linked list of current games
         currentGames = new LinkedList<Map<String,?>>();
@@ -288,13 +291,11 @@ public class MainActivity extends Activity {
 		gamesListView.setAdapter(gameListAdapter);
 
 
-        if (!gameListAdapter.isEmpty()) {
-            gameListAdapter.notifyDataSetChanged();
-            gamesListView.invalidateViews();
-        }
+        gameListAdapter.notifyDataSetChanged();
+        gamesListView.invalidateViews();
 
         //Remove loading text
-        loadText.setText("");
+        //loadText.setText("");
 	}
 
     //Allows us to use Dialogs in our activity
