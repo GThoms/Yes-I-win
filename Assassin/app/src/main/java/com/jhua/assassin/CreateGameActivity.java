@@ -36,6 +36,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -192,9 +194,9 @@ public class CreateGameActivity extends Activity {
     //Sets fonts of textviews in XML
     private void setFonts() {
 
-        TextView game_t = (TextView) findViewById(R.id.textView3);
-        TextView game_d = (TextView) findViewById(R.id.textView4);
-        TextView blck_d = (TextView) findViewById(R.id.textView5);
+        TextView game_t = (TextView) findViewById(R.id.game_title_tv);
+        TextView game_d = (TextView) findViewById(R.id.game_duration_tv);
+        TextView blck_d = (TextView) findViewById(R.id.block_duration_tv);
         TextView atck_r = (TextView) findViewById(R.id.textView6);
 
         game_t.setTypeface(font_reg);
@@ -386,9 +388,13 @@ public class CreateGameActivity extends Activity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (makeGame()) {
-                    Intent home = new Intent(CreateGameActivity.this, MainActivity.class);
-                    startActivity(home);
+                try {
+                    if (makeGame()) {
+                        Intent home = new Intent(CreateGameActivity.this, MainActivity.class);
+                        startActivity(home);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -396,7 +402,7 @@ public class CreateGameActivity extends Activity {
 
 
     //Makes the game when start button is pressed
-    private boolean makeGame() {
+    private boolean makeGame() throws JSONException {
 
         //Store game title
         gameTitle = (EditText) findViewById(R.id.game_title);
