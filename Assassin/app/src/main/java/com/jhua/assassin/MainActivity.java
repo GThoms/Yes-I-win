@@ -75,26 +75,6 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		user = ParseUser.getCurrentUser();
-		// unsubscribe from channels and subscribe to current user
-		List<String> subscribedChannels = ParseInstallation.getCurrentInstallation().getList("channels");
-		for (String channel: subscribedChannels) {
-			ParsePush.unsubscribeInBackground(channel);
-		}
-		ParsePush.subscribeInBackground(user.getUsername());
-
-		JSONObject json = new JSONObject();
-		try {
-			json.put("id", user.getObjectId());
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		// test (ignore for now)
-		ParsePush push = new ParsePush();
-		push.setData(json);
-		push.setMessage(user.getObjectId());
-		push.setChannel(user.getUsername());
-		push.sendInBackground();
 
 		if (user == null) {
 			Intent login = new Intent(MainActivity.this, LoginActivity.class);
@@ -103,6 +83,29 @@ public class MainActivity extends Activity {
 			//Setting up games list
 			gamesListView = (ListView) findViewById(R.id.gamesList);
 			this.setUpGamesList();
+
+			/*
+			// unsubscribe from channels and subscribe to current user
+			List<String> subscribedChannels = ParseInstallation.getCurrentInstallation().getList("channels");
+			for (String channel: subscribedChannels) {
+				ParsePush.unsubscribeInBackground(channel);
+			}
+			ParsePush.subscribeInBackground(user.getUsername());
+
+			JSONObject json = new JSONObject();
+			try {
+				json.put("id", user.getObjectId());
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+			// test (ignore for now)
+			ParsePush push = new ParsePush();
+			push.setData(json);
+			push.setMessage(user.getObjectId());
+			push.setChannel(user.getUsername());
+			push.sendInBackground();
+			*/
 		}
 
 		//Navigation Drawer stuff
