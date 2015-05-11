@@ -26,6 +26,7 @@ import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
@@ -158,6 +159,7 @@ public class SignUpActivity extends Activity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
+                    ParsePush.subscribeInBackground(username.getText().toString());
                     finish();
                 } else {
                     e.printStackTrace();
