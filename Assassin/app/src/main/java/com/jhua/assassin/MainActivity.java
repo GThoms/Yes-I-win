@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.facebook.*;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -71,6 +72,12 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		user = ParseUser.getCurrentUser();
+		// unsubscribe from channels and subscribe to current user
+		List<String> subscribedChannels = ParseInstallation.getCurrentInstallation().getList("channels");
+		for (String channel: subscribedChannels) {
+			ParsePush.unsubscribeInBackground(channel);
+		}
+		ParsePush.subscribeInBackground(user.getUsername());
 
 		if (user == null) {
 			Intent login = new Intent(MainActivity.this, LoginActivity.class);

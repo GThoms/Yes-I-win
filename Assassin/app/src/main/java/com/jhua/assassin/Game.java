@@ -7,13 +7,20 @@ import java.util.Arrays;
 import java.util.List;
 import com.parse.ParseObject;
 import com.parse.ParseClassName;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 //Game object, holds player, settings and other stuff related
 //to a certain game
 @ParseClassName("Game")
 public class Game extends ParseObject {
+
+    private static final String GAME_KEY = "10";
 
     public void setGameName(String name) {
         put("gameName", name);
@@ -42,14 +49,24 @@ public class Game extends ParseObject {
         removeAll("players", Arrays.asList(player));
     }
     
-    public void setTargets(ArrayList<ParseUser> targets) {
+    public void setTargets(ArrayList<ParseUser> targets) throws JSONException {
+
+        JSONObject json = new JSONObject();
+        json.put("id", this.getObjectId());
+
         // Get target from targets list
         ParseUser myTarget = null;
 
         for (int x = 0; x < targets.size(); x++) {
             ParseUser p = targets.get(x);
             myTarget = targets.get((x+1) % targets.size());
-            p.put("target",myTarget);
+            p.put("target", myTarget);
+
+            ParsePush push = new ParsePush();
+            push.setData(json);
+            push.setMessage(this.getObjectId());
+            push.setChannel(p.getUsername());
+            push.sendInBackground();
         }
     }
 

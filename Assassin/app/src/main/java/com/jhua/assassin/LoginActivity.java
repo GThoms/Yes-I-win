@@ -50,7 +50,6 @@ public class LoginActivity extends Activity {
         ParseUser.logInInBackground(user, pass, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
-
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {

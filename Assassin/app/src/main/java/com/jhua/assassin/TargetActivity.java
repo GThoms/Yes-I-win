@@ -71,12 +71,22 @@ public class TargetActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_target);
 
+        TextView uname = (TextView) findViewById(R.id.uname_text);
+        ImageView profPic = (ImageView) findViewById(R.id.profile_picture);
+
         //Store game of the current player
         game = (Game) ParseUser.getCurrentUser().get("game");
         if(game == null) {
-            Log.d("Target", "Invalid game");
-            Intent none = new Intent(TargetActivity.this, NoTarget.class);
-            startActivity(none);
+            uname.setText("NO TARGET");
+            TextView distance = (TextView) findViewById(R.id.dist_text);
+            distance.setText("YOU ARE NOT IN A GAME");
+            Drawable standin = getResources().getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait);
+            Drawable rectangle = getResources().getDrawable(R.drawable.rectangle_red);
+            profPic.setImageDrawable(standin);
+            ImageView rect = (ImageView) findViewById(R.id.rectangle_top);
+            rect.setImageDrawable(rectangle);
+            rect = (ImageView) findViewById(R.id.rectangle_bottom);
+            rect.setImageDrawable(rectangle);
         } else {
             //Set Current Target
             target = (ParseUser) ParseUser.getCurrentUser().get("target");
@@ -87,9 +97,7 @@ public class TargetActivity extends Activity {
             //Store attack radius
             attackRadius = game.getInt("attackRadius");
 
-            TextView uname = (TextView) findViewById(R.id.uname_text);
             uname.setText(target.getUsername());
-            ImageView profPic = (ImageView) findViewById(R.id.profile_picture);
             ParseFile fileObject = (ParseFile) target.get("pic");
             fileObject.getDataInBackground(new GetDataCallback() {
                 @Override
