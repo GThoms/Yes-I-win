@@ -117,6 +117,7 @@ public class MainActivity extends Activity {
 
 	protected void onResume(Bundle savedInstanceState) {
 		super.onResume();
+
         setUpGamesList();
 
 		// Logs install and app activate App Event
@@ -147,10 +148,6 @@ public class MainActivity extends Activity {
         item.put(ITEM_TITLE, title);  
         item.put(ITEM_CAPTION, caption);  
         return item;  
-    }
-
-    public void onStart(){
-        super.onStart();
     }
 
 
@@ -230,7 +227,7 @@ public class MainActivity extends Activity {
 
         query = ParseQuery.getQuery("Game");
         query.whereEqualTo("status", "pending");
-        query.whereEqualTo("players", ParseUser.getCurrentUser());
+        query.whereEqualTo("players", ParseUser.getCurrentUser().getUsername());
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> gameList, ParseException e) {
                 if (e == null) {
@@ -289,6 +286,12 @@ public class MainActivity extends Activity {
 
         //Add adapter to game list, actually populates game list here
 		gamesListView.setAdapter(gameListAdapter);
+
+
+        if (!gameListAdapter.isEmpty()) {
+            gameListAdapter.notifyDataSetChanged();
+            gamesListView.invalidateViews();
+        }
 
         //Remove loading text
         loadText.setText("");

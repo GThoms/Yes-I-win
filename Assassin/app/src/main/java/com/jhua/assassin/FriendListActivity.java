@@ -220,6 +220,9 @@ public class FriendListActivity extends Activity {
                                     "You can't add yourself as a friend! Go find new ones!", Toast.LENGTH_LONG)
                                     .show();
                         } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "Adding Friend...", Toast.LENGTH_LONG)
+                                    .show();
                             ParseUser.getCurrentUser().addUnique("friendObjects", list.get(0));
                             ParseUser.getCurrentUser().addUnique("friends", player);
                             ParseUser.getCurrentUser().saveInBackground();
