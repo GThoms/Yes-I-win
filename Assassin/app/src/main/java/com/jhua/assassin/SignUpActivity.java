@@ -13,13 +13,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.parse.GetDataCallback;
@@ -74,17 +77,7 @@ public class SignUpActivity extends Activity {
         photo = (ImageView) findViewById(R.id.photo);
 
         sign_up = (Button) findViewById(R.id.sign_up);
-        sign_up.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (passwordsMatch()) {
-                    Log.d(TAG, "Passwords Match");
-                    makeUser();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Something is incorrect, please check your information!", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        buttonListeners();
 
         popup = new PopupMenu(this, findViewById(R.id.photo_button));
         popup.getMenu().add(Menu.NONE, MENU_CAMERA, Menu.NONE, "Take a Picture");
@@ -229,5 +222,45 @@ public class SignUpActivity extends Activity {
         });
     }
 
+    private void buttonListeners() {
+
+        sign_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (passwordsMatch()) {
+                    Log.d(TAG, "Passwords Match");
+                    makeUser();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Something is incorrect, please check your information!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        sign_up.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) sign_up.getLayoutParams();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    lp.height = px(60);
+                    lp.topMargin = px(10);
+                    sign_up.setLayoutParams(lp);
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    lp.topMargin = px(0);
+                    lp.height = px(70);
+                    sign_up.setLayoutParams(lp);
+                }
+                return false;
+            }
+        });
+
+    }
+
+    //Turns dps to pixels
+    private int px(float dips) {
+        float dp = getResources().getDisplayMetrics().density;
+        return Math.round(dips * dp);
+    }
 
 }

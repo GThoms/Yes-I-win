@@ -32,7 +32,12 @@
 
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
+                android:paddingBottom="15dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textAllCaps="true"
+                android:textSize="24sp"
                 android:text="Add Friends!"
                 android:id="@+id/friendButton"
                 android:layout_alignParentBottom="false"

@@ -40,29 +40,47 @@
         android:layout_centerInParent="true"
         android:gravity="center_horizontal" />
 
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:text="Login"
-        android:id="@+id/login_button"
-        android:layout_alignParentBottom="false"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/login_password"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/green_button_states"
-        android:textColor="#ffffffff" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="200dp"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:id="@+id/sign_up_button"
-        android:layout_below="@+id/login_button"
-        android:layout_centerHorizontal="true"
-        android:text="@string/signup"
-        android:background="@drawable/orange_button_states"
-        android:textColor="#ffffffff" />
+        android:layout_below="@+id/login_password"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:textSize="24sp"
+            android:text="Login"
+            android:id="@+id/login_button"
+            android:layout_alignParentBottom="false"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/login_password"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="15dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textAllCaps="true"
+            android:background="@drawable/green_button_states"
+            android:textColor="#ffffffff" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:textSize="24sp"
+            android:layout_marginTop="30dp"
+            android:id="@+id/sign_up_button"
+            android:layout_below="@+id/login_button"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="15dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textAllCaps="true"
+            android:text="@string/signup"
+            android:background="@drawable/orange_button_states"
+            android:textColor="#ffffffff" />
+    </LinearLayout>
 
     <ImageView
         android:layout_width="wrap_content"

@@ -183,13 +183,11 @@ public class CreateGameActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-
     //Turns dps to pixels
     private int px(float dips) {
         float dp = getResources().getDisplayMetrics().density;
         return Math.round(dips * dp);
     }
-
 
     //Sets fonts of textviews in XML
     private void setFonts() {
@@ -313,6 +311,10 @@ public class CreateGameActivity extends Activity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        // comment these out if we decide to use the spinners
+        gameDurationSpinner.setVisibility(View.INVISIBLE);
+        blockDurationSpinner.setVisibility(View.INVISIBLE);
     }
 
 
