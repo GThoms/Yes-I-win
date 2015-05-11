@@ -41,6 +41,9 @@ import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 //Main activity of the app
 public class MainActivity extends Activity {
@@ -78,6 +81,20 @@ public class MainActivity extends Activity {
 			ParsePush.unsubscribeInBackground(channel);
 		}
 		ParsePush.subscribeInBackground(user.getUsername());
+
+		JSONObject json = new JSONObject();
+		try {
+			json.put("id", user.getObjectId());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		// test (ignore for now)
+		ParsePush push = new ParsePush();
+		push.setData(json);
+		push.setMessage(user.getObjectId());
+		push.setChannel(user.getUsername());
+		push.sendInBackground();
 
 		if (user == null) {
 			Intent login = new Intent(MainActivity.this, LoginActivity.class);
