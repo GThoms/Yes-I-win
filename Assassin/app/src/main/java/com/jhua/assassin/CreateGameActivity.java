@@ -313,8 +313,13 @@ public class CreateGameActivity extends Activity {
         });
 
         // comment these out if we decide to use the spinners
-        gameDurationSpinner.setVisibility(View.INVISIBLE);
-        blockDurationSpinner.setVisibility(View.INVISIBLE);
+        TextView gdtv = (TextView) findViewById(R.id.game_duration_tv);
+        TextView bdtv = (TextView) findViewById(R.id.block_duration_tv);
+
+        bdtv.setVisibility(View.GONE);
+        gdtv.setVisibility(View.GONE);
+        gameDurationSpinner.setVisibility(View.GONE);
+        blockDurationSpinner.setVisibility(View.GONE);
     }
 
 
