@@ -63,7 +63,7 @@ public class LoginActivity extends Activity {
         String pass = password.getText().toString();
 
 
-        Toast toast = Toast.makeText(getApplicationContext(), "Logging in, please wait....", Toast.LENGTH_LONG);
+        Toast.makeText(getApplicationContext(), "Logging in, please wait....", Toast.LENGTH_LONG).show();
         ParseUser.logInInBackground(user, pass, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
@@ -71,7 +71,7 @@ public class LoginActivity extends Activity {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Username and/or password is incorrect!", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "Username and/or password is incorrect!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

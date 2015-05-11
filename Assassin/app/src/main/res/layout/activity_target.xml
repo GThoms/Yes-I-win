@@ -25,7 +25,7 @@
                 <ImageView
                     android:layout_width="190dp"
                     android:layout_height="190dp"
-                    android:id="@+id/imageView2"
+                    android:id="@+id/blue_circle"
                     android:background="@drawable/circle_blue"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="40dp" />
@@ -33,7 +33,7 @@
                 <com.jhua.assassin.RoundedImageView
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:id="@+id/imageView"
+                    android:id="@+id/profile_picture"
                     android:layout_alignParentEnd="false"
                     android:layout_alignParentStart="false"
                     android:layout_alignParentRight="false"
@@ -49,12 +49,12 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="John Doe"
-                    android:id="@+id/textView8"
+                    android:id="@+id/uname_text"
                     android:layout_alignParentEnd="false"
                     android:layout_alignParentRight="false"
-                    android:layout_below="@+id/imageView2"
-                    android:layout_alignLeft="@+id/imageView2"
-                    android:layout_alignRight="@+id/imageView2"
+                    android:layout_below="@+id/blue_circle"
+                    android:layout_alignLeft="@+id/blue_circle"
+                    android:layout_alignRight="@+id/blue_circle"
                     android:textAlignment="center"
                     android:textSize="30dp"
                     android:gravity="center" />
@@ -64,8 +64,8 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Distance from Target"
-                    android:id="@+id/textView9"
-                    android:layout_below="@+id/textView8"
+                    android:id="@+id/dist_text"
+                    android:layout_below="@+id/uname_text"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="50dp" />
 
@@ -96,13 +96,13 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="25dp"
-            android:id="@+id/imageView3"
+            android:id="@+id/rectangle_top"
             android:background="@drawable/rectangle_blue" />
 
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="25dp"
-            android:id="@+id/imageView4"
+            android:id="@+id/rectangle_bottom"
             android:layout_gravity="bottom"
             android:background="@drawable/rectangle_blue" />
 
