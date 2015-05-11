@@ -12,6 +12,7 @@ import java.util.Map;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,9 +108,11 @@ public class GameListAdapter extends BaseAdapter {
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
                     query.whereEqualTo("status", "pending");
                     query.whereEqualTo("players", ParseUser.getCurrentUser());
+                    final int pos = position;
                     query.findInBackground(new FindCallback<ParseObject>() {
                         public void done(List<ParseObject> gameList, ParseException e) {
                             if (e == null) {
+                                int i = 0;
                                 for ( ParseObject G : gameList ){
                                     if ((G.get("creator") != null) && (ParseUser.getCurrentUser().getUsername().equals(G.get("creator").toString()))) {
                                         rightIcon.setImageResource(R.drawable.ic_action_play);
@@ -118,6 +121,7 @@ public class GameListAdapter extends BaseAdapter {
                                         rightIcon.setImageResource(R.drawable.ic_action_accept);
                                         rightIcon.setOnClickListener(new pendingGamesListener(context));
                                     }
+                                    i++;
                                 }
                             } else {
                                 Log.d("score", "Error: " + e.getMessage());
@@ -189,7 +193,7 @@ public class GameListAdapter extends BaseAdapter {
 		Context context;
 		public currentGamesListener(Context context) {
 			this.context = context;
-		}
+        }
 
 		@Override
 		public void onClick(View v) {
@@ -199,9 +203,10 @@ public class GameListAdapter extends BaseAdapter {
 	
 	public static class pendingGamesListener implements OnClickListener {
 		Context context;
-		public pendingGamesListener(Context context) {
+
+        public pendingGamesListener(Context context) {
 			this.context = context;
-		}
+        }
 
 		@Override
 		public void onClick(View v) {
@@ -225,7 +230,7 @@ public class GameListAdapter extends BaseAdapter {
 		Context context;
 		public completedGamesListener(Context context) {
 			this.context = context;
-		}
+        }
 
 		@Override
 		public void onClick(View v) {
@@ -272,7 +277,7 @@ public class GameListAdapter extends BaseAdapter {
                         } else if (positive.equals("Leave")) {
                             //leave
                         } else if (positive.equals("Start")) {
-                            //start
+                            startGame();
                         } else if (positive.equals("Delete")) {
                             //delete
                         }
@@ -289,5 +294,28 @@ public class GameListAdapter extends BaseAdapter {
 		AlertDialog alert = alertDialogBuilder.create();
 		alert.show();
 	}
+
+    // use the index of the click to get the game instance in pending
+    private static void startGame() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+        query.whereEqualTo("status", "pending");
+        query.whereEqualTo("players", ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> gameList, ParseException e) {
+                if (e == null) {
+                    for ( ParseObject G : gameList ){
+                        //I don't know how to access the specific game associated with the OnClickListener
+                        //If we assume one pending game at a time, this should work? (This will start all pending games)
+                        G.put("status", "current");
+                        //Then go to the target activity
+                        Intent intent = new Intent(context, TargetActivity.class);
+                        context.startActivity(intent);
+                    }
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
 
 }
