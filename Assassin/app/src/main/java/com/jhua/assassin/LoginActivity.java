@@ -27,7 +27,11 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getActionBar().setDisplayHomeAsUpEnabled(false);
 
+        if (ParseUser.getCurrentUser() != null) {
+            finish();
+        }
         username = (EditText) findViewById(R.id.login_user);
         password = (EditText) findViewById(R.id.login_password);
 

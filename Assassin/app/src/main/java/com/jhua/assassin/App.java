@@ -33,10 +33,7 @@ public class App extends Application {
 
         //Initialize Facebook on this app
         ParseFacebookUtils.initialize(getApplicationContext());
-
-        //?
         ParseInstallation.getCurrentInstallation().saveInBackground();
-
 
         //Parse Pushes
         ParsePush.subscribeInBackground("", new SaveCallback() {

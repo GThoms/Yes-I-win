@@ -30,7 +30,9 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -51,21 +53,22 @@ public class SignUpActivity extends Activity {
     EditText name;
 
     Button sign_up;
-    ImageButton take_photo;
     ImageView photo;
     private PopupMenu popup;
 
+    ParseUser user;
+    byte[] photoData;
     Uri beforeURI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        getActionBar().setDisplayHomeAsUpEnabled(false);
 
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         c_password = (EditText) findViewById(R.id.c_password);
-        email = (EditText) findViewById(R.id.email);
         name = (EditText) findViewById(R.id.name);
         photo = (ImageView) findViewById(R.id.photo);
 
@@ -74,7 +77,6 @@ public class SignUpActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (passwordsMatch()) {
-
                     Log.d(TAG, "Passwords Match");
                     makeUser();
                 } else {
@@ -100,7 +102,7 @@ public class SignUpActivity extends Activity {
                         break;
                     case MENU_GALLERY:
                         startActivityForResult(new Intent(Intent.ACTION_PICK,
-                                android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), SELECT_BEFORE);
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI), SELECT_BEFORE);
                         break;
                 }
                 return false;
@@ -139,20 +141,18 @@ public class SignUpActivity extends Activity {
 
     public void makeUser() {
 
-        ParseUser user = new ParseUser();
+        user = new ParseUser();
         user.setUsername(username.getText().toString());
         user.setPassword(password.getText().toString());
 
-        //Email is not working for some reason, wont let me sign up with this
-        //user.setEmail(email.getText().toString());
+        // Email is not working for some reason, wont let me sign up with this
+        // user.setEmail(email.getText().toString());
         user.put("eliminations", 0);
-        //Numbers of wins
+        // Numbers of wins
         user.put("wins", 0);
-
+        // name
         user.put("name", name.getText().toString());
-
-        //need to figure out how to store photos
-        //user.put("photo", photo);
+        saveImage();
 
         user.signUpInBackground(new SignUpCallback() {
             @Override
@@ -160,16 +160,14 @@ public class SignUpActivity extends Activity {
                 if (e == null) {
                     finish();
                 } else {
+                    e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Oops! That user already exists!", Toast.LENGTH_LONG).show();
                 }
             }
         });
-    }
 
-    public void pickImage() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(intent, PICK_PHOTO_FOR_AVATAR);
+        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -178,14 +176,28 @@ public class SignUpActivity extends Activity {
         if (requestCode == SELECT_BEFORE) {
             if (resultCode == Activity.RESULT_OK) {
                 beforeURI = data.getData();
-                photo.setImageURI(beforeURI);
+                Bitmap bitmap = Bitmap.createBitmap(120, 120, Bitmap.Config.ARGB_8888);
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), beforeURI);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                photo.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                photoData = stream.toByteArray();
             }
         } else if (requestCode == CAPTURE_BEFORE) {
             if (resultCode == Activity.RESULT_OK) {
                 Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                photo.setImageBitmap(imageBitmap);
+                Bitmap bitmap = (Bitmap) extras.get("data");
+                photo.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
                 beforeURI = data.getData();
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                photoData = stream.toByteArray();
             }
         }
     }
@@ -196,4 +208,22 @@ public class SignUpActivity extends Activity {
         }
         return true;
     }
+
+    public void saveImage() {
+        // Save the scaled image to Parse
+        final ParseFile photoFile = new ParseFile("profile_pic.jpg", photoData);
+        photoFile.saveInBackground(new SaveCallback() {
+
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.d("saving pic", "error");
+                } else {
+                    Log.d("saving pic", "success");
+                    user.put("pic", photoFile);
+                }
+            }
+        });
+    }
+
+
 }
