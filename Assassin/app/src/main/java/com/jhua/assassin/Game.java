@@ -43,19 +43,14 @@ public class Game extends ParseObject {
     }
     
     public void setTargets(ArrayList<ParseUser> targets) {
-        put("targets", targets);
         // Get target from targets list
-        String name = ParseUser.getCurrentUser().getUsername();
         ParseUser myTarget = null;
-        ParseUser[] targetArray = new ParseUser[targets.size()];
-        targetArray = targets.toArray(targetArray);
-        for (int i = 0; i < targetArray.length; i++) {
-            ParseUser p = targetArray[i];
-            if (p.getUsername().equals(name)) {
-                myTarget = targetArray[(i+1) % targetArray.length];
-            }
+
+        for (int x = 0; x < targets.size(); x++) {
+            ParseUser p = targets.get(x);
+            myTarget = targets.get((x+1) % targets.size());
+            p.put("target",myTarget);
         }
-        ParseUser.getCurrentUser().put("target", myTarget);  // puts ParseUser object in target field for this ParseUser
     }
 
     public void setCreator(String name) {
