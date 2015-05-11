@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="@string/game_title"
-                    android:id="@+id/textView3" />
+                    android:id="@+id/game_title_tv" />
 
                 <EditText
                     android:layout_width="match_parent"
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/game_duration"
-                android:id="@+id/textView4" />
+                android:id="@+id/game_duration_tv" />
 
             <Spinner
                 android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/block_duration"
-                android:id="@+id/textView5" />
+                android:id="@+id/block_duration_tv" />
 
             <Spinner
                 android:layout_width="match_parent"
