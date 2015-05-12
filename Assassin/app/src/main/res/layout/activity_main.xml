@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_margin="10dp"
-                android:text="To get some games in here, first add friends and then create a game! Then click the game to start it!"
+                android:text="To get some games in here, first add friends and then create a game! Note: This implementation currently only allows one game at a time!"
                 android:id="@+id/textView13"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
