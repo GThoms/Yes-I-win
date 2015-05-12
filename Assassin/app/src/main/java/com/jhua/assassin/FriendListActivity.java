@@ -99,7 +99,10 @@ public class FriendListActivity extends Activity {
         adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item, android.R.id.text1);
 
         //If user has friends, set adapter to friend list view
-        if (friends != null) {
+
+        if (friends == null) {
+            adapter.add("You have no friends...");
+        } else if (!friends.isEmpty()) {
             adapter.addAll(friends);
         } else {
             adapter.add("You have no friends...");
@@ -124,21 +127,6 @@ public class FriendListActivity extends Activity {
                                         Log.d("name", name);
                                         ParseUser.getCurrentUser().removeAll("friends", Arrays.asList(name));
 
-                                        //Hope this works!
-                                        ParseQuery<ParseUser> query = ParseUser.getQuery();
-                                        query.whereEqualTo("username", name);
-                                        query.findInBackground(new FindCallback<ParseUser>() {
-                                            @Override
-                                            public void done(List<ParseUser> list, ParseException e) {
-                                                if (e == null) {
-                                                    ParseUser.getCurrentUser().removeAll("friendObjects", list);
-                                                    ParseUser.getCurrentUser().
-
-                                                            saveInBackground();
-                                                } else {
-                                                }
-                                            }
-                                        });
 
                                         ParseUser.getCurrentUser().saveInBackground();
 
@@ -223,7 +211,6 @@ public class FriendListActivity extends Activity {
                             Toast.makeText(getApplicationContext(),
                                     "Adding Friend...", Toast.LENGTH_LONG)
                                     .show();
-                            ParseUser.getCurrentUser().addUnique("friendObjects", list.get(0));
                             ParseUser.getCurrentUser().addUnique("friends", player);
                             ParseUser.getCurrentUser().saveInBackground();
 

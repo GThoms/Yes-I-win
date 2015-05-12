@@ -40,7 +40,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SignUpActivity extends Activity {
 
@@ -157,7 +159,6 @@ public class SignUpActivity extends Activity {
         user.put("wins", 0);
         // name
         user.put("name", name.getText().toString());
-
 
         saveImage();
 

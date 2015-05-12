@@ -28,7 +28,7 @@ public class DrawerItemClickListener implements OnItemClickListener {
 				context.startActivity(stats);
 				break;
 			case 2:
-				Intent leader = new Intent(context, LeaderboardActivity.class);
+				Intent leader = new Intent(context, RemainingLeaderboard.class);
 				context.startActivity(leader);
 				break;
             case 3:

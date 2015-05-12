@@ -73,7 +73,7 @@
         </activity>
         <activity
             android:name=".RemainingLeaderboard"
-            android:label="@string/title_activity_remaining_leaderboard" >
+            android:label="Wins Leaderboard" >
         </activity>
 
         <service android:name=".LocationService" />

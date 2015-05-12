@@ -1,8 +1,10 @@
 package com.jhua.assassin;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,9 +13,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class EliminateLeaderboard extends Activity {
@@ -23,43 +30,66 @@ public class EliminateLeaderboard extends Activity {
     ArrayList<ParseUser> friendObjects;
     ArrayAdapter adapter;
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eliminate_leaderboard);
 
+        context = this.getApplicationContext();
+
         eliminateList = (ListView) findViewById(R.id.listView3);
 
         friends = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
 
-        friendObjects = (ArrayList<ParseUser>) ParseUser.getCurrentUser().get("friendObjects");
+        friendObjects = new ArrayList<ParseUser>();
 
-        adapter = new ArrayAdapter(this.getApplicationContext(), android.R.layout.simple_list_item_2, android.R.id.text1, friends) {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereContainedIn("username", friends);
+        query.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView text1 = (TextView) view.findViewById(android.R.id.text1);
-                TextView text2 = (TextView) view.findViewById(android.R.id.text2);
+            public void done(List<ParseUser> list, ParseException e) {
+                if (e == null) {
+                    friendObjects.addAll(list);
+                    friendObjects.add(ParseUser.getCurrentUser());
+                    if (friendObjects != null) {
+                        if (!friendObjects.isEmpty()) {
+                            adapter = new ArrayAdapter(context, android.R.layout.simple_list_item_2, android.R.id.text1, friends) {
+                                @Override
+                                public View getView(int position, View convertView, ViewGroup parent) {
+                                    View view = super.getView(position, convertView, parent);
+                                    TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+                                    TextView text2 = (TextView) view.findViewById(android.R.id.text2);
 
-                if (friends != null && friendObjects != null) {
-                    text1.setText("Players Eliminated: " + friendObjects.get(position).get("eliminations").toString());
-                    text1.setTextColor(0xff000000);
+                                    if (friends != null && friendObjects != null) {
+                                        text1.setText("Players Eliminated: " + friendObjects.get(position).get("eliminations").toString());
+                                        text1.setTextColor(0xff000000);
 
-                    text1.setTextSize(20);
-                    text2.setText(friends.get(position));
-                    text2.setTextColor(0xff000000);
-                    text2.setTextSize(20);
+                                        text1.setTextSize(20);
+                                        text2.setText(friendObjects.get(position).getUsername().toString());
+                                        text2.setTextColor(0xff000000);
+                                        text2.setTextSize(20);
+                                    }
+                                    return view;
+
+                                }
+                            };
+
+
+                            eliminateList.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
                 }
-                return view;
-
             }
-        };
 
-        //If user has friends, set adapter to friend list view
-        if (friends != null) {
-            eliminateList.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-        }
+
+
+
+        });
+
+
 
 
     }
@@ -68,11 +98,61 @@ public class EliminateLeaderboard extends Activity {
     public void onResume() {
         super.onResume();
 
-        if (friends != null) {
-            eliminateList.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-            eliminateList.invalidateViews();
-        }
+        friends = null;
+
+        context = this.getApplicationContext();
+
+        eliminateList = (ListView) findViewById(R.id.listView3);
+
+        friends = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
+
+        friendObjects = new ArrayList<ParseUser>();
+
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereContainedIn("username", friends);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> list, ParseException e) {
+                if (e == null) {
+                    friendObjects.addAll(list);
+                    friendObjects.add(ParseUser.getCurrentUser());
+                    if (friendObjects != null) {
+                        if (!friendObjects.isEmpty()) {
+                            adapter = new ArrayAdapter(context, android.R.layout.simple_list_item_2, android.R.id.text1, friends) {
+                                @Override
+                                public View getView(int position, View convertView, ViewGroup parent) {
+                                    View view = super.getView(position, convertView, parent);
+                                    TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+                                    TextView text2 = (TextView) view.findViewById(android.R.id.text2);
+
+                                    if (friends != null && friendObjects != null) {
+                                        text1.setText("Players Eliminated: " + friendObjects.get(position).get("eliminations").toString());
+                                        text1.setTextColor(0xff000000);
+
+                                        text1.setTextSize(20);
+                                        text2.setText(friendObjects.get(position).getUsername().toString());
+                                        text2.setTextColor(0xff000000);
+                                        text2.setTextSize(20);
+                                    }
+                                    return view;
+
+                                }
+                            };
+
+
+                            eliminateList.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+
+
+
+
+        });
+
+
 
     }
 
