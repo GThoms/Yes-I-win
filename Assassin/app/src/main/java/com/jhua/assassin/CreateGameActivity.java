@@ -437,22 +437,7 @@ public class CreateGameActivity extends Activity {
             Toast.makeText(getApplicationContext(), "You need at least one other player to start a game!", Toast.LENGTH_LONG).show();
             return false;
         }
-        /*
-        //newGame.addPlayers(players);
-        newGame.addPlayer(ParseUser.getCurrentUser());
-        for(String n: userNames) {
-            ParseQuery<ParseUser> query = ParseUser.getQuery();
-            query.whereEqualTo("username", n);
-            query.findInBackground(new FindCallback<ParseUser>() {
-                @Override
-                public void done(List<ParseUser> list, ParseException e) {
-                    if (e == null) {
-                        newGame.addPlayer(list.get(0));
-                    }
-                }
-            });
-        }
-        */
+
         // put player usernames in game
         for (String n: userNames) {
             newGame.addPlayer(n);
@@ -471,16 +456,9 @@ public class CreateGameActivity extends Activity {
             Log.d("Players size", "NULL");
         }
 
-        // Should be not null anymore since I'm pulling from local list instead of Parse
-        // Collections.shuffle(targets);
-        // Sets users list of all targets in game and sets their current target
-        // newGame.setTargets(targets);
-
-
-
         //Set current user as creator
         newGame.setCreator(ParseUser.getCurrentUser().getUsername());
-//Saves the new parse object
+        //Saves the new parse object
 
         ParseQuery query = ParseQuery.getQuery("Game");
         query.whereEqualTo("status", "current");
@@ -498,8 +476,9 @@ public class CreateGameActivity extends Activity {
                         ParseUser.getCurrentUser().saveInBackground();
 
                         //Log.d("Game ID", newGame.getObjectId());
-
+                        userNames.add(ParseUser.getCurrentUser().getUsername());
                         target(userNames, newGame.getObjectId());
+
                         // start the location service
                         Intent intent = new Intent(CreateGameActivity.this, LocationService.class);
                         startService(intent);
@@ -521,7 +500,18 @@ public class CreateGameActivity extends Activity {
             target = users.get((x+1) % users.size());
 
             if (user.equals(ParseUser.getCurrentUser().getUsername())) {
-                MainActivity.giveData(target, gameId);
+                ParseQuery<ParseUser> u_query = ParseUser.getQuery();
+                u_query.whereEqualTo("username", target);
+                u_query.findInBackground(new FindCallback<ParseUser>() {
+                    @Override
+                    public void done(List<ParseUser> list, ParseException e) {
+                        if (e == null) {
+                            ParseUser.getCurrentUser().put("target", list.get(0));
+                        } else {
+                            Log.d("Error querying user", e.toString());
+                        }
+                    }
+                });
             } else {
                 // make JSON object to send
                 JSONObject data = null;
@@ -548,7 +538,6 @@ public class CreateGameActivity extends Activity {
                 });
             }
         }
-
     }
 
     //Allows us to use dialogs
