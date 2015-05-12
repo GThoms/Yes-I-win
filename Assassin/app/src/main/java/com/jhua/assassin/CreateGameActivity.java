@@ -481,6 +481,8 @@ public class CreateGameActivity extends Activity {
         ParseUser.getCurrentUser().put("game", newGame);
         ParseUser.getCurrentUser().saveInBackground();
 
+        Log.d("Game ID", newGame.getObjectId());
+
         target(userNames, newGame.getObjectId());
         // start the location service
         Intent intent = new Intent(CreateGameActivity.this, LocationService.class);

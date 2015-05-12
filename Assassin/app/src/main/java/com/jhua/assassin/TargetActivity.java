@@ -74,7 +74,7 @@ public class TargetActivity extends Activity {
 
         //Store game of the current player
         game = (Game) ParseUser.getCurrentUser().get("game");
-        if(game == null) {
+        if (game == null || target == null) {
             uname.setText("NO TARGET");
             TextView distance = (TextView) findViewById(R.id.dist_text);
             distance.setText("YOU ARE NOT IN A GAME");
@@ -96,7 +96,7 @@ public class TargetActivity extends Activity {
             targetLocation = (Location) target.get("location");
 
             //Store attack radius
-            attackRadius = game.getInt("attackRadius");
+            attackRadius = game.getAttackRadius();
 
             uname.setText(target.getUsername());
             ParseFile fileObject = (ParseFile) target.get("pic");
