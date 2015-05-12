@@ -158,7 +158,17 @@ public class MainActivity extends Activity {
 			}
 		});
 		// query game
-		// PUT CODE HERE TO GET GAME!!!
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+		query.whereEqualTo("id", gameId);
+		query.findInBackground(new FindCallback<ParseObject>() {
+			public void done(List<ParseObject> list, ParseException e) {
+				if (e == null) {
+					ParseUser.getCurrentUser().put("game", list.get(0));
+				} else {
+					Log.d("Error querying game", e.toString());
+				}
+			}
+		});
 	}
 
 	protected void test() {
