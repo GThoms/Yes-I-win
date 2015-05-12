@@ -208,9 +208,9 @@ public class MainActivity extends Activity {
 	protected void onResume(Bundle savedInstanceState) {
 		super.onResume();
 
-        for (int i = 0; i < 100; i++) {
-            this.setUpGamesList();
-        }
+
+        this.onCreate(null);
+
 		// Logs install and app activate App Event
 		AppEventsLogger.activateApp(this);
 	}
