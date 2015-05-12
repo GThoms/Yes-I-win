@@ -495,6 +495,7 @@ public class CreateGameActivity extends Activity {
         Collections.shuffle(users);
         String user, target = "";
 
+        clearPush();
         for (int x = 0; x < users.size(); x++) {
             user = users.get(x);
             target = users.get((x+1) % users.size());
@@ -616,5 +617,15 @@ public class CreateGameActivity extends Activity {
             Log.d("loop end", "" + players.size());
         }
         return players;
+    }
+
+    private void clearPush() {
+        List<String> subscribedChannels = ParseInstallation.getCurrentInstallation().getList("channels");
+        if (subscribedChannels != null) {
+            for (String channel : subscribedChannels) {
+                ParsePush.unsubscribeInBackground(channel);
+                Log.d("Channels", "all channels unsubscribed");
+            }
+        }
     }
 }
