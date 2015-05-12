@@ -3,6 +3,7 @@ package com.jhua.assassin;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -50,6 +51,7 @@ public class SignUpActivity extends Activity {
     static final int MENU_GALLERY = Menu.FIRST + 1;
     static final int CAPTURE_BEFORE = 13;
     static final int SELECT_BEFORE = 12;
+    static final int CROP_PIC = 11;
 
     EditText username;
     EditText password;
@@ -169,10 +171,11 @@ public class SignUpActivity extends Activity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Bitmap bitmap = null;
         if (requestCode == SELECT_BEFORE) {
             if (resultCode == Activity.RESULT_OK) {
                 beforeURI = data.getData();
-                Bitmap bitmap = Bitmap.createBitmap(120, 120, Bitmap.Config.ARGB_8888);
+                bitmap = Bitmap.createBitmap(120, 120, Bitmap.Config.ARGB_8888);
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), beforeURI);
                 } catch (IOException e) {
@@ -180,22 +183,31 @@ public class SignUpActivity extends Activity {
                 }
                 photo.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
 
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                photoData = stream.toByteArray();
+                performCrop();
+                //ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                //photoData = stream.toByteArray();
             }
         } else if (requestCode == CAPTURE_BEFORE) {
             if (resultCode == Activity.RESULT_OK) {
                 Bundle extras = data.getExtras();
-                Bitmap bitmap = (Bitmap) extras.get("data");
-
+                bitmap = (Bitmap) extras.get("data");
                 photo.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
                 beforeURI = data.getData();
-
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                photoData = stream.toByteArray();
+                performCrop();
             }
+        } else if(requestCode == CROP_PIC){
+            //get the returned data
+            Bundle extras = data.getExtras();
+            //get the cropped bitmap
+            Bitmap thePic = extras.getParcelable("data");
+            //retrieve a reference to the ImageView
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            thePic.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            photoData = stream.toByteArray();
+            //ImageView picView = (ImageView)findViewById(R.id.picture);
+            //display the returned cropped image
+            //picView.setImageBitmap(thePic);
         }
     }
 
@@ -262,6 +274,31 @@ public class SignUpActivity extends Activity {
     private int px(float dips) {
         float dp = getResources().getDisplayMetrics().density;
         return Math.round(dips * dp);
+    }
+
+    private void performCrop(){
+        try{
+            //call the standard crop action intent (the user device may not support it)
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
+            //indicate image type and Uri
+            cropIntent.setDataAndType(beforeURI, "image/*");
+            //set crop properties
+            cropIntent.putExtra("crop", "true");
+            //indicate aspect of desired crop
+            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectY", 1);
+            //indicate output X and Y
+            cropIntent.putExtra("outputX", 120);
+            cropIntent.putExtra("outputY", 120);
+            //retrieve data on return
+            cropIntent.putExtra("return-data", true);
+            //start the activity - we handle returning in onActivityResult
+            startActivityForResult(cropIntent, CROP_PIC);
+        }catch(ActivityNotFoundException anfe){
+            String errorMessage = "Your device doesn't support photo cropping!";
+            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
 }
