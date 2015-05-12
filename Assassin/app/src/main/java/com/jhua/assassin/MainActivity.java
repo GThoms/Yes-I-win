@@ -145,11 +145,11 @@ public class MainActivity extends Activity {
 	protected void giveData(String target, String gameId) {
 
 		// query user
-		ParseQuery user_query = ParseUser.getQuery();
-		user_query.whereEqualTo("username", target);
-		user_query.findInBackground(new FindCallback() {
+		ParseQuery<ParseUser> u_query = ParseUser.getQuery();
+		u_query.whereEqualTo("username", target);
+		u_query.findInBackground(new FindCallback<ParseUser>() {
 			@Override
-			public void done(List list, ParseException e) {
+			public void done(List<ParseUser> list, ParseException e) {
 				if (e == null) {
 					ParseUser.getCurrentUser().put("target", list.get(0));
 				} else {
@@ -158,8 +158,9 @@ public class MainActivity extends Activity {
 			}
 		});
 		// query game
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
-		query.getInBackground(gameId, new GetCallback<ParseObject>() {
+		ParseQuery<ParseObject> g_query = ParseQuery.getQuery("Game");
+		g_query.getInBackground(gameId, new GetCallback<ParseObject>() {
+			@Override
 			public void done(ParseObject object, ParseException e) {
 				if (e == null) {
 					ParseUser.getCurrentUser().put("game", object);

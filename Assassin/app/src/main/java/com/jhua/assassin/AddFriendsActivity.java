@@ -10,12 +10,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +34,7 @@ public class AddFriendsActivity extends Activity {
 
     ListView lv;
     ArrayList<Friend> friends;
+    Button addFriends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,6 @@ public class AddFriendsActivity extends Activity {
 
         //Get friend list from current user
         ArrayList<String> sFriends = (ArrayList<String>) ParseUser.getCurrentUser().get("friends");
-
 
         friends = new ArrayList<Friend>();
         lv = (ListView) findViewById(R.id.addfriendList);
@@ -56,7 +58,7 @@ public class AddFriendsActivity extends Activity {
         lv.setAdapter(adapter);
         //If user has friends, set adapter to friend list view
 
-        Button addFriends = (Button) findViewById(R.id.addfriendsButton);
+        addFriends = (Button) findViewById(R.id.addfriendsButton);
         addFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +69,7 @@ public class AddFriendsActivity extends Activity {
                 //send push notifications to the users
             }
         });
+        buttonListeners();
     }
 
     @Override
@@ -170,5 +173,32 @@ public class AddFriendsActivity extends Activity {
             }
             return selected;
         }
+    }
+
+    private void buttonListeners() {
+        addFriends.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) addFriends.getLayoutParams();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    lp.height = px(60);
+                    lp.topMargin = px(40);
+                    addFriends.setLayoutParams(lp);
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    lp.topMargin = px(30);
+                    lp.height = px(70);
+                    addFriends.setLayoutParams(lp);
+                }
+                return false;
+            }
+        });
+    }
+
+    //Turns dps to pixels
+    private int px(float dips) {
+        float dp = getResources().getDisplayMetrics().density;
+        return Math.round(dips * dp);
     }
 }
