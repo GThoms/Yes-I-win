@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -124,7 +125,7 @@ public class TargetActivity extends Activity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) eliminate.getLayoutParams();
+                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) eliminate.getLayoutParams();
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     lp.height = px(70);
                     lp.topMargin = px(40);
