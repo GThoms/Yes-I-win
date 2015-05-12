@@ -172,30 +172,35 @@ public class TargetActivity extends Activity {
         getActionBar().setHomeButtonEnabled(true);
     }
 
-
+    /*
     public double compareDistance() {
-        double currentLongitude = currentLocation.getLongitude();
-        double currentLatitude = currentLocation.getLatitude();
-        double targetLongitude = targetLocation.getLongitude();
-        double targetLatitude = targetLocation.getLatitude();
+
+        double mlat = ParseUser.getCurrentUser().getDouble("latitude");
+        double mlon = ParseUser.getCurrentUser().getDouble("longitude");
+
+        ParseUser target = ParseUser.getCurrentUser().getParseUser("target");
+        double tlat = target.getDouble("latitude");
+        double tlon = target.getDouble("longitude");
 
         //Calculate distance from latitude/longitude
         //Formula from http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
         int R = 6371; // Radius of the earth in km
-        double dLat = deg2rad(targetLatitude-currentLatitude);  // deg2rad below
-        double dLon = deg2rad(targetLongitude-currentLongitude);
+        double dLat = deg2rad(tlat-mlat);  // deg2rad below
+        double dLon = deg2rad(tlon-mlon);
         double a =
                 Math.sin(dLat/2) * Math.sin(dLat/2) +
-                        Math.cos(deg2rad(currentLatitude)) * Math.cos(deg2rad(targetLatitude)) *
+                        Math.cos(deg2rad(mlat)) * Math.cos(deg2rad(mlon)) *
                                 Math.sin(dLon/2) * Math.sin(dLon/2)
                 ;
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         double d = R * c; // Distance in km
 
-
-        return d;
+        // return d;
+        return 4;
     }
+    */
 
+    /*
     //Refreshes locations stored in activity from locations of ParseUsers
     public void refreshLocations() {
         currentLocation = (Location) ParseUser.getCurrentUser().get("location");
@@ -230,6 +235,7 @@ public class TargetActivity extends Activity {
             back_circle.setImageDrawable(circle);
         }
     }
+    */
 
     public double deg2rad(double deg) {
         return deg * (Math.PI/180);
@@ -285,7 +291,7 @@ public class TargetActivity extends Activity {
         }
 
         if (id == R.id.action_refresh) {
-            refreshLocations();
+            // refreshLocations();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -322,7 +328,7 @@ public class TargetActivity extends Activity {
         eliminate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refreshLocations();
+            //    refreshLocations();
             }
         });
     }
