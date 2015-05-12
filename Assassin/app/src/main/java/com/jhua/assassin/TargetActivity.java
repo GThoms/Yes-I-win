@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.media.Image;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -48,13 +49,19 @@ public class TargetActivity extends Activity {
     Location targetLocation;
 
     //Game settings
-    int attackRadius;
+    double attackRadius;
 
     //Target of the current ParseUser
     ParseUser target;
 
     //Current Game
     Game game;
+
+    private Drawable rectangle;
+    private Drawable circle;
+    ImageView back_circle;
+    ImageView top_rect;
+    ImageView bottom_rect;
 
     //Navigation drawer items
     private DrawerLayout mDrawerLayout;
@@ -71,6 +78,10 @@ public class TargetActivity extends Activity {
 
         TextView uname = (TextView) findViewById(R.id.uname_text);
         ImageView profPic = (ImageView) findViewById(R.id.profile_picture);
+        back_circle = (ImageView) findViewById(R.id.blue_circle);
+        top_rect = (ImageView) findViewById(R.id.rectangle_top);
+        bottom_rect = (ImageView) findViewById(R.id.rectangle_bottom);
+        eliminate = (Button) findViewById(R.id.eliminate);
 
         //Store game of the current player
         game = (Game) ParseUser.getCurrentUser().get("game");
@@ -78,39 +89,55 @@ public class TargetActivity extends Activity {
             uname.setText("NO TARGET");
             TextView distance = (TextView) findViewById(R.id.dist_text);
             distance.setText("YOU ARE NOT IN A GAME");
-            Drawable standin = getResources().getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait);
-            Drawable rectangle = getResources().getDrawable(R.drawable.rectangle_red);
-            Drawable circle = getResources().getDrawable(R.drawable.circle_red);
-            profPic.setImageDrawable(standin);
-            ImageView colors = (ImageView) findViewById(R.id.rectangle_top);
-            colors.setImageDrawable(rectangle);
-            colors = (ImageView) findViewById(R.id.rectangle_bottom);
-            colors.setImageDrawable(rectangle);
-            colors = (ImageView)findViewById(R.id.blue_circle);
-            colors.setImageDrawable(circle);
+            Drawable pic = getResources().getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait);
+            rectangle = getResources().getDrawable(R.drawable.rectangle_red);
+            circle = getResources().getDrawable(R.drawable.circle_red);
+            profPic.setImageDrawable(pic);
+            top_rect.setImageDrawable(rectangle);
+            bottom_rect.setImageDrawable(rectangle);
+            back_circle.setImageDrawable(circle);
         } else {
             //Set Current Target
             target = (ParseUser) ParseUser.getCurrentUser().get("target");
 
-            currentLocation = (Location) ParseUser.getCurrentUser().get("location");
-            targetLocation = (Location) target.get("location");
-
-            //Store attack radius
-            attackRadius = game.getAttackRadius();
+            //Store attack radius in km
+            attackRadius = game.getAttackRadius() * 0.0009144;
 
             uname.setText(target.getUsername());
             ParseFile fileObject = (ParseFile) target.get("pic");
             fileObject.getDataInBackground(new GetDataCallback() {
                 @Override
                 public void done(byte[] bytes, ParseException e) {
-                    if(e == null) {
-                        Bitmap bmp = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                    if (e == null) {
+                        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                         ImageView profPic = (ImageView) findViewById(R.id.profile_picture);
                         profPic.setImageBitmap(bmp);
                     }
                 }
             });
+
+            refreshButtonListeners();
         }
+
+        //Shows button depressed/unpressed when clicked
+        eliminate.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) eliminate.getLayoutParams();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    lp.height = px(70);
+                    lp.topMargin = px(40);
+                    eliminate.setLayoutParams(lp);
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    lp.topMargin = px(30);
+                    lp.height = px(80);
+                    eliminate.setLayoutParams(lp);
+                }
+                return false;
+            }
+        });
 
         // Navigation drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -136,28 +163,10 @@ public class TargetActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
-
-        //Find eliminate button
-        eliminate = (Button) findViewById(R.id.eliminate);
-        buttonListeners();
-
-        /*
-        //Within distance
-        if (compareDistance() == true) {
-
-            Toast.makeText(getApplicationContext(), "Target Within Range!", Toast.LENGTH_SHORT).show();
-
-        } else {
-
-            Toast.makeText(getApplicationContext(), "Target Not within Range!", Toast.LENGTH_SHORT).show();
-
-        }
-        */
-
     }
 
 
-    public boolean compareDistance() {
+    public double compareDistance() {
         double currentLongitude = currentLocation.getLongitude();
         double currentLatitude = currentLocation.getLatitude();
         double targetLongitude = targetLocation.getLongitude();
@@ -177,12 +186,7 @@ public class TargetActivity extends Activity {
         double d = R * c; // Distance in km
 
 
-        if (d < attackRadius) {
-            return true;
-        } else {
-            return false;
-        }
-
+        return d;
     }
 
     //Refreshes locations stored in activity from locations of ParseUsers
@@ -191,17 +195,33 @@ public class TargetActivity extends Activity {
         targetLocation = (Location) target.get("location");
 
         //Within distance
-        if (compareDistance() == true) {
+        double distance = compareDistance();
+        if (distance <= attackRadius) {
+            //red
+            rectangle = getResources().getDrawable(R.drawable.rectangle_red);
+            circle = getResources().getDrawable(R.drawable.circle_red);
+            top_rect.setImageDrawable(rectangle);
+            bottom_rect.setImageDrawable(rectangle);
+            back_circle.setImageDrawable(circle);
 
-            Toast.makeText(getApplicationContext(), "Target Within Range!", Toast.LENGTH_SHORT).show();
+            eliminateButtonListeners();
+
+        } else if (distance > (attackRadius) && distance <= (attackRadius * 4)){
+            //purple
+            rectangle = getResources().getDrawable(R.drawable.rectangle_purple);
+            circle = getResources().getDrawable(R.drawable.circle_purple);
+            top_rect.setImageDrawable(rectangle);
+            bottom_rect.setImageDrawable(rectangle);
+            back_circle.setImageDrawable(circle);
 
         } else {
-
-            Toast.makeText(getApplicationContext(), "Target Not within Range!", Toast.LENGTH_SHORT).show();
-
+            //blue
+            rectangle = getResources().getDrawable(R.drawable.rectangle_blue);
+            circle = getResources().getDrawable(R.drawable.circle_blue);
+            top_rect.setImageDrawable(rectangle);
+            bottom_rect.setImageDrawable(rectangle);
+            back_circle.setImageDrawable(circle);
         }
-
-
     }
 
     public double deg2rad(double deg) {
@@ -264,27 +284,9 @@ public class TargetActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void buttonListeners() {
+    public void eliminateButtonListeners() {
 
-        //Shows button depressed/unpressed when clicked
-        eliminate.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) eliminate.getLayoutParams();
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    lp.height = px(70);
-                    lp.topMargin = px(40);
-                    eliminate.setLayoutParams(lp);
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    lp.topMargin = px(30);
-                    lp.height = px(80);
-                    eliminate.setLayoutParams(lp);
-                }
-                return false;
-            }
-        });
+        eliminate.setText("ELIMINATE");
 
         //Eliminate player
         eliminate.setOnClickListener(new View.OnClickListener() {
@@ -306,6 +308,19 @@ public class TargetActivity extends Activity {
                 push.sendInBackground();
             }
         });
+    }
+
+    public void refreshButtonListeners() {
+
+        eliminate.setText("REFRESH");
+
+        eliminate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshLocations();
+            }
+        });
+
     }
 
     //Change dp to pixels
