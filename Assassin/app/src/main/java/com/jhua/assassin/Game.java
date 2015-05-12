@@ -31,6 +31,14 @@ public class Game extends ParseObject {
         return getString("gameName");
     }
 
+    public int getAttackRadius() {
+        int rad = getInt("attackRadius");
+        if (rad < 0) {
+            return 1;
+        }
+        else return rad;
+    }
+
     public void addPlayers(ArrayList<ParseUser> players) {
         addAllUnique("players", players);
         addAllUnique("activePlayers", players);

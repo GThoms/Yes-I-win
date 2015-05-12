@@ -145,6 +145,7 @@ public class MainActivity extends Activity {
 	protected void giveData(String target, String gameId) {
 
 		// query user
+
 		ParseQuery<ParseUser> u_query = ParseUser.getQuery();
 		u_query.whereEqualTo("username", target);
 		u_query.findInBackground(new FindCallback<ParseUser>() {
@@ -296,9 +297,9 @@ public class MainActivity extends Activity {
         //Linked list of current games
         currentGames = new LinkedList<Map<String,?>>();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+        ParseQuery query = ParseQuery.getQuery("Game");
         query.whereEqualTo("status", "current");
-        query.whereEqualTo("players", ParseUser.getCurrentUser());
+        query.whereEqualTo("players", ParseUser.getCurrentUser().getUsername());
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> gameList, ParseException e) {
                 if (e == null) {

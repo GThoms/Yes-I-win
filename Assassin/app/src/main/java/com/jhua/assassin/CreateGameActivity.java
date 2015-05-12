@@ -471,15 +471,17 @@ public class CreateGameActivity extends Activity {
         // Sets users list of all targets in game and sets their current target
         // newGame.setTargets(targets);
 
-        //Saves the new parse object
-        newGame.saveInBackground();
+
 
         //Set current user as creator
         newGame.setCreator(ParseUser.getCurrentUser().getUsername());
-
+//Saves the new parse object
+        newGame.saveInBackground();
         // give the player the game
         ParseUser.getCurrentUser().put("game", newGame);
         ParseUser.getCurrentUser().saveInBackground();
+
+        Log.d("Game ID", newGame.getObjectId());
 
         target(userNames, newGame.getObjectId());
         // start the location service
