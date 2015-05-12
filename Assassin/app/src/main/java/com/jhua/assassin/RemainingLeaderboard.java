@@ -52,8 +52,10 @@ public class RemainingLeaderboard extends Activity {
 
         sorta = new ArrayList<String>();
 
-        for (String S : friends) {
-            sorta.add(S);
+        if (friends != null) {
+            for (String S : friends) {
+                sorta.add(S);
+            }
         }
 
         sorta.add(ParseUser.getCurrentUser().getUsername());
@@ -147,8 +149,10 @@ public class RemainingLeaderboard extends Activity {
 
         sorta = new ArrayList<String>();
 
-        for (String S : friends) {
-            sorta.add(S);
+        if (friends != null) {
+            for (String S : friends) {
+                sorta.add(S);
+            }
         }
 
         sorta.add(ParseUser.getCurrentUser().getUsername());
