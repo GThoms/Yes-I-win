@@ -98,7 +98,7 @@ public class GameListAdapter extends BaseAdapter {
 				final ImageButton rightIcon = (ImageButton) v.findViewById(R.id.right_icon);
                 final ImageView leftIcon = (ImageView) v.findViewById(R.id.left_icon);
                 if (sectionnum == 0) {
-					rightIcon.setImageResource(R.drawable.exit);
+					rightIcon.setImageResource(R.drawable.ic_action_discard);
                     leftIcon.setImageResource(R.drawable.ic_action_important);
 	            	rightIcon.setOnClickListener(new currentGamesListener(context));
 				} /*else if (sectionnum == 1) {
