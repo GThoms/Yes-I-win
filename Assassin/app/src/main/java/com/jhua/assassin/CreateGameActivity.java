@@ -45,6 +45,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 
 //Create a new game
@@ -80,6 +81,7 @@ public class CreateGameActivity extends Activity {
 
     //String array for friends
     ArrayList<String> userNames;
+    String id;
 
     //Create activity
     @Override
@@ -200,7 +202,6 @@ public class CreateGameActivity extends Activity {
 
     //Sets fonts of textviews in XML
     private void setFonts() {
-
         TextView game_t = (TextView) findViewById(R.id.game_title_tv);
         TextView game_d = (TextView) findViewById(R.id.game_duration_tv);
         TextView blck_d = (TextView) findViewById(R.id.block_duration_tv);
@@ -258,7 +259,6 @@ public class CreateGameActivity extends Activity {
                         break;
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -287,7 +287,6 @@ public class CreateGameActivity extends Activity {
                         break;
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -315,7 +314,6 @@ public class CreateGameActivity extends Activity {
                         break;
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -408,6 +406,10 @@ public class CreateGameActivity extends Activity {
     //Makes the game when start button is pressed
     private boolean makeGame() throws JSONException {
 
+        // unique game id
+        Random random = new Random();
+        id = String.format("%09d", random.nextInt(1000000000));
+
         //Store game title
         gameTitle = (EditText) findViewById(R.id.game_title);
         String name = gameTitle.getText().toString();
@@ -427,12 +429,13 @@ public class CreateGameActivity extends Activity {
         newGame.setBlockDuration(blockDuration);
         newGame.setAttackRadius(attackRadius);
         newGame.setStatus("current");
+        newGame.put("id", id);
 
         //Unimplemented player adding
         // Make ArrayList<ParseUser> with all the users added via some dialog or something
         // Add this list to parse
 
-        ArrayList<ParseUser> players = addPlayers(userNames);
+        final ArrayList<ParseUser> players = addPlayers(userNames);
         if(userNames == null || userNames.isEmpty()) {
             Toast.makeText(getApplicationContext(), "You need at least one other player to start a game!", Toast.LENGTH_LONG).show();
             return false;
@@ -445,17 +448,11 @@ public class CreateGameActivity extends Activity {
 
         newGame.addPlayer(ParseUser.getCurrentUser().getUsername());
 
-
-
-        // Set targets from player list
-        ArrayList<ParseUser> targets = players;
-
         if(players != null) {
             Log.d("players size", "" + players.size());
         } else {
             Log.d("Players size", "NULL");
         }
-
         //Set current user as creator
         newGame.setCreator(ParseUser.getCurrentUser().getUsername());
         //Saves the new parse object
@@ -466,10 +463,9 @@ public class CreateGameActivity extends Activity {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> gameList, ParseException e) {
                 if (e == null) {
-                    if (!gameList.isEmpty()){
+                    if (!gameList.isEmpty()) {
                         Toast.makeText(getApplicationContext(), "You can't start a new game, You are already in a game!", Toast.LENGTH_LONG).show();
                     } else {
-
                         newGame.saveInBackground();
                         // give the player the game
                         ParseUser.getCurrentUser().put("game", newGame);
@@ -477,7 +473,8 @@ public class CreateGameActivity extends Activity {
 
                         //Log.d("Game ID", newGame.getObjectId());
                         userNames.add(ParseUser.getCurrentUser().getUsername());
-                        target(userNames, newGame.getObjectId());
+                        target(players);
+                        ParseUser.getCurrentUser().put("game", newGame);
 
                         // start the location service
                         Intent intent = new Intent(CreateGameActivity.this, LocationService.class);
@@ -488,37 +485,29 @@ public class CreateGameActivity extends Activity {
                 }
             }
         });
-       return true;
+        ParseUser.getCurrentUser().saveInBackground();
+        return true;
     }
 
-    private void target(ArrayList<String> users, String gameId) {
+    private void target(ArrayList<ParseUser> users) {
         Collections.shuffle(users);
-        String user, target = "";
+        String user;
+        ParseUser target;
 
+        clearPush();
         for (int x = 0; x < users.size(); x++) {
-            user = users.get(x);
-            target = users.get((x+1) % users.size());
+            user = users.get(x).getUsername(); // user's username
+            target = users.get((x+1) % users.size()); // parseuser target
 
             if (user.equals(ParseUser.getCurrentUser().getUsername())) {
-                ParseQuery<ParseUser> u_query = ParseUser.getQuery();
-                u_query.whereEqualTo("username", target);
-                u_query.findInBackground(new FindCallback<ParseUser>() {
-                    @Override
-                    public void done(List<ParseUser> list, ParseException e) {
-                        if (e == null) {
-                            ParseUser.getCurrentUser().put("target", list.get(0));
-                        } else {
-                            Log.d("Error querying user", e.toString());
-                        }
-                    }
-                });
+                ParseUser.getCurrentUser().put("target", target);
             } else {
                 // make JSON object to send
                 JSONObject data = null;
                 try {
                     data = new JSONObject("{\"alert\": \"You've been invited to play Assassins!\"}");
-                    data.put("target", target);
-                    data.put("game", gameId);
+                    data.put("target", target.getUsername()); // put the username in the json object
+                    data.put("game", id);
                     Log.d("JSON", "new JSON object created: " + data);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -538,6 +527,7 @@ public class CreateGameActivity extends Activity {
                 });
             }
         }
+        ParseUser.getCurrentUser().saveInBackground();
     }
 
     //Allows us to use dialogs
@@ -589,10 +579,10 @@ public class CreateGameActivity extends Activity {
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
-    
+
     /**
      * Add players from a set list of friends, return arraylist of users
-    **/
+     **/
     private ArrayList<ParseUser> addPlayers(ArrayList<String> uNames) {
         if(uNames == null || uNames.isEmpty()) {
             return null;
@@ -617,4 +607,14 @@ public class CreateGameActivity extends Activity {
         }
         return players;
     }
-}
+
+    private void clearPush() {
+        List<String> subscribedChannels = ParseInstallation.getCurrentInstallation().getList("channels");
+        if (subscribedChannels != null) {
+            for (String channel : subscribedChannels) {
+                ParsePush.unsubscribeInBackground(channel);
+                Log.d("Channels", "all channels unsubscribed");
+            }
+        }
+    }
+}}

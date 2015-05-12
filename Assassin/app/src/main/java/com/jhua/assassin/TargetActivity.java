@@ -86,6 +86,7 @@ public class TargetActivity extends Activity {
 
         //Store game of the current player
         game = (Game) ParseUser.getCurrentUser().get("game");
+        //target = ParseUser.getCurrentUser().get
         if (game == null || target == null) {
             uname.setText("NO TARGET");
             TextView distance = (TextView) findViewById(R.id.dist_text);
