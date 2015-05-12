@@ -32,11 +32,15 @@ import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SendCallback;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -467,9 +471,9 @@ public class CreateGameActivity extends Activity {
         }
 
         // Should be not null anymore since I'm pulling from local list instead of Parse
-        Collections.shuffle(targets);
+        // Collections.shuffle(targets);
         // Sets users list of all targets in game and sets their current target
-        newGame.setTargets(targets);
+        // newGame.setTargets(targets);
 
 
 
@@ -481,10 +485,51 @@ public class CreateGameActivity extends Activity {
         ParseUser.getCurrentUser().put("game", newGame);
         ParseUser.getCurrentUser().saveInBackground();
 
+        target(userNames, newGame.getObjectId());
         // start the location service
         Intent intent = new Intent(CreateGameActivity.this, LocationService.class);
         startService(intent);
         return true;
+    }
+
+    private void target(ArrayList<String> users, String gameId) {
+        Collections.shuffle(users);
+        String user, target = "";
+
+        for (int x = 0; x < users.size(); x++) {
+            user = users.get(x);
+            target = users.get((x+1) % users.size());
+
+            if (user.equals(ParseUser.getCurrentUser())) {
+                ParseUser.getCurrentUser().put("target", target);
+                ParseUser.getCurrentUser().put("game", gameId);
+            } else {
+                // make JSON object to send
+                JSONObject data = null;
+                try {
+                    data = new JSONObject("{\"alert\": \"You've been invited to play Assassins!\"}");
+                    data.put("target", target);
+                    data.put("game", gameId);
+                    Log.d("JSON", "new JSON object created: " + data);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                // send push w/ data
+                ParsePush push = new ParsePush();
+                push.setChannel(user); // the user that is being assigned the target
+                push.sendDataInBackground(data, ParseInstallation.getQuery(), new SendCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Log.d("Push", "sent push!");
+                        } else {
+                            Log.d("PUSH ERROR", e.toString());
+                        }
+                    }
+                });
+            }
+        }
+
     }
 
     //Allows us to use dialogs

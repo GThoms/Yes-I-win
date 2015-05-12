@@ -82,11 +82,14 @@ public class TargetActivity extends Activity {
             distance.setText("YOU ARE NOT IN A GAME");
             Drawable standin = getResources().getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait);
             Drawable rectangle = getResources().getDrawable(R.drawable.rectangle_red);
+            Drawable circle = getResources().getDrawable(R.drawable.circle_red);
             profPic.setImageDrawable(standin);
-            ImageView rect = (ImageView) findViewById(R.id.rectangle_top);
-            rect.setImageDrawable(rectangle);
-            rect = (ImageView) findViewById(R.id.rectangle_bottom);
-            rect.setImageDrawable(rectangle);
+            ImageView colors = (ImageView) findViewById(R.id.rectangle_top);
+            colors.setImageDrawable(rectangle);
+            colors = (ImageView) findViewById(R.id.rectangle_bottom);
+            colors.setImageDrawable(rectangle);
+            colors = (ImageView)findViewById(R.id.blue_circle);
+            colors.setImageDrawable(circle);
         } else {
             //Set Current Target
             target = (ParseUser) ParseUser.getCurrentUser().get("target");

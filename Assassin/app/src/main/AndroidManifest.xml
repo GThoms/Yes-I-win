@@ -43,7 +43,7 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="Game List" >
+            android:label="Assassins" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

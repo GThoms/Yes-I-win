@@ -25,6 +25,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
@@ -40,6 +41,7 @@ import com.facebook.*;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SendCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,8 +49,6 @@ import org.json.JSONObject;
 
 //Main activity of the app
 public class MainActivity extends Activity {
-
-	protected static final int LOGIN_OK = 1;
 
     //GamesList Adapters and objects
 	ListView gamesListView;
@@ -75,34 +75,37 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		user = ParseUser.getCurrentUser();
-		// unsubscribe from channels and subscribe to current user
-		List<String> subscribedChannels = ParseInstallation.getCurrentInstallation().getList("channels");
-		for (String channel: subscribedChannels) {
-			ParsePush.unsubscribeInBackground(channel);
-		}
-		ParsePush.subscribeInBackground(user.getUsername());
-
-		JSONObject json = new JSONObject();
-		try {
-			json.put("id", user.getObjectId());
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		// test (ignore for now)
-		ParsePush push = new ParsePush();
-		push.setData(json);
-		push.setMessage(user.getObjectId());
-		push.setChannel(user.getUsername());
-		push.sendInBackground();
 
 		if (user == null) {
 			Intent login = new Intent(MainActivity.this, LoginActivity.class);
 			startActivity(login);
 		} else {
-			//Setting up games list
+			// Setting up games list
 			gamesListView = (ListView) findViewById(R.id.gamesList);
 			this.setUpGamesList();
+
+			// test();
+
+			// get target and game id if push opened
+			Bundle extras = getIntent().getExtras();
+			if (extras != null) {
+				String jsonData = extras.getString("com.parse.Data");
+				JSONObject json = null;
+				String target = "", gameId = "";
+				try {
+					json = new JSONObject(jsonData);
+					target = json.get("target").toString(); // username
+					gameId = json.get("game").toString(); // gameId
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				Log.d("JSON", jsonData);
+				Log.d("Target", target);
+				Log.d("Game ID", gameId);
+
+				// add code to look up users and games
+				giveData(target, gameId);
+			}
 		}
 
 		//Navigation Drawer stuff
@@ -139,14 +142,73 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	protected void giveData(String target, String gameId) {
+
+		// query user
+		ParseQuery user_query = ParseUser.getQuery();
+		user_query.whereEqualTo("username", target);
+		user_query.findInBackground(new FindCallback() {
+			@Override
+			public void done(List list, ParseException e) {
+				if (e == null) {
+					ParseUser.getCurrentUser().put("target", list.get(0));
+				} else {
+					Log.d("Error querying user", e.toString());
+				}
+			}
+		});
+		// query game
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+		query.getInBackground(gameId, new GetCallback<ParseObject>() {
+			public void done(ParseObject object, ParseException e) {
+				if (e == null) {
+					ParseUser.getCurrentUser().put("game", object);
+				} else {
+					Log.d("Error querying game", e.toString());
+				}
+			}
+		});
+	}
+
+	protected void test() {
+
+		TextView t = (TextView) findViewById(R.id.textView13);
+		t.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.d("Channels", "subscribed to " + ParseInstallation.getCurrentInstallation().getList("channels").toString());
+
+				JSONObject data = null;
+				try {
+					data = new JSONObject("{\"alert\": \"You've been invited to play Assassins!\"}");
+					data.put("id", user.getUsername());
+					Log.d("JSON", "new JSON object created: " + data);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				// test (ignore for now)
+				ParsePush push = new ParsePush();
+				push.setChannel(user.getUsername());
+				push.sendDataInBackground(data, ParseInstallation.getQuery(), new SendCallback() {
+					@Override
+					public void done(ParseException e) {
+						if (e == null) {
+							Log.d("Push", "sent push!");
+						} else {
+							Log.d("PUSH ERROR", e.toString());
+						}
+					}
+				});
+			}
+		});
+	}
+
 	protected void onResume(Bundle savedInstanceState) {
 		super.onResume();
 
         for (int i = 0; i < 30; i++) {
-
             this.setUpGamesList();
         }
-
 		// Logs install and app activate App Event
 		AppEventsLogger.activateApp(this);
 	}

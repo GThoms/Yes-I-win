@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -15,7 +16,10 @@ import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
+import com.parse.PushService;
 
 import java.util.ArrayList;
 
@@ -45,11 +49,13 @@ public class LoginActivity extends Activity {
         String user = username.getText().toString();
         String pass = password.getText().toString();
 
-
         Toast.makeText(getApplicationContext(), "Logging in, please wait....", Toast.LENGTH_LONG).show();
         ParseUser.logInInBackground(user, pass, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
+                    ParsePush.subscribeInBackground(user.getUsername());
+                    Log.d("Channels", "subscribed to " + ParseInstallation.getCurrentInstallation().getList("channels").toString());
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
