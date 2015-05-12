@@ -145,11 +145,11 @@ public class MainActivity extends Activity {
 	protected void giveData(String target, String gameId) {
 
 		// query user
-		ParseQuery user_query = ParseUser.getQuery();
+		ParseQuery<ParseUser> user_query = ParseUser.getQuery();
 		user_query.whereEqualTo("username", target);
-		user_query.findInBackground(new FindCallback() {
+		user_query.findInBackground(new FindCallback<ParseUser>() {
 			@Override
-			public void done(List list, ParseException e) {
+			public void done(List<ParseUser> list, ParseException e) {
 				if (e == null) {
 					ParseUser.getCurrentUser().put("target", list.get(0));
 				} else {
