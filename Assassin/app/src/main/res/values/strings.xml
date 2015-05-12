@@ -37,27 +37,27 @@
     <string name="attack_radius">Attack Radius:</string>
     <string name="add_friends">Add Friends</string>
     <string name="start">Start</string>
-    <string name="title_activity_eliminate_leaderboard">EliminateLeaderboard</string>
-    <string name="title_activity_remaining_leaderboard">RemainingLeaderboard</string>
+    <string name="title_activity_eliminate_leaderboard">Eliminated Leaderboard</string>
+    <string name="title_activity_remaining_leaderboard">Remaining Leaderboard</string>
 
     <string name="days">Days</string>
     <string name="seconds">Seconds</string>
     <string name="yards">Yards</string>
     <string name="title_activity_facebook_hash_key">FacebookHashKey</string>
-    <string name="title_activity_logout">LogoutActivity</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="title_activity_logout">Logout</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_sign_up">Sign Up</string>
     <string name="UserName">User Name</string>
     <string name="Login">Login</string>
     <string name="signup">Sign Up</string>
     <string name="password">Password</string>
     <string name="title_activity_no_target">NoTarget</string>
-    <string name="title_activity_friend_list">FriendList</string>
+    <string name="title_activity_friend_list">Friends List</string>
     <string name="title_dialog_add_friend">Add New Friend</string>
     <string name="title_activity_add_friend">addFriend</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_add_friends">AddFriendsActivity</string>
+    <string name="title_activity_add_friends">Add Friends</string>
 
 </resources>
