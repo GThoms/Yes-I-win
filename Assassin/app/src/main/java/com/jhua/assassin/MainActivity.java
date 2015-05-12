@@ -297,9 +297,9 @@ public class MainActivity extends Activity {
         //Linked list of current games
         currentGames = new LinkedList<Map<String,?>>();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+        ParseQuery query = ParseQuery.getQuery("Game");
         query.whereEqualTo("status", "current");
-        query.whereEqualTo("players", ParseUser.getCurrentUser());
+        query.whereEqualTo("players", ParseUser.getCurrentUser().getUsername());
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> gameList, ParseException e) {
                 if (e == null) {
