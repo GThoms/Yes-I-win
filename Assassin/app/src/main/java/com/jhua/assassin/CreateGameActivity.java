@@ -478,6 +478,7 @@ public class CreateGameActivity extends Activity {
                         //Log.d("Game ID", newGame.getObjectId());
                         userNames.add(ParseUser.getCurrentUser().getUsername());
                         target(userNames, newGame.getObjectId());
+
                         // start the location service
                         Intent intent = new Intent(CreateGameActivity.this, LocationService.class);
                         startService(intent);
@@ -499,7 +500,18 @@ public class CreateGameActivity extends Activity {
             target = users.get((x+1) % users.size());
 
             if (user.equals(ParseUser.getCurrentUser().getUsername())) {
-                MainActivity.giveData(target, gameId);
+                ParseQuery<ParseUser> u_query = ParseUser.getQuery();
+                u_query.whereEqualTo("username", target);
+                u_query.findInBackground(new FindCallback<ParseUser>() {
+                    @Override
+                    public void done(List<ParseUser> list, ParseException e) {
+                        if (e == null) {
+                            ParseUser.getCurrentUser().put("target", list.get(0));
+                        } else {
+                            Log.d("Error querying user", e.toString());
+                        }
+                    }
+                });
             } else {
                 // make JSON object to send
                 JSONObject data = null;

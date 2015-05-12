@@ -142,7 +142,7 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	protected static void giveData(String target, String gameId) {
+	protected void giveData(String target, String gameId) {
 
 		// query user
 		ParseQuery<ParseUser> u_query = ParseUser.getQuery();
