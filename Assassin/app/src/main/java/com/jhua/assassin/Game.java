@@ -62,12 +62,6 @@ public class Game extends ParseObject {
             ParseUser p = targets.get(x);
             myTarget = targets.get((x+1) % targets.size());
             p.put("target", myTarget);
-
-            ParsePush push = new ParsePush();
-            push.setData(json);
-            push.setMessage(this.getObjectId());
-            push.setChannel(p.getUsername());
-            push.sendInBackground();
         }
     }
 

@@ -25,6 +25,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
@@ -79,25 +80,31 @@ public class MainActivity extends Activity {
 			Intent login = new Intent(MainActivity.this, LoginActivity.class);
 			startActivity(login);
 		} else {
-			//Setting up games list
+			// Setting up games list
 			gamesListView = (ListView) findViewById(R.id.gamesList);
 			this.setUpGamesList();
 
-			test();
+			// test();
 
+			// get target and game id if push opened
 			Bundle extras = getIntent().getExtras();
 			if (extras != null) {
 				String jsonData = extras.getString("com.parse.Data");
 				JSONObject json = null;
-				String u_name = "";
+				String target = "", gameId = "";
 				try {
 					json = new JSONObject(jsonData);
-					u_name = json.get("id").toString(); // username
+					target = json.get("target").toString(); // username
+					gameId = json.get("game").toString(); // gameId
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 				Log.d("JSON", jsonData);
-				Log.d("Username", u_name);
+				Log.d("Target", target);
+				Log.d("Game ID", gameId);
+
+				// add code to look up users and games
+				giveData(target, gameId);
 			}
 		}
 
@@ -133,6 +140,34 @@ public class MainActivity extends Activity {
 		if (!isGooglePlayServicesAvailable()) {
 			finish();
 		}
+	}
+
+	protected void giveData(String target, String gameId) {
+
+		// query user
+		ParseQuery user_query = ParseUser.getQuery();
+		user_query.whereEqualTo("username", target);
+		user_query.findInBackground(new FindCallback() {
+			@Override
+			public void done(List list, ParseException e) {
+				if (e == null) {
+					ParseUser.getCurrentUser().put("target", list.get(0));
+				} else {
+					Log.d("Error querying user", e.toString());
+				}
+			}
+		});
+		// query game
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+		query.getInBackground(gameId, new GetCallback<ParseObject>() {
+			public void done(ParseObject object, ParseException e) {
+				if (e == null) {
+					ParseUser.getCurrentUser().put("game", object);
+				} else {
+					Log.d("Error querying game", e.toString());
+				}
+			}
+		});
 	}
 
 	protected void test() {
