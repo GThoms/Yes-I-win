@@ -45,6 +45,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 
 //Create a new game
@@ -80,6 +81,7 @@ public class CreateGameActivity extends Activity {
 
     //String array for friends
     ArrayList<String> userNames;
+    String id;
 
     //Create activity
     @Override
@@ -404,6 +406,10 @@ public class CreateGameActivity extends Activity {
     //Makes the game when start button is pressed
     private boolean makeGame() throws JSONException {
 
+        // unique game id
+        Random random = new Random();
+        id = String.format("%09d", random.nextInt(1000000000));
+
         //Store game title
         gameTitle = (EditText) findViewById(R.id.game_title);
         String name = gameTitle.getText().toString();
@@ -423,6 +429,7 @@ public class CreateGameActivity extends Activity {
         newGame.setBlockDuration(blockDuration);
         newGame.setAttackRadius(attackRadius);
         newGame.setStatus("current");
+        newGame.put("id", id);
 
         //Unimplemented player adding
         // Make ArrayList<ParseUser> with all the users added via some dialog or something
@@ -466,7 +473,7 @@ public class CreateGameActivity extends Activity {
 
                         //Log.d("Game ID", newGame.getObjectId());
                         userNames.add(ParseUser.getCurrentUser().getUsername());
-                        target(players, newGame.getObjectId());
+                        target(players);
                         ParseUser.getCurrentUser().put("game", newGame);
 
                         // start the location service
@@ -482,7 +489,7 @@ public class CreateGameActivity extends Activity {
         return true;
     }
 
-    private void target(ArrayList<ParseUser> users, String gameId) {
+    private void target(ArrayList<ParseUser> users) {
         Collections.shuffle(users);
         String user;
         ParseUser target;
@@ -500,7 +507,7 @@ public class CreateGameActivity extends Activity {
                 try {
                     data = new JSONObject("{\"alert\": \"You've been invited to play Assassins!\"}");
                     data.put("target", target.getUsername()); // put the username in the json object
-                    data.put("game", gameId);
+                    data.put("game", id);
                     Log.d("JSON", "new JSON object created: " + data);
                 } catch (JSONException e) {
                     e.printStackTrace();
