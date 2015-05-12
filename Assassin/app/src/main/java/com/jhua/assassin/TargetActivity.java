@@ -105,7 +105,8 @@ public class TargetActivity extends Activity {
             //Store attack radius in km
             attackRadius = game.getAttackRadius() * 0.0009144;
 
-            uname.setText(target.getUsername());
+            if (target != null)
+                uname.setText(target.getUsername());
             if (target.getParseFile("pic") != null) {
                 ParseFile fileObject = (ParseFile) target.get("pic");
 
