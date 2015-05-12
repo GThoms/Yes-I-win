@@ -499,8 +499,7 @@ public class CreateGameActivity extends Activity {
             target = users.get((x+1) % users.size());
 
             if (user.equals(ParseUser.getCurrentUser().getUsername())) {
-                ParseUser.getCurrentUser().put("target", target);
-                ParseUser.getCurrentUser().put("game", gameId);
+                MainActivity.giveData(target, gameId);
             } else {
                 // make JSON object to send
                 JSONObject data = null;

@@ -142,10 +142,9 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	protected void giveData(String target, String gameId) {
+	protected static void giveData(String target, String gameId) {
 
 		// query user
-
 		ParseQuery<ParseUser> u_query = ParseUser.getQuery();
 		u_query.whereEqualTo("username", target);
 		u_query.findInBackground(new FindCallback<ParseUser>() {
