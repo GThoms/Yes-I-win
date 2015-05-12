@@ -53,6 +53,8 @@ public class SignUpActivity extends Activity {
     static final int SELECT_BEFORE = 12;
     static final int CROP_PIC = 11;
 
+    boolean didPhotoOccur = false;
+
     EditText username;
     EditText password;
     EditText c_password;
@@ -138,6 +140,12 @@ public class SignUpActivity extends Activity {
 
     public void makeUser() {
 
+
+        if (didPhotoOccur == false) {
+
+            Toast.makeText(getApplicationContext(), "You have to choose a profile pic!", Toast.LENGTH_LONG).show();
+            return;
+        }
         user = new ParseUser();
         user.setUsername(username.getText().toString());
         user.setPassword(password.getText().toString());
@@ -149,6 +157,8 @@ public class SignUpActivity extends Activity {
         user.put("wins", 0);
         // name
         user.put("name", name.getText().toString());
+
+
         saveImage();
 
         user.signUpInBackground(new SignUpCallback() {
@@ -183,6 +193,7 @@ public class SignUpActivity extends Activity {
                 }
                 photo.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
 
+                didPhotoOccur = true;
                 performCrop();
                 //ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -194,9 +205,13 @@ public class SignUpActivity extends Activity {
                 bitmap = (Bitmap) extras.get("data");
                 photo.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
                 beforeURI = data.getData();
+
+                didPhotoOccur = true;
                 performCrop();
             }
         } else if(requestCode == CROP_PIC){
+
+            didPhotoOccur = true;
             //get the returned data
             Bundle extras = data.getExtras();
             //get the cropped bitmap
