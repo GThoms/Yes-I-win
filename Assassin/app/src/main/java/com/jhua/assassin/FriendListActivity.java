@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -105,7 +106,6 @@ public class FriendListActivity extends Activity {
         }
 
         friendList.setAdapter(adapter);
-        buttonListeners();
 
         //When friend item is clicked
         friendList.setOnItemClickListener(new OnItemClickListener() {
@@ -154,6 +154,44 @@ public class FriendListActivity extends Activity {
                                 }).setNegativeButton("No", null).show();
             }
 
+        });
+        buttonListeners();
+        addFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                LayoutInflater layinf = LayoutInflater.from(FriendListActivity.this);
+
+                View promptsView = layinf.inflate(R.layout.add_friend, null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(FriendListActivity.this);
+
+                builder.setView(promptsView);
+
+                builder.setTitle(R.string.title_dialog_add_friend);
+                //builder.setIcon(R.drawable.whiteplus);
+
+                friendName = (EditText) promptsView.findViewById(R.id.editFriend);
+
+                builder.setCancelable(false).setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        addFriendtoParse();
+                        adapter.notifyDataSetChanged();
+                        friendList.invalidateViews();
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
         });
     }
 
@@ -258,56 +296,18 @@ public class FriendListActivity extends Activity {
     private void buttonListeners() {
         //Listener for add friend button
         //Makes a dialog box that lets you add friends
-        addFriends.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                LayoutInflater layinf = LayoutInflater.from(FriendListActivity.this);
-
-                View promptsView = layinf.inflate(R.layout.add_friend, null);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(FriendListActivity.this);
-
-                builder.setView(promptsView);
-
-                builder.setTitle(R.string.title_dialog_add_friend);
-                //builder.setIcon(R.drawable.whiteplus);
-
-                friendName = (EditText) promptsView.findViewById(R.id.editFriend);
-
-                builder.setCancelable(false).setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        addFriendtoParse();
-                        adapter.notifyDataSetChanged();
-                        friendList.invalidateViews();
-
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }
-        });
-
         addFriends.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) addFriends.getLayoutParams();
+                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) addFriends.getLayoutParams();
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     lp.height = px(60);
-                    lp.topMargin = px(40);
+                    lp.topMargin = px(30);
                     addFriends.setLayoutParams(lp);
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    lp.topMargin = px(30);
+                    lp.topMargin = px(20);
                     lp.height = px(70);
                     addFriends.setLayoutParams(lp);
                 }

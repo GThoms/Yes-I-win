@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +59,7 @@ public class AddFriendsActivity extends Activity {
         lv.setAdapter(adapter);
         //If user has friends, set adapter to friend list view
 
-        addFriends = (Button) findViewById(R.id.addfriendsButton);
+        addFriends = (Button) findViewById(R.id.addFriendsButton);
         addFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,14 +181,14 @@ public class AddFriendsActivity extends Activity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) addFriends.getLayoutParams();
+                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) addFriends.getLayoutParams();
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     lp.height = px(60);
-                    lp.topMargin = px(40);
+                    lp.topMargin = px(30);
                     addFriends.setLayoutParams(lp);
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    lp.topMargin = px(30);
+                    lp.topMargin = px(20);
                     lp.height = px(70);
                     addFriends.setLayoutParams(lp);
                 }

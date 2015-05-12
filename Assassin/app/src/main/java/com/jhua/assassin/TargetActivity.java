@@ -62,8 +62,6 @@ public class TargetActivity extends Activity {
     private String[] navItems;
     private ActionBarDrawerToggle mDrawerToggle;
 
-
-
     Button eliminate;
 
     @Override
@@ -275,12 +273,12 @@ public class TargetActivity extends Activity {
 
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) eliminate.getLayoutParams();
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    lp.height = px(68);
-                    lp.topMargin = px(32);
+                    lp.height = px(70);
+                    lp.topMargin = px(40);
                     eliminate.setLayoutParams(lp);
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    lp.topMargin = px(20);
+                    lp.topMargin = px(30);
                     lp.height = px(80);
                     eliminate.setLayoutParams(lp);
                 }
