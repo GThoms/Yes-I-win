@@ -208,7 +208,7 @@ public class MainActivity extends Activity {
 	protected void onResume(Bundle savedInstanceState) {
 		super.onResume();
 
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 100; i++) {
             this.setUpGamesList();
         }
 		// Logs install and app activate App Event
@@ -337,7 +337,7 @@ public class MainActivity extends Activity {
 
         query = ParseQuery.getQuery("Game");
         query.whereEqualTo("status", "completed");
-        query.whereEqualTo("players", ParseUser.getCurrentUser());
+        query.whereEqualTo("players", ParseUser.getCurrentUser().getUsername());
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> gameList, ParseException e) {
                 if (e == null) {

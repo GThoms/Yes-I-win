@@ -60,6 +60,9 @@ public class CreateGameActivity extends Activity {
     private Typeface font_med;
     private Typeface font_reg;
 
+    //Game object
+    Game newGame;
+
     //XML Buttons
     private Button add;
     private Button start;
@@ -416,7 +419,7 @@ public class CreateGameActivity extends Activity {
         }
 
         //Parse Game object
-        final Game newGame = new Game();
+        newGame = new Game();
 
         //Set relevant object fields for Game
         newGame.setGameName(name);
@@ -457,6 +460,8 @@ public class CreateGameActivity extends Activity {
 
         newGame.addPlayer(ParseUser.getCurrentUser().getUsername());
 
+
+
         // Set targets from player list
         ArrayList<ParseUser> targets = players;
 
@@ -476,18 +481,35 @@ public class CreateGameActivity extends Activity {
         //Set current user as creator
         newGame.setCreator(ParseUser.getCurrentUser().getUsername());
 //Saves the new parse object
-        newGame.saveInBackground();
-        // give the player the game
-        ParseUser.getCurrentUser().put("game", newGame);
-        ParseUser.getCurrentUser().saveInBackground();
 
-        Log.d("Game ID", newGame.getObjectId());
+        ParseQuery query = ParseQuery.getQuery("Game");
+        query.whereEqualTo("status", "current");
+        query.whereEqualTo("players", ParseUser.getCurrentUser().getUsername());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> gameList, ParseException e) {
+                if (e == null) {
+                    if (!gameList.isEmpty()){
+                        Toast.makeText(getApplicationContext(), "You can't start a new game, You are already in a game!", Toast.LENGTH_LONG).show();
+                    } else {
 
-        target(userNames, newGame.getObjectId());
-        // start the location service
-        Intent intent = new Intent(CreateGameActivity.this, LocationService.class);
-        startService(intent);
-        return true;
+                        newGame.saveInBackground();
+                        // give the player the game
+                        ParseUser.getCurrentUser().put("game", newGame);
+                        ParseUser.getCurrentUser().saveInBackground();
+
+                        //Log.d("Game ID", newGame.getObjectId());
+
+                        target(userNames, newGame.getObjectId());
+                        // start the location service
+                        Intent intent = new Intent(CreateGameActivity.this, LocationService.class);
+                        startService(intent);
+                    }
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
+       return true;
     }
 
     private void target(ArrayList<String> users, String gameId) {
