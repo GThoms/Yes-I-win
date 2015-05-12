@@ -366,12 +366,10 @@ public class CreateGameActivity extends Activity {
             }
         });
 
-
         //When start is pressed, show button depressed/unpressed
         start.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) start.getLayoutParams();
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     lp.height = px(68);
@@ -386,7 +384,6 @@ public class CreateGameActivity extends Activity {
                 return false;
             }
         });
-
 
         //Make game, go back to home screen
         start.setOnClickListener(new View.OnClickListener() {
@@ -417,7 +414,6 @@ public class CreateGameActivity extends Activity {
             Toast.makeText(getApplicationContext(), "Please enter a game name!", Toast.LENGTH_LONG).show();
             return false;
         }
-
 
         //Parse Game object
         final Game newGame = new Game();
@@ -500,7 +496,7 @@ public class CreateGameActivity extends Activity {
             user = users.get(x);
             target = users.get((x+1) % users.size());
 
-            if (user.equals(ParseUser.getCurrentUser())) {
+            if (user.equals(ParseUser.getCurrentUser().getUsername())) {
                 ParseUser.getCurrentUser().put("target", target);
                 ParseUser.getCurrentUser().put("game", gameId);
             } else {

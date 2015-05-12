@@ -12,12 +12,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -95,7 +98,6 @@ public class FriendListActivity extends Activity {
         //Make a new adapter for friend list
         adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item, android.R.id.text1);
 
-
         //If user has friends, set adapter to friend list view
         if (friends != null) {
             adapter.addAll(friends);
@@ -104,46 +106,6 @@ public class FriendListActivity extends Activity {
         }
 
         friendList.setAdapter(adapter);
-
-        //Listener for add friend button
-        //Makes a dialog box that lets you add friends
-        addFriends.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                LayoutInflater layinf = LayoutInflater.from(FriendListActivity.this);
-
-                View promptsView = layinf.inflate(R.layout.add_friend, null);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(FriendListActivity.this);
-
-                builder.setView(promptsView);
-
-                builder.setTitle(R.string.title_dialog_add_friend);
-                //builder.setIcon(R.drawable.whiteplus);
-
-                friendName = (EditText) promptsView.findViewById(R.id.editFriend);
-
-                builder.setCancelable(false).setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        addFriendtoParse();
-                        adapter.notifyDataSetChanged();
-                        friendList.invalidateViews();
-
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }
-        });
 
         //When friend item is clicked
         friendList.setOnItemClickListener(new OnItemClickListener() {
@@ -193,6 +155,44 @@ public class FriendListActivity extends Activity {
             }
 
         });
+        buttonListeners();
+        addFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                LayoutInflater layinf = LayoutInflater.from(FriendListActivity.this);
+
+                View promptsView = layinf.inflate(R.layout.add_friend, null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(FriendListActivity.this);
+
+                builder.setView(promptsView);
+
+                builder.setTitle(R.string.title_dialog_add_friend);
+                //builder.setIcon(R.drawable.whiteplus);
+
+                friendName = (EditText) promptsView.findViewById(R.id.editFriend);
+
+                builder.setCancelable(false).setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        addFriendtoParse();
+                        adapter.notifyDataSetChanged();
+                        friendList.invalidateViews();
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
     }
 
     private void addFriendtoParse() {
@@ -227,8 +227,8 @@ public class FriendListActivity extends Activity {
                             ParseUser.getCurrentUser().addUnique("friends", player);
                             ParseUser.getCurrentUser().saveInBackground();
 
-                            if(adapter.getPosition(player) < 0) {
-                                if(adapter.getItem(0).equals("You have no friends...")) {
+                            if (adapter.getPosition(player) < 0) {
+                                if (adapter.getItem(0).equals("You have no friends...")) {
                                     adapter.remove("You have no friends...");
                                 }
                                 adapter.add(player);
@@ -291,5 +291,34 @@ public class FriendListActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void buttonListeners() {
+        //Listener for add friend button
+        //Makes a dialog box that lets you add friends
+        addFriends.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) addFriends.getLayoutParams();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    lp.height = px(60);
+                    lp.topMargin = px(30);
+                    addFriends.setLayoutParams(lp);
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    lp.topMargin = px(20);
+                    lp.height = px(70);
+                    addFriends.setLayoutParams(lp);
+                }
+                return false;
+            }
+        });
+    }
+
+    //Turns dps to pixels
+    private int px(float dips) {
+        float dp = getResources().getDisplayMetrics().density;
+        return Math.round(dips * dp);
     }
 }
