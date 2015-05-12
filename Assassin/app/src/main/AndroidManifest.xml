@@ -35,9 +35,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
@@ -63,15 +60,6 @@
             android:label="@string/title_activity_stats" >
         </activity>
         <activity
-            android:name=".FacebookActivity"
-            android:label="@string/title_activity_facebook" >
-        </activity>
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
             android:name=".CreateGameActivity"
             android:label="@string/title_activity_create_game" >
         </activity>
@@ -86,10 +74,6 @@
         <activity
             android:name=".RemainingLeaderboard"
             android:label="@string/title_activity_remaining_leaderboard" >
-        </activity>
-        <activity
-            android:name=".FacebookKeyHash"
-            android:label="@string/title_activity_facebook_hash_key" >
         </activity>
 
         <service android:name=".LocationService" />
@@ -133,10 +117,6 @@
         <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up" >
-        </activity>
-        <activity
-            android:name=".NoTarget"
-            android:label="@string/title_activity_no_target" >
         </activity>
         <activity
             android:name=".FriendListActivity"
