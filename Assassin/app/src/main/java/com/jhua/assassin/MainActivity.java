@@ -158,12 +158,12 @@ public class MainActivity extends Activity {
 			}
 		});
 		// query game
-		ParseQuery<ParseObject> g_query = ParseQuery.getQuery("Game");
-		g_query.getInBackground(gameId, new GetCallback<ParseObject>() {
-			@Override
-			public void done(ParseObject object, ParseException e) {
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+		query.whereEqualTo("id", gameId);
+		query.findInBackground(new FindCallback<ParseObject>() {
+			public void done(List<ParseObject> list, ParseException e) {
 				if (e == null) {
-					ParseUser.getCurrentUser().put("game", object);
+					ParseUser.getCurrentUser().put("game", list.get(0));
 				} else {
 					Log.d("Error querying game", e.toString());
 				}

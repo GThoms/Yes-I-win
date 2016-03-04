@@ -84,6 +84,8 @@ public class TargetActivity extends Activity {
         bottom_rect = (ImageView) findViewById(R.id.rectangle_bottom);
         eliminate = (Button) findViewById(R.id.eliminate);
 
+        target = ParseUser.getCurrentUser().getParseUser("target");
+
         //Store game of the current player
         game = (Game) ParseUser.getCurrentUser().get("game");
         //target = ParseUser.getCurrentUser().get
@@ -91,33 +93,38 @@ public class TargetActivity extends Activity {
             uname.setText("NO TARGET");
             TextView distance = (TextView) findViewById(R.id.dist_text);
             distance.setText("YOU ARE NOT IN A GAME");
+
             Drawable pic = getResources().getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait);
             rectangle = getResources().getDrawable(R.drawable.rectangle_red);
             circle = getResources().getDrawable(R.drawable.circle_red);
             profPic.setImageDrawable(pic);
+
             top_rect.setImageDrawable(rectangle);
             bottom_rect.setImageDrawable(rectangle);
             back_circle.setImageDrawable(circle);
         } else {
-            //Set Current Target
-            target = (ParseUser) ParseUser.getCurrentUser().get("target");
-
             //Store attack radius in km
             attackRadius = game.getAttackRadius() * 0.0009144;
 
-            uname.setText(target.getUsername());
-            ParseFile fileObject = (ParseFile) target.get("pic");
-            fileObject.getDataInBackground(new GetDataCallback() {
-                @Override
-                public void done(byte[] bytes, ParseException e) {
-                    if (e == null) {
-                        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        ImageView profPic = (ImageView) findViewById(R.id.profile_picture);
-                        profPic.setImageBitmap(bmp);
-                    }
-                }
-            });
+            if (target != null)
+                uname.setText(target.getUsername());
+            if (target.getParseFile("pic") != null) {
+                ParseFile fileObject = (ParseFile) target.get("pic");
 
+                fileObject.getDataInBackground(new GetDataCallback() {
+                    @Override
+                    public void done(byte[] bytes, ParseException e) {
+                        if (e == null) {
+                            Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            ImageView profPic = (ImageView) findViewById(R.id.profile_picture);
+                            profPic.setImageBitmap(bmp);
+                        }
+                    }
+                });
+            } else {
+                Drawable pic = getResources().getDrawable(R.drawable.com_facebook_profile_picture_blank_portrait);
+                profPic.setImageDrawable(pic);
+            }
             refreshButtonListeners();
         }
 
@@ -167,30 +174,35 @@ public class TargetActivity extends Activity {
         getActionBar().setHomeButtonEnabled(true);
     }
 
-
+    /*
     public double compareDistance() {
-        double currentLongitude = currentLocation.getLongitude();
-        double currentLatitude = currentLocation.getLatitude();
-        double targetLongitude = targetLocation.getLongitude();
-        double targetLatitude = targetLocation.getLatitude();
+
+        double mlat = ParseUser.getCurrentUser().getDouble("latitude");
+        double mlon = ParseUser.getCurrentUser().getDouble("longitude");
+
+        ParseUser target = ParseUser.getCurrentUser().getParseUser("target");
+        double tlat = target.getDouble("latitude");
+        double tlon = target.getDouble("longitude");
 
         //Calculate distance from latitude/longitude
         //Formula from http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points
         int R = 6371; // Radius of the earth in km
-        double dLat = deg2rad(targetLatitude-currentLatitude);  // deg2rad below
-        double dLon = deg2rad(targetLongitude-currentLongitude);
+        double dLat = deg2rad(tlat-mlat);  // deg2rad below
+        double dLon = deg2rad(tlon-mlon);
         double a =
                 Math.sin(dLat/2) * Math.sin(dLat/2) +
-                        Math.cos(deg2rad(currentLatitude)) * Math.cos(deg2rad(targetLatitude)) *
+                        Math.cos(deg2rad(mlat)) * Math.cos(deg2rad(mlon)) *
                                 Math.sin(dLon/2) * Math.sin(dLon/2)
                 ;
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         double d = R * c; // Distance in km
 
-
-        return d;
+        // return d;
+        return 4;
     }
+    */
 
+    /*
     //Refreshes locations stored in activity from locations of ParseUsers
     public void refreshLocations() {
         currentLocation = (Location) ParseUser.getCurrentUser().get("location");
@@ -225,6 +237,7 @@ public class TargetActivity extends Activity {
             back_circle.setImageDrawable(circle);
         }
     }
+    */
 
     public double deg2rad(double deg) {
         return deg * (Math.PI/180);
@@ -280,7 +293,7 @@ public class TargetActivity extends Activity {
         }
 
         if (id == R.id.action_refresh) {
-            refreshLocations();
+            // refreshLocations();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -313,16 +326,13 @@ public class TargetActivity extends Activity {
     }
 
     public void refreshButtonListeners() {
-
         eliminate.setText("REFRESH");
-
         eliminate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refreshLocations();
+            //    refreshLocations();
             }
         });
-
     }
 
     //Change dp to pixels

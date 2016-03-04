@@ -99,8 +99,6 @@ public class LocationService extends Service implements
 
 
     protected void startLocationUpdates() {
-
-
         PendingResult<Status> pendingResult = LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
         Log.d(TAG, "Location update started ..............: ");
@@ -132,7 +130,8 @@ public class LocationService extends Service implements
         double longitude = location.getLongitude();
 
         //Save location in parseUser
-        ParseUser.getCurrentUser().put("location", mCurrentLocation);
+        ParseUser.getCurrentUser().put("latitude", latitude);
+        ParseUser.getCurrentUser().put("longitude", longitude);
         ParseUser.getCurrentUser().saveInBackground();
 
         //Print out distances
